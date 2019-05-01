@@ -1,27 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title></title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
   <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
 </head>
 
 <body>
   <div id="app">
-    {{ message }}
+    <v-app>
+      <v-content>
+        <v-container>Hello world</v-container>
+      </v-content>
+      <v-expansion-panel>
+        <v-expansion-panel-content v-for="(item,i) in 5" :key="i">
+          <template v-slot:header>
+            <div>Item</div>
+          </template>
+          <v-card>
+            <v-card-text>
+              {{message}}
+            </v-card-text>
+          </v-card>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-app>
   </div>
-  
-  <script>
-    var app = new Vue({
-      el: '#app',
-      data: {
-        message: 'Hello Vue!'
-      }
-    })
 
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+  <script>
+    new Vue({ 
+    el: '#app',
+    data: {
+      message: "Heeeeello"
+    }
+   })
   </script>
 </body>
 
