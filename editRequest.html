@@ -1,0 +1,251 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+  <style>
+    body {
+      font-family: Verdana, Arial, Helvetica, sans serif;
+    }
+
+    h1 {
+      color: #ff5500;
+      font-size: 26px;
+      line-height: 26px;
+      font-weight: normal;
+    }
+
+    h2 {
+      color: #ff5500;
+      font-size: 18px;
+      line-height: 18px;
+      font-weight: normal;
+    }
+
+    //  select {width: 176px;}
+    //  input {padding-left:3px;}
+
+    select {
+      width: 227px;
+      height: 21px;
+    }
+
+    input {
+      width: 220px;
+      padding-left: 3px;
+    }
+
+    textarea {
+      width: 600px;
+      height: 120px;
+    }
+
+    #header {
+      width: 100%;
+      height: 100px;
+      border-bottom: 4px solid #f1eeec;
+    }
+
+    #header_rj {
+      height: 100px;
+      margin: 0 auto;
+      width: 960px;
+      z-index: 1030;
+      position: relative;
+    }
+
+    #content {
+      font-size: 13px;
+      margin: 15px auto;
+      width: 960px;
+    }
+
+    #footer {
+      height: 100px;
+      margin: 0 auto;
+      width: 960px;
+      border-top: 4px solid #f1eeec;
+      color: #9b9a9a;
+      font-size: 11px;
+    }
+
+    #footer_rj {
+      border-top: 1px solid #f1e3dd;
+      font-size: 11px;
+      color: #a34319;
+      margin-top: 15px;
+    }
+
+    #buttons {
+      position: absolute;
+      /* or absolute */
+      left: 50%;
+    }
+
+    .button_holder {
+      float: left;
+      margin: 0px 5px;
+    }
+
+    .button {
+      padding: 7px 10px 8px 10px;
+      line-height: 1.2;
+      color: #fff;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      background: rgb(255, 127, 0);
+      background: -moz-linear-gradient(top, rgba(255, 127, 0, 1) 0%, rgba(255, 91, 0, 1) 100%);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 127, 0, 1)), color-stop(100%, rgba(255, 91, 0, 1)));
+      background: -webkit-linear-gradient(top, rgba(255, 127, 0, 1) 0%, rgba(255, 91, 0, 1) 100%);
+      background: -o-linear-gradient(top, rgba(255, 127, 0, 1) 0%, rgba(255, 91, 0, 1) 100%);
+      background: -ms-linear-gradient(top, rgba(255, 127, 0, 1) 0%, rgba(255, 91, 0, 1) 100%);
+      background: linear-gradient(top, rgba(255, 127, 0, 1) 0%, rgba(255, 91, 0, 1) 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff7f00', endColorstr='#ff5b00', GradientType=0);
+      text-decoration: none;
+      margin: 0;
+    }
+
+    .button:hover {
+      background: #b4631e;
+      filter: none;
+    }
+
+    .round {
+      border-radius: 3px;
+      -moz-border-radius: 3px;
+      -webkit-border-radius: 3px;
+    }
+  </style>
+  <script type="text/javascript">
+   < !--jQuery(document).ready(function () {
+   -->
+     $("#linkedproduct").hide();
+ < !--   }); -->
+
+  </script>
+  <title data-nl-localizable="true" id="str154582819669794"></title>
+</head>
+
+<body style="" class="">
+  <div id="header">
+    <div id="header_rj"><img class="nlui-widget" src="http://i.direct-email.nl/unilever/general/logo.jpg"
+        unselectable="on" /><br /><br /></div>
+  </div>
+  <div id="content">
+    <h1>AntiChurn edit data</h1>
+    <form>
+      <table>
+        <tbody>
+          <tr>
+            <td width="250">Request id:</td>
+            <td><%= ctx.antiChurnCampaign.@id %></td>
+          </tr>
+          <tr></tr>
+          <tr>
+            <td class="nl-dce-translate" id="str154703232321580" data-nl-localizable="true">First Name:</td>
+            <td><%= ctx.antiChurnCampaign.recipient.@firstName %></td>
+          </tr>
+          <tr>
+            <td class="nl-dce-translate" id="str154705091192322" data-nl-localizable="true">Last Name:</td>
+            <td><%= ctx.antiChurnCampaign.recipient.@lastName %></td>
+          </tr>
+          <tr>
+            <td class="nl-dce-translate" id="str15470323232155" data-nl-localizable="true">Email:</td>
+            <td><%= ctx.antiChurnCampaign.recipient.@email %></td>
+          </tr>
+          <tr>
+            <td class="nl-dce-translate" id="str154782499625937" data-nl-localizable="true">Phone number:</td>
+            <td><%= ctx.antiChurnCampaign.recipient.@mobilePhone %></td>
+          </tr>
+          <tr>
+            <td class="nl-dce-translate" id="str15470323232152" data-nl-localizable="true">Address:</td>
+            <td>
+              <%= ctx.antiChurnCampaign.recipient.location.@address1 %><%= ctx.antiChurnCampaign.recipient.location.@address2 %><%= ctx.antiChurnCampaign.recipient.location.@address3 %>
+              <%= ctx.antiChurnCampaign.recipient.location.@address4 %><%= ctx.antiChurnCampaign.recipient.location.@city %><%= ctx.antiChurnCampaign.recipient.location.@zipCode %>
+              <%= ctx.antiChurnCampaign.recipient.location.@countryCode %></td>
+          </tr>
+          <tr>
+            <td class="nl-dce-translate" id="str15470348312148" data-nl-localizable="true">Recommended products:</td>
+            <td>
+              <table>
+                <tbody>
+                  <tr>
+                    <td><a
+                        href="<%= ctx.antiChurnCampaign.retentionRecommendation1.@url %>"><%= ctx.antiChurnCampaign.retentionRecommendation1.@name %></a>
+                    </td>
+                    <td><a
+                        href="<%= ctx.antiChurnCampaign.retentionRecommendation2.@url %>"><%= ctx.antiChurnCampaign.retentionRecommendation2.@name %></a>
+                    </td>
+                    <td><a
+                        href="<%= ctx.antiChurnCampaign.retentionRecommendation3.@url %>"><%= ctx.antiChurnCampaign.retentionRecommendation3.@name %></a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="nl-dce-translate" id="str154703232321593" data-nl-localizable="true">Indication of Churn:</td>
+            <td><%= ctx.antiChurnCampaign.recipient.ufsOperator.productRecommendations.churnModel.@CHRN_OPR_CLASS %>
+            </td>
+          </tr>
+          <tr>
+            <td class="nl-dce-translate" id="str154703232321583" data-nl-localizable="true">Incentive:</td>
+            <td>To be provided</td>
+          </tr>
+          <tr>
+            <td class="nl-dce-translate" id="str154703232321533" data-nl-localizable="true">Date:</td>
+            <td><%= formatDate(ctx.antiChurnCampaign.@date,"%2D-%2M-%4Y" )%></td>
+          </tr>
+          <tr>
+            <td class="nl-dce-translate" id="str154703232321571" data-nl-localizable="true">Contacted:</td>
+            <td><select name="contacted" data-nl-bindto="xpath" data-nl-xpath="@operatorContacted">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+              </select></td>
+          </tr>
+          <tr>
+            <td class="nl-dce-translate" id="str155111266491755" data-nl-localizable="true">Reason for Churn:</td>
+            <td><select name="reason" id="selectreason" data-nl-bindto="xpath" data-nl-xpath="@churnReason">
+                <option class="nl-dce-translate" id="str154703232321555" value="OTHER" data-nl-localizable="true">Other
+                </option>
+                <option class="nl-dce-translate" id="str154703232321575" value="NO_PRODUCT_NEEDED"
+                  data-nl-localizable="true">No products needed</option>
+                <option class="nl-dce-translate" id="str154703232321565" value="STARTING_BUY_COMPETITOR"
+                  data-nl-localizable="true">Starting to buy a competitor</option>
+                <option class="nl-dce-translate" id="str154703232321523" value="BUY_ELSEWHERE"
+                  data-nl-localizable="true">buy from elsewhere</option>
+                <option class="nl-dce-translate" id="str154703232321557" value="SHUTDOWN" data-nl-localizable="true">
+                  Shutdown</option>
+                <option class="nl-dce-translate" id="str154703232321592" value="PRICE_NOT_APPROPIATE"
+                  data-nl-localizable="true">Price does not seem appropiate</option>
+                <option class="nl-dce-translate" id="str154703232321518" value="NO_INFOR_REQUIRED"
+                  data-nl-localizable="true">No information required</option>
+              </select></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="nl-dce-translate" id="str15470323232159" data-nl-localizable="true">Text Reason for Churn:</p>
+      <textarea data-nl-bindto="xpath"
+        data-nl-xpath="@churnReasonText"><%= ctx.antiChurnCampaign.@churnReasonText %></textarea>
+    </form>
+  </div>
+  <br />
+  <div id="buttons">
+    <div class="button_holder"><a class="button round" href="#" data-nl-transition="save" data-nl-action="next"
+        data-nl-type="action">Save</a></div>
+    <div class="button_holder"><a href="#" data-nl-transition="cancel" data-nl-action="next"
+        data-nl-type="action">Cancel</a></div>
+  </div>
+  <br /> <br />
+  <div id="footer"><br />
+    <div id="footer_rj">&copy;
+      <script type="text/javascript">// <![CDATA[
+          document.write(new Date().getFullYear());
+// ]]></script>
+      Unilever Food Solutions - All Rights Reserved</div>
+  </div>
+</body>
+
+</html>
