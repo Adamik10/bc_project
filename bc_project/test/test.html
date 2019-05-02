@@ -7,23 +7,36 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Vue CDN</title>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
 </head>
 
-<body>
-  <div id="app">
-    {{ message }}
+<body id="app">
+  <div id="nav">
+    <button id="btn">
+      CLICK ME
+    </button>
+    This is a nav
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
   <script>
-    var app = new Vue({
-      el: '#app',
-      data: {
-        message: 'Hello Vue!'
-      }
+    var button = document.getElementById('btn');
+    button.addEventListener('click', function() {
+      button.style.color = "red";
     })
-
   </script>
 </body>
 
+<style>
+#nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background-color: rgb(19, 121, 255);
+}
+</style>
 </html>

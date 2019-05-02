@@ -25,9 +25,63 @@
 
 <body>
   <div id="app" class="container">
-    <v-content>
-      Hello All
-    </v-content>
+    <v-toolbar  absolute 
+                dark 
+                color="#3A9EF0"
+                height="70px"
+                scroll-off-screen>
+      <v-toolbar-side-icon  @click.native.stop="sidebar = !sidebar"></v-toolbar-side-icon>
+      <v-toolbar-title class="white--text">Title</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <img src="image/logo_white.png" alt="logo" class="navLogo">
+      <v-spacer></v-spacer>
+      <v-btn icon>
+        <v-icon>search</v-icon>
+      </v-btn>
+      <v-btn icon>
+        <v-icon>notifications_active</v-icon>
+      </v-btn>
+      <v-btn icon>
+        <v-icon>person</v-icon>
+      </v-btn>
+    </v-toolbar>
+
+    <v-navigation-drawer
+      v-model="sidebar"
+      absolute
+      temporary
+    >
+      <v-list class="pa-1">
+        <v-list-tile avatar>
+          <v-list-tile-avatar>
+            <img src="https://randomuser.me/api/portraits/men/85.jpg">
+          </v-list-tile-avatar>
+
+          <v-list-tile-content>
+            <v-list-tile-title>John Leider</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+
+      <v-list class="pt-0" dense>
+        <v-divider></v-divider>
+
+        <v-list-tile
+          v-for="item in items"
+          :key="item.title"
+          @click=""
+        >
+          <v-list-tile-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-tile-action>
+
+          <v-list-tile-content>
+            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+
   </div>
 
   <!-- jQuery -->
@@ -43,7 +97,8 @@
     new Vue({
       el: '#app',
       data: {
-        message: "Heeeeello"
+        message: "Heeeeello",
+        sidebar: false,
       }
     })
   </script>
