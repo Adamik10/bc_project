@@ -49,6 +49,32 @@
   cursor: pointer;  
 }
 
+.nav-spacer {
+  height: 70px;
+  width: 100%;
+  display: block;
+}
+
+.footer {
+  width: 100vw;
+}
+
+.footer .footer-card {
+  width: 100%;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.footer-icon-text {
+  margin-left: 50px;
+}
+
+.footer-icon-text:first-of-type {
+  margin-left: 0px;
+}
+
 /* OFFERS OVERVIEW ----------------------------------------------------------- OFFERS OVERVIEW */
 
 .baseCard {
