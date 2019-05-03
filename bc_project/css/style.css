@@ -4,5 +4,5 @@
 
 .baseCard {
     display: inline-block;
-    min-width: 600px;
+    width: 450px;
 }
