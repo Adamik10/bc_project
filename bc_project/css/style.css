@@ -78,11 +78,47 @@
 /* OFFERS OVERVIEW ----------------------------------------------------------- OFFERS OVERVIEW */
 
 .baseCard {
-<<<<<<< HEAD
     display: inline-block;
     width: 450px;
-=======
-  display: inline-block;
-  min-width: 600px;
->>>>>>> c0002fd30c9d2e3e5e9a58a31cc98b93a2e7489e
+}
+
+.baseCard .v-expansion-panel__header {
+  padding: 0px !important;
+}
+
+.baseCard .v-expansion-panel__container {
+  max-width: 100% !important;
+}
+
+.baseCard .v-card__text {
+  padding: 0px !important;
+}
+
+.baseCard .v-expansion-panel__container--active {
+  box-shadow: none !important;
+}
+
+.baseCard .v-expansion-panel--popout {
+  margin-bottom: 0 !important;
+}
+
+.baseCard .margin-auto {
+  margin: auto;
+}
+
+.baseCard .status-container {
+  display: inline-flex;
+  min-height: 48px;
+  line-height: 48px;
+  align-items: center;
+}
+
+.baseCard .status-container #status{
+  color: green;
+  font-weight: 700;
+  margin-left: 10px;
+}
+
+.baseCard .v-card__title {
+  line-height: 1.15 !important; 
 }
