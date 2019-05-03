@@ -122,3 +122,12 @@
 .baseCard .v-card__title {
   line-height: 1.15 !important; 
 }
+
+.col .added-filter {
+  margin-left: 20px;
+  padding: 2px 15px;
+  border-radius: 4px;
+  background-color: #3a9ef0;
+  color: white;
+  cursor: pointer;
+}
