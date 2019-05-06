@@ -3,6 +3,7 @@
 }
 
 /* INDEX ------------------------------------------------------------------------- INDEX */
+
 .navLogo {
   height: 50px;
 }
@@ -47,9 +48,9 @@
   position: absolute;
   right: 35px;
   top: 25px;
-  color: #9ca5ad;
+  color: rgb(156, 165, 173);
   font-size: 40px;
-  cursor: pointer;
+  cursor: pointer;  
 }
 
 .nav-spacer {
@@ -79,9 +80,10 @@
 }
 
 /* OFFERS OVERVIEW ----------------------------------------------------------- OFFERS OVERVIEW */
+
 .baseCard {
-  display: inline-block;
-  width: 450px;
+    display: inline-block;
+    width: 450px;
 }
 
 .baseCard .v-expansion-panel__header {
@@ -115,26 +117,29 @@
   align-items: center;
 }
 
-.baseCard .status-container #status {
+.baseCard .status-container #status{
   color: green;
   font-weight: 700;
   margin-left: 10px;
 }
 
 .baseCard .v-card__title {
-  line-height: 1.15 !important;
+  line-height: 1.15 !important; 
 }
 
-.col .added-filter {
-  margin-left: 20px;
-  padding: 2px 15px;
-  border-radius: 4px;
-  background-color: #3a9ef0;
-  color: white;
-  cursor: pointer;
+.col  {
+  .added-filter {
+    margin-left: 20px;
+    padding: 2px 15px;
+    border-radius: 4px;
+    background-color: #3a9ef0;
+    color: white;
+    cursor: pointer;
+  }
 }
 
 /* FILTERS --------------------------------------------------------------------- FILTERS */
+
 .dropdownContainer {
   border-radius: 3px;
   padding: 0;
@@ -142,15 +147,18 @@
   width: 200px;
   display: inline-block;
   margin-right: 20px;
-}
-.dropdownContainer .basicDropdown {
-  display: inline-block;
-  outline-color: #3a9ef0;
-  margin-right: 300px;
-  width: 200px;
-  cursor: pointer;
-  border-radius: 5px;
-  height: 50px;
-}
 
-/*# sourceMappingURL=style.css.map */
+  .basicDropdown {
+    display: inline-block;
+    outline-color: #3a9ef0;
+    margin-right: 300px;
+    width: 200px;
+    cursor: pointer;
+    border-radius: 5px;
+    height: 50px;
+  }
+
+  .basicDropdownContent {
+
+  }
+}

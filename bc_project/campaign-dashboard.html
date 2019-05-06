@@ -19,7 +19,7 @@
 </head>
 
 <body>
-  <v-app id="app">
+  <div id="app">
     <!-- Navigation -->
     <v-toolbar  absolute 
                 dark 
@@ -75,57 +75,17 @@
     <!-- Navigation ends -->
 
     <!-- Content -->
-    <v-container grid-list-xl>
-      <!-- Filters -->
-      <v-subheader>
-        Filters:
-      </v-subheader>
-      <v-container class="dropdownContainer">
-          <v-select :items="filters.markets"
-                    label="Market"
-                    item-text="name"
-                    item-value="name"
-                    clearable dense single-line solo flat
-                    class="basicDropdown"
-                    content-class="basicDropdownContent">
-          </v-select>
-      </v-container>
-      <v-container class="dropdownContainer">
-        <v-select :items="filters.countries"
-                  label="Country"
-                  item-text="name"
-                  item-value="name"
-                  clearable dense single-line solo flat
-                  class="basicDropdown"
-                  content-class="basicDropdownContent">
-        </v-select>
-      </v-container>
-      <v-container class="dropdownContainer">
-        <v-select :items="filters.categories"
-                  label="Category"
-                  item-text="name"
-                  item-value="name"
-                  clearable dense single-line solo flat
-                  class="basicDropdown"
-                  content-class="basicDropdownContent">
-        </v-select>
-      </v-container>
-      <v-container class="dropdownContainer">
-        <v-select :items="filters.status"
-                  label="Status"
-                  item-text="name"
-                  item-value="name"
-                  clearable dense single-line solo flat
-                  class="basicDropdown"
-                  content-class="basicDropdownContent">
-        </v-select>
-      </v-container>
-      <!-- Filters end -->
-      <v-divider ></v-divider>
-      <!-- Search results -->
-
-      <!-- Search results end -->
-    </v-container>
+    <div class="container">
+      <br><br><br><br><br><br><br>
+      PAGE 2
+      <br><br><br><br><br><br><br>
+      MUCH CONTENT
+      <br><br><br><br><br><br><br>
+      BUTIFUL CONTENT
+      <br><br><br><br><br><br><br>
+      MUCH CONTENT
+      <br><br><br><br><br><br><br>
+    </div>
     <!-- Content ends -->
 
     <!-- Footer -->
@@ -159,7 +119,7 @@
       </v-card>
     </v-footer>
     <!-- Footer ends -->
-  </v-app>
+  </div>
 
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -243,118 +203,7 @@
             description: 'Call us:'
           }
         ],
-        filters: {
-          markets: [
-            {
-              id: 1,
-              name: 'SEA',
-              countries: [
-                {
-                  id: 1,
-                  name: 'Romania'
-                },
-                {
-                  id: 2,
-                  name: 'Estonie'
-                }
-              ]
-            },
-            {
-              id: 2,
-              name: 'NAM',
-              countries: [
-                {
-                  id: 3,
-                  name: 'Denmark'
-                },
-                {
-                  id: 4,
-                  name: 'Finland'
-                },
-                {
-                  id: 5,
-                  name: 'US'
-                }
-              ]
-            },
-            {
-              id: 3,
-              name: 'NEE',
-              countries: [
-                {
-                  id: 6,
-                  name: 'Canada'
-                },
-                {
-                  id: 7,
-                  name: 'Taiwan'
-                }
-              ]
-            }
-          ],
-          countries: [
-            { 
-              id: 20,
-              name: 'Romania'
-            },
-            {
-              id: 21,
-              name: 'Estonie'
-            },
-            { 
-              id: 22,
-              name: 'Hawaii'
-            },
-            {
-              id: 23,
-              name: 'Sri Lanka'
-            }
-          ],
-          categories: [
-            {
-              id: 8,
-              name: 'Hero promo'
-            },
-            {
-              id: 9,
-              name: 'Hero Inspi'
-            },
-            {
-              id: 10,
-              name: 'Secondary articles'
-            },
-            {
-              id: 11,
-              name: 'Events'
-            },
-            {
-              id: 12,
-              name: 'Competition'
-            },
-            {
-              id: 13,
-              name: 'Chef new members'
-            },
-            {
-              id: 14,
-              name: 'Chef new non members'
-            }
-          ],
-          status: [
-            {
-              id: 15,
-              name: 'Live'
-            },
-            {
-              id: 16,
-              name: 'Disabled'
-            },
-            {
-              id: 17,
-              name: 'To be approved'
-            }
-          ]
-        }
+
       },
       methods: {
         redirectTo(link) {
