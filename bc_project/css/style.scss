@@ -1,9 +1,11 @@
-/* sass --watch style.scss style.css */
+/* sass --watch style.scss style.css */ 
+
 * {
   position: relative;
 }
 
 /* INDEX ------------------------------------------------------------------------- INDEX */
+
 .navLogo {
   height: 50px;
 }
@@ -48,9 +50,9 @@
   position: absolute;
   right: 35px;
   top: 25px;
-  color: #9ca5ad;
+  color: rgb(156, 165, 173);
   font-size: 40px;
-  cursor: pointer;
+  cursor: pointer;  
 }
 
 .nav-spacer {
@@ -80,6 +82,7 @@
 }
 
 /* OFFERS OVERVIEW ----------------------------------------------------------- OFFERS OVERVIEW */
+
 .baseCard {
   display: inline-block;
   width: 340px;
@@ -87,54 +90,69 @@
   position: relative;
   margin-right: 30px;
   margin-bottom: 30px;
-}
-.baseCard .card-title {
-  display: block;
-}
-.baseCard .headline {
-  font-size: 17px !important;
-  line-height: 17px !important;
-  font-weight: 800;
-  display: block;
-  margin-top: -5px;
-  margin-bottom: 15px;
-}
-.baseCard .status-container {
-  display: inline-block;
-  width: 60px;
-  height: 25px;
-  background-color: #90cf77;
-  color: white;
-  font-style: italic;
-  text-align: center;
-  border-radius: 3px;
-}
-.baseCard .status-container p {
-  line-height: 25px;
-}
-.baseCard .v-expansion-panel__header {
-  padding: 0px !important;
-}
-.baseCard .v-expansion-panel__container {
-  max-width: 100% !important;
-}
-.baseCard .v-card__text {
-  padding: 0px !important;
-}
-.baseCard .v-expansion-panel__container--active {
-  box-shadow: none !important;
-}
-.baseCard .v-expansion-panel--popout {
-  margin-bottom: 0 !important;
-}
-.baseCard .margin-auto {
-  margin: auto;
-}
-.baseCard .v-card__title {
-  line-height: 1.15 !important;
+
+  .card-title {
+    display: block;
+  }
+
+  .headline {
+    font-size: 17px !important;
+    line-height: 17px !important;
+    font-weight: 800;
+    display: block;
+    margin-top: -5px;
+    margin-bottom: 15px;
+  }
+
+  .status-container {
+    display: inline-block;;
+    width: 60px;
+    height: 25px;
+    background-color: rgb(144, 207, 119);
+    color: white;
+    font-style: italic;
+    text-align: center;
+    border-radius: 3px;
+
+    p {
+      line-height: 25px;
+    }
+  }
+
+  .v-expansion-panel__header {
+    padding: 0px !important;
+  }
+
+  .v-expansion-panel__container {
+    max-width: 100% !important;
+  }
+
+  .v-card__text {
+    padding: 0px !important;
+  }
+
+  .v-expansion-panel__container--active {
+    box-shadow: none !important;
+  }
+
+  .v-expansion-panel--popout {
+    margin-bottom: 0 !important;
+  }
+
+  .margin-auto {
+    margin: auto;
+  }
+
+
+
+  .v-card__title {
+    line-height: 1.15 !important; 
+  }
+
 }
 
 /* FILTERS --------------------------------------------------------------------- FILTERS */
+
 .dropdownContainer {
   border-radius: 3px;
   padding: 0;
@@ -142,15 +160,18 @@
   width: 200px;
   display: inline-block;
   margin-right: 20px;
-}
-.dropdownContainer .basicDropdown {
-  display: inline-block;
-  outline-color: #3a9ef0;
-  margin-right: 300px;
-  width: 200px;
-  cursor: pointer;
-  border-radius: 5px;
-  height: 50px;
-}
 
-/*# sourceMappingURL=style.css.map */
+  .basicDropdown {
+    display: inline-block;
+    outline-color: #3a9ef0;
+    margin-right: 300px;
+    width: 200px;
+    cursor: pointer;
+    border-radius: 5px;
+    height: 50px;
+  }
+
+  .basicDropdownContent {
+
+  }
+}
