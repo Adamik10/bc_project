@@ -20,7 +20,7 @@
 
 <body>
   <v-app id="app">
-    <!-- Navigation -->
+    <!-- Navigation -->   
     <v-toolbar  absolute 
                 dark 
                 color="#3A9EF0"
@@ -123,7 +123,55 @@
       <!-- Filters end -->
       <v-divider ></v-divider>
       <!-- Search results -->
-
+      <v-card v-for="offer in offers" class="baseCard">
+        <v-card-title primary-title class="card-title">
+          <h3 class="headline" :title="offer.name">{{ offer.name | maxLength(33) }} </h3>
+          <div class="status-container">
+            <p>Live</p>
+          </div>
+          <v-expansion-panel popout>
+            <v-expansion-panel-content>
+              <template v-slot:header>
+                <div>General</div>
+              </template>
+              <v-card>
+                <v-card-text>
+                  <div><b>Subject Line 1:</b><br>
+                    Dicas Unilever Food Solutions para sobremesas no Dia das Mães!</div>
+                <div><b>Subject Line 2:</b><br>
+                    Dicas da Unilever Food Solutions para um cardápio de Dia das Mães!</div>
+                <div><b>Pre Header:</b> Dicas especiais para o seu negócio!</div>
+                </v-card-text>
+              </v-card>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+          <v-expansion-panel popout>
+            <v-expansion-panel-content >
+              <template v-slot:header>
+                <div>Eligibility</div>
+              </template>
+              <v-card>
+                <v-card-text>
+                  <div>Eligibility Start Date : 01/05/2019</div>
+                  <div>Eligibility End Date : 12/05/2019</div>
+                </v-card-text>
+              </v-card>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-card-title>
+        <v-img src="https://www.unileverfoodsolutions.com.br/dam/global-ufs/mcos/sla/brazil/acm/recipe/naked-cake-de-doce-de-18AC.jpg" contain></v-img>
+        <v-card-title class="text-center center">
+          <div class="margin-auto" style="font-family:Verdana; font-weight:bold; mso-line-height-rule:exactly; line-height:22px !important; font-size:21px; color:#ff5a00; padding:0 0 8px 0;">Inspirações para o Dia das Mães!</div>
+          <div style="padding: 0 0 16px 0">Uma data especial, feita para cuidar de quem sempre cuidou da gente. Incremente seu cardápio com essas sobremesas incríveis e conquiste doces sorrisos!</div>
+          <div style="margin: auto; padding:6px 14px; -webkit-border-radius:4px; border-radius:4px; font-size:14px; font-family:Verdana; color:#ffffff; display:inline-block; border:1px solid #ff5a00; background-color: #ff5a00;">
+            <a href="#" style="font-size:14px; font-family:Verdana; text-decoration:none; font-weight:bold; mso-line-height-rule:exactly; line-height:14px !important; color:#ffffff;">Baixe o nosso receituário</a>
+          </div>
+        </v-card-title>
+        <v-card-actions>
+          <v-btn flat color="orange">Approve</v-btn>
+          <v-btn flat color="orange">Disable</v-btn>
+        </v-card-actions>
+      </v-card>
       <!-- Search results end -->
     </v-container>
     <!-- Content ends -->
@@ -173,6 +221,20 @@
   <script>
     new Vue({
       el: '#app',
+      filters: {
+        maxLength: function(value, desiredLength) {
+          if (!value) return '';
+          value = value.toString();
+          desiredLength = desiredLength*1;
+          if(value.length > desiredLength) {
+            console.log('we here')
+            return value.substring(0, desiredLength) + '...';
+          } else {
+            console.log('we actually here '+ value.length +' '+ desiredLength)
+            return value;
+          }
+        }
+      },
       data: {
         message: "Heeeeello",
         sidebar: false,
@@ -358,9 +420,153 @@
         offers: [
           {
             id:30,
-            name: 'BR_PT_2_mothers day desserts_2019',
+            name: 'BR_PT_2_mothers day desserts_2019ssfsdfsf sfsf svsv sdv',
             status: 'live',
-            general: 
+            general: [
+              {
+                name: 'Subject line 1',
+                value: 'Dicas Unilever Food Solutions para sobremesas no Dia das Mães!'
+              },
+              {
+                name: 'Subject line 2',
+                value: 'Dicas da Unilever Food Solutions para um cardápio de Dia das Mães!'
+              },
+              {
+                name: 'Preheader',
+                value: 'Dicas especiais para o seu negócio!'
+              },
+            ],
+            eligibility: {
+              start: '01/05/2019',
+              end: '12/05/2019'
+            },
+            imageUrl: 'https://www.chatelaine.com/wp-content/uploads/2017/03/rules-fo-rmaking-the-perfect-cake-1024x766.jpg',
+            block: {
+              header: 'Inspirações para o Dia das Mães!',
+              copy: 'Uma data especial, feita para cuidar de quem sempre cuidou da gente. Incremente seu cardápio com essas sobremesas incríveis e conquiste doces sorrisos!',
+              cta: 'Click me',
+              ctaColor: '#FF5A00'
+            }
+          },
+          {
+            id:31,
+            name: 'BR_PT_2_mothers day desserts_2019ssfsdfsf sfsf',
+            status: 'live',
+            general: [
+              {
+                name: 'Subject line 1',
+                value: 'Dicas Unilever Food Solutions para sobremesas no Dia das Mães!'
+              },
+              {
+                name: 'Subject line 2',
+                value: 'Dicas da Unilever Food Solutions para um cardápio de Dia das Mães!'
+              },
+              {
+                name: 'Preheader',
+                value: 'Dicas especiais para o seu negócio!'
+              },
+            ],
+            eligibility: {
+              start: '01/05/2019',
+              end: '12/05/2019'
+            },
+            imageUrl: 'https://www.chatelaine.com/wp-content/uploads/2017/03/rules-fo-rmaking-the-perfect-cake-1024x766.jpg',
+            block: {
+              header: 'Inspirações para o Dia das Mães!',
+              copy: 'Uma data especial, feita para cuidar de quem sempre cuidou da gente. Incremente seu cardápio com essas sobremesas incríveis e conquiste doces sorrisos!',
+              cta: 'Click me',
+              ctaColor: '#FF5A00'
+            }
+          },
+          {
+            id:32,
+            name: 'BR_PT_2_mothers day desserts_2019ssfsdfsf sfsf',
+            status: 'live',
+            general: [
+              {
+                name: 'Subject line 1',
+                value: 'Dicas Unilever Food Solutions para sobremesas no Dia das Mães!'
+              },
+              {
+                name: 'Subject line 2',
+                value: 'Dicas da Unilever Food Solutions para um cardápio de Dia das Mães!'
+              },
+              {
+                name: 'Preheader',
+                value: 'Dicas especiais para o seu negócio!'
+              },
+            ],
+            eligibility: {
+              start: '01/05/2019',
+              end: '12/05/2019'
+            },
+            imageUrl: 'https://www.chatelaine.com/wp-content/uploads/2017/03/rules-fo-rmaking-the-perfect-cake-1024x766.jpg',
+            block: {
+              header: 'Inspirações para o Dia das Mães!',
+              copy: 'Uma data especial, feita para cuidar de quem sempre cuidou da gente. Incremente seu cardápio com essas sobremesas incríveis e conquiste doces sorrisos!',
+              cta: 'Click me',
+              ctaColor: '#FF5A00'
+            }
+          },
+          {
+            id:33,
+            name: 'BR_PT_2_mothers day desserts_2019ssfsdfsf sfsf',
+            status: 'live',
+            general: [
+              {
+                name: 'Subject line 1',
+                value: 'Dicas Unilever Food Solutions para sobremesas no Dia das Mães!'
+              },
+              {
+                name: 'Subject line 2',
+                value: 'Dicas da Unilever Food Solutions para um cardápio de Dia das Mães!'
+              },
+              {
+                name: 'Preheader',
+                value: 'Dicas especiais para o seu negócio!'
+              },
+            ],
+            eligibility: {
+              start: '01/05/2019',
+              end: '12/05/2019'
+            },
+            imageUrl: 'https://www.chatelaine.com/wp-content/uploads/2017/03/rules-fo-rmaking-the-perfect-cake-1024x766.jpg',
+            block: {
+              header: 'Inspirações para o Dia das Mães!',
+              copy: 'Uma data especial, feita para cuidar de quem sempre cuidou da gente. Incremente seu cardápio com essas sobremesas incríveis e conquiste doces sorrisos!',
+              cta: 'Click me',
+              ctaColor: '#FF5A00'
+            }
+          },
+          {
+            id:34,
+            name: 'BR_PT_2_mothers day desserts_2019ssfsdfsf sfsf',
+            status: 'live',
+            general: [
+              {
+                name: 'Subject line 1',
+                value: 'Dicas Unilever Food Solutions para sobremesas no Dia das Mães!'
+              },
+              {
+                name: 'Subject line 2',
+                value: 'Dicas da Unilever Food Solutions para um cardápio de Dia das Mães!'
+              },
+              {
+                name: 'Preheader',
+                value: 'Dicas especiais para o seu negócio!'
+              },
+            ],
+            eligibility: {
+              start: '01/05/2019',
+              end: '12/05/2019'
+            },
+            imageUrl: 'https://www.chatelaine.com/wp-content/uploads/2017/03/rules-fo-rmaking-the-perfect-cake-1024x766.jpg',
+            block: {
+              header: 'Inspirações para o Dia das Mães!',
+              copy: 'Uma data especial, feita para cuidar de quem sempre cuidou da gente. Incremente seu cardápio com essas sobremesas incríveis e conquiste doces sorrisos!',
+              cta: 'Click me',
+              ctaColor: '#FF5A00'
+            }
           }
         ]
       },

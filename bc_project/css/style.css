@@ -82,57 +82,56 @@
 /* OFFERS OVERVIEW ----------------------------------------------------------- OFFERS OVERVIEW */
 .baseCard {
   display: inline-block;
-  width: 450px;
+  width: 340px;
+  border-radius: 5px;
+  position: relative;
+  margin-right: 30px;
+  margin-bottom: 30px;
 }
-
+.baseCard .card-title {
+  display: block;
+}
+.baseCard .headline {
+  font-size: 17px !important;
+  line-height: 17px !important;
+  font-weight: 800;
+  display: block;
+  margin-top: -5px;
+  margin-bottom: 15px;
+}
+.baseCard .status-container {
+  display: inline-block;
+  width: 60px;
+  height: 25px;
+  background-color: #90cf77;
+  color: white;
+  font-style: italic;
+  text-align: center;
+  border-radius: 3px;
+}
+.baseCard .status-container p {
+  line-height: 25px;
+}
 .baseCard .v-expansion-panel__header {
   padding: 0px !important;
 }
-
 .baseCard .v-expansion-panel__container {
   max-width: 100% !important;
 }
-
 .baseCard .v-card__text {
   padding: 0px !important;
 }
-
 .baseCard .v-expansion-panel__container--active {
   box-shadow: none !important;
 }
-
 .baseCard .v-expansion-panel--popout {
   margin-bottom: 0 !important;
 }
-
 .baseCard .margin-auto {
   margin: auto;
 }
-
-.baseCard .status-container {
-  display: inline-flex;
-  min-height: 48px;
-  line-height: 48px;
-  align-items: center;
-}
-
-.baseCard .status-container #status {
-  color: green;
-  font-weight: 700;
-  margin-left: 10px;
-}
-
 .baseCard .v-card__title {
   line-height: 1.15 !important;
-}
-
-.col .added-filter {
-  margin-left: 20px;
-  padding: 2px 15px;
-  border-radius: 4px;
-  background-color: #3a9ef0;
-  color: white;
-  cursor: pointer;
 }
 
 /* FILTERS --------------------------------------------------------------------- FILTERS */
