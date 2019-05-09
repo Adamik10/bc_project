@@ -18,6 +18,9 @@
 
   <!-- below is vue functionalities -->
   <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+  
+  <!-- AXIOS -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
   <!-- below is material icons -->
   <link rel="icon" sizes="192x192" href="https://material.io/static/images/simple-lp/favicons/components-192x192.png">
@@ -283,12 +286,6 @@
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
 
-  <script>
-  
-  
-  </script>
-
-
 
   <script>
     new Vue({
@@ -364,8 +361,46 @@
           }
         ],
         
+      },
+      created() {
+        var market ="South Africa";
+        axios.get('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffers.jssp?market=' + market).then(function(data){
+          console.log(data);
+          console.log("loaded")
+        })
+
+      },
+      methods: {
+
       }
     })
+  </script>
+
+<script>
+    //CLICK ON LOAD OFFERS LOADS OFFERS
+    console.log("hello");
+
+    $(".load-offers" ).click(function() {
+           //var chosenOfferId =  $(this).prev(".hiddenId").text();
+           //var chosenOfferLabel = $(this).next(".labelonoffer").text();
+          var chosenMarket ="Germany";
+          var chosenCategory ="Recipe Recommendation";
+          var chosenOfferId = "2";
+          var oReq = new XMLHttpRequest();
+          var offerlayoutUrl = 'https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffers.jssp';
+          oReq.open("GET", offerlayoutUrl+"?offerId="+chosenOfferId+"&market="+chosenMarket+"&category="+chosenCategory, true);
+          oReq.send();
+          console.log("clicked");
+          console.log(oReq.response);
+
+          var data = JSON.parse(oReq.responseText);
+
+          oReq.onload = function () {
+            alert(data);
+          }
+        });
+  
+  
   </script>
 </body>
 
