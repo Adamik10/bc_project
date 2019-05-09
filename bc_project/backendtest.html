@@ -1,0 +1,372 @@
+<% /*Add this to engage logon requirement */ %>
+<%@ page import="xtk:shared/nl.js" %>
+<% NL.require('xtk:jsspcontext.js'); %>
+<%
+  if( !(new NL.JSSPContext(request)).checkAuthentication(response) )
+    return;
+%>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+  <!-- below is vuetify -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+
+  <!-- below is vue functionalities -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+
+  <!-- below is material icons -->
+  <link rel="icon" sizes="192x192" href="https://material.io/static/images/simple-lp/favicons/components-192x192.png">
+  <link rel="shortcut icon" href="https://material.io/static/images/simple-lp/favicons/components-72x72.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css">
+
+  <!-- below is bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  
+  <!-- below css is temporary -->
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<style>
+/* INDEX ------------------------------------------------------------------------- INDEX */
+
+.navLogo {
+  height: 50px;
+}
+
+.sidebar-tile {
+  border-top: rgba(0, 0, 0, 0.03) 1px solid;
+}
+
+.sidebar-tile:last-child {
+  border-bottom: rgba(0, 0, 0, 0.03) 1px solid;
+}
+
+.sidebar-tile a {
+  height: 90px;
+}
+
+.action-margin-left {
+  margin-left: 30px;
+}
+
+.action-icon-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 30px;
+  background-color: #B8C2CC;
+  display: flex;
+}
+
+.action-icon-circle .icon {
+  color: rgba(255, 255, 255, 0.815);
+  font-size: 25px;
+  margin: auto;
+}
+
+.sidebar-spacer {
+  position: relative;
+  display: block;
+  height: 100px;
+}
+
+.sidebar-spacer .close {
+  position: absolute;
+  right: 35px;
+  top: 25px;
+  color: rgb(156, 165, 173);
+  font-size: 40px;
+  cursor: pointer;  
+}
+
+.nav-spacer {
+  height: 70px;
+  width: 100%;
+  display: block;
+}
+
+.footer {
+  width: 100vw;
+}
+
+.footer .footer-card {
+  width: 100%;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.footer-icon-text {
+  margin-left: 50px;
+}
+
+.footer-icon-text:first-of-type {
+  margin-left: 0px;
+}
+
+/* OFFERS OVERVIEW ----------------------------------------------------------- OFFERS OVERVIEW */
+
+.baseCard {
+    display: inline-block;
+    width: 450px;
+}
+
+.baseCard .v-expansion-panel__header {
+  padding: 0px !important;
+}
+
+.baseCard .v-expansion-panel__container {
+  max-width: 100% !important;
+}
+
+.baseCard .v-card__text {
+  padding: 0px !important;
+}
+
+.baseCard .v-expansion-panel__container--active {
+  box-shadow: none !important;
+}
+
+.baseCard .v-expansion-panel--popout {
+  margin-bottom: 0 !important;
+}
+
+.baseCard .margin-auto {
+  margin: auto;
+}
+
+.baseCard .status-container {
+  display: inline-flex;
+  min-height: 48px;
+  line-height: 48px;
+  align-items: center;
+}
+
+.baseCard .status-container #status{
+  color: green;
+  font-weight: 700;
+  margin-left: 10px;
+}
+
+.baseCard .v-card__title {
+  line-height: 1.15 !important; 
+}
+
+.col .added-filter {
+  margin-left: 20px;
+  padding: 2px 15px;
+  border-radius: 4px;
+  background-color: #3a9ef0;
+  color: white;
+  cursor: pointer;
+}
+</style>
+
+<body>
+  <div id="app">
+    <!-- Navigation -->
+    <v-toolbar  absolute 
+                dark 
+                color="#3A9EF0"
+                height="70px"
+                scroll-off-screen>
+      <v-toolbar-side-icon  @click.native.stop="sidebar = !sidebar"></v-toolbar-side-icon>
+      <v-toolbar-title class="white--text">UFS Offers Dashboard</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <img src="http://unilever-stage.neolane.net/res/unilever_stage/82b11d94f8b6e520f06ce3334218952d.png" alt="logo" class="navLogo">
+      <v-spacer></v-spacer>
+      <v-btn icon>
+        <v-icon>search</v-icon>
+      </v-btn>
+      <v-btn icon>
+        <v-icon>notifications_active</v-icon>
+      </v-btn>
+      <v-btn icon>
+        <v-icon>person</v-icon>
+      </v-btn>
+    </v-toolbar>
+
+    <v-navigation-drawer  v-model="sidebar"
+                          absolute
+                          width="400px"
+                          temporary>
+      <v-list>
+        <div class="sidebar-spacer">
+          <v-icon class="close"
+                  @click="sidebar = false">
+              close
+          </v-icon>
+        </div>
+        <template v-for="subPage in subPages">
+          <v-list-tile  :key="subPage.id"
+                        @click=""
+                        class="sidebar-tile">
+            <v-list-tile-action class="action-margin-left">
+              <div class="action-icon-circle">
+                <v-icon color="white"
+                        class="icon">
+                  {{ subPage.icon }}
+                </v-icon>
+              </div>
+            </v-list-tile-action>
+            <v-header class="mx-4">
+              {{ subPage.name }}
+            </v-header>
+          </v-list-tile>
+        </template>
+      </v-list>
+    </v-navigation-drawer>
+    <div class="nav-spacer"></div>
+    <!-- Navigation ends -->
+
+    <!-- Content -->
+    <div class="container">
+      <div class="row">
+          <div class="col">Filters applied:</div>
+          <div class="col"> 
+              <span class="added-filter">209,846,822</span>
+          </div>
+          <div class="col text-right">ADD FILTERS</div>
+      </div>
+      <v-divider></v-divider>
+    </div>
+
+    <div style="text-align: center;">
+      <v-btn depressed large color="error" style="background-color:rgb(184, 33, 33);" class="load-offers">LOAD OFFERS</v-btn>
+    </div>
+    <!-- Content ends -->
+
+    <!-- Footer -->
+    <!-- <v-footer dark
+              height="auto"
+              class="footer">
+      <v-card flat
+              tile
+              class="white--text text-xs-center footer-card">
+        <v-card-text>
+          <template v-for="icon in footerIcons">
+            <p class="inline-block footer-icon-text">{{ icon.description }}</p>
+            <v-btn  :key="icon.name"
+                    class="mx-1 white--text"
+                    icon>
+              <v-icon size="24px">
+                {{ icon.name }}
+              </v-icon>
+            </v-btn>
+          </template>
+          
+        </v-card-text>
+        <v-divider style="margin: 0;"></v-divider>
+        <v-card-text class="white--text">
+          <br>
+          A member of WPP Group. &copy; 2019 — <strong>Wunderman</strong>
+          <br>
+          All Rights Reserved.
+          <br><br>
+        </v-card-text>
+      </v-card>
+    </v-footer> -->
+    <!-- Footer ends -->
+  </div>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <!-- bootstrap -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <!-- vue.js functionalities -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+
+  <script>
+  
+  
+  </script>
+
+
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        message: "Heeeeello",
+        sidebar: false,
+        subPages: [
+          {
+            id: 1,
+            name: 'Proofing dashboard',
+            link: 'xyz',
+            icon: 'list'
+          },
+          {
+            id: 2,
+            name: 'Offers dashboard',
+            link: 'xyz',
+            icon: 'extension'
+          },
+          {
+            id: 3,
+            name: 'Settings',
+            link: 'xyz',
+            icon: 'settings'
+          },
+          {
+            id: 4,
+            name: 'FAQ',
+            link: 'xyz',
+            icon: 'help_outline'
+          }
+        ],
+        socialIcons: [
+          {
+            name: 'tumblr',
+            link: "http://unilever-stage.neolane.net/res/unilever_stage/64a84557abe8e5b85db5872cd3f97b20.png"
+          },
+          {
+            name: 'twitter',
+            link: "http://unilever-stage.neolane.net/res/unilever_stage/29ff2cc1aaf55cdd7d4d5048831d9ced.png"
+          },
+          {
+            name: 'youtube',
+            link: "http://unilever-stage.neolane.net/res/unilever_stage/9f26d4ccd5ef9a6eb1b13ddaaac55069.png"
+          },
+          {
+            name: 'whatsApp',
+            link: "http://unilever-stage.neolane.net/res/unilever_stage/96e103e615a88f2f7146aa1b6a29b348.png"
+          },
+          {
+            name: 'facebook',
+            link: "http://unilever-stage.neolane.net/res/unilever_stage/ca3264cfa0247c069c8a311056f16c79.png"
+          },
+          {
+            name: 'google',
+            link: "http://unilever-stage.neolane.net/res/unilever_stage/e84e8b411d47b36257d0cae80bf90b3e.png"
+          },
+          {
+            name: 'instagram',
+            link: "http://unilever-stage.neolane.net/res/unilever_stage/f74da9663a397434375dcea5ad26c2c6.png"
+          }
+          
+        ],
+        footerIcons: [
+          {
+            name: 'email',
+            description: 'Email us:'
+          },
+          {
+            name: 'call',
+            description: 'Call us:'
+          }
+        ],
+        
+      }
+    })
+  </script>
+</body>
+
+</html>
