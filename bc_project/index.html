@@ -290,7 +290,7 @@
       </v-container>
       <!-- Filters end -->
       <v-divider ></v-divider>
-      <!-- Search results -->
+      <!-- Search results ---------------------------------------------------------------------------------- -->
       <template v-if="offers.length">
         <v-card v-for="(offer,i) in offers" class="baseCard" :key="i">
           <v-card-title primary-title class="card-title">
@@ -306,9 +306,9 @@
                 <v-card>
                   <v-card-text>
                     <div><b>Subject Line 1:</b><br>
-                      Dicas Unilever Food Solutions para sobremesas no Dia das Mães!</div>
+                      {{offer.subject1}}</div>
                   <div><b>Subject Line 2:</b><br>
-                      Dicas da Unilever Food Solutions para um cardápio de Dia das Mães!</div>
+                      {{offer.subject2}}</div>
                   <div><b>Pre Header:</b> Dicas especiais para o seu negócio!</div>
                   </v-card-text>
                 </v-card>
@@ -328,12 +328,14 @@
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-card-title>
-          <v-img src="https://www.unileverfoodsolutions.com.br/dam/global-ufs/mcos/sla/brazil/acm/recipe/naked-cake-de-doce-de-18AC.jpg" contain></v-img>
+          <a :href="offer.destinationURL">
+            <v-img :src="offer.imageDesktopURL" contain></v-img>
+          </a>
           <v-card-title class="text-center center">
-            <div class="margin-auto" style="font-family:Verdana; font-weight:bold; mso-line-height-rule:exactly; line-height:22px !important; font-size:21px; color:#ff5a00; padding:0 0 8px 0;">Inspirações para o Dia das Mães!</div>
-            <div style="padding: 0 0 16px 0">Uma data especial, feita para cuidar de quem sempre cuidou da gente. Incremente seu cardápio com essas sobremesas incríveis e conquiste doces sorrisos!</div>
+            <div class="margin-auto" style="font-family:Verdana; font-weight:bold; mso-line-height-rule:exactly; line-height:22px !important; font-size:21px; color:#ff5a00; padding:0 0 8px 0;">{{offer.headline}}</div>
+            <div style="padding: 0 0 16px 0">{{offer.copyText}}</div>
             <div style="margin: auto; padding:6px 14px; -webkit-border-radius:4px; border-radius:4px; font-size:14px; font-family:Verdana; color:#ffffff; display:inline-block; border:1px solid #ff5a00; background-color: #ff5a00;">
-              <a href="#" style="font-size:14px; font-family:Verdana; text-decoration:none; font-weight:bold; mso-line-height-rule:exactly; line-height:14px !important; color:#ffffff;">Baixe o nosso receituário</a>
+              <a :href="offer.destinationURL" style="font-size:14px; font-family:Verdana; text-decoration:none; font-weight:bold; mso-line-height-rule:exactly; line-height:14px !important; color:#ffffff;">{{offer.CTAtext}}</a>
             </div>
           </v-card-title>
           <v-card-actions>
@@ -345,7 +347,7 @@
       <template v-else>
         Hello
       </template>
-      <!-- Search results end -->
+      <!-- Search results end ------------------------------------------------------------------------------------------------------ -->
     </v-container>
     <!-- Content ends -->
 
