@@ -1,3 +1,11 @@
+<% /*Add this to engage logon requirement */ %>
+<%@ page import="xtk:shared/nl.js" %>
+<% NL.require('xtk:jsspcontext.js'); %>
+<%
+  if( !(new NL.JSSPContext(request)).checkAuthentication(response) )
+    return;
+%>
+
 <!DOCTYPE html>
 <html>
 
@@ -8,6 +16,8 @@
   <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
   <!-- below is vue functionalities -->
   <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+  <!-- AXIOS -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <!-- below is material icons -->
   <link rel="icon" sizes="192x192" href="https://material.io/static/images/simple-lp/favicons/components-192x192.png">
   <link rel="shortcut icon" href="https://material.io/static/images/simple-lp/favicons/components-72x72.png">
@@ -16,6 +26,166 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <!-- below css is temporary -->
   <link rel="stylesheet" type="text/css" href="css/style.css">
+  <style>
+    /* sass --watch style.scss style.css */
+* {
+  position: relative;
+}
+
+/* INDEX ------------------------------------------------------------------------- INDEX */
+.navLogo {
+  height: 50px;
+}
+
+.sidebar-tile {
+  border-top: rgba(0, 0, 0, 0.03) 1px solid;
+}
+
+.sidebar-tile:last-child {
+  border-bottom: rgba(0, 0, 0, 0.03) 1px solid;
+}
+
+.sidebar-tile a {
+  height: 90px;
+}
+
+.action-margin-left {
+  margin-left: 30px;
+}
+
+.action-icon-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 30px;
+  background-color: #B8C2CC;
+  display: flex;
+}
+
+.action-icon-circle .icon {
+  color: rgba(255, 255, 255, 0.815);
+  font-size: 25px;
+  margin: auto;
+}
+
+.sidebar-spacer {
+  position: relative;
+  display: block;
+  height: 100px;
+}
+
+.sidebar-spacer .close {
+  position: absolute;
+  right: 35px;
+  top: 25px;
+  color: #9ca5ad;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+.nav-spacer {
+  height: 70px;
+  width: 100%;
+  display: block;
+}
+
+.footer {
+  width: 100vw;
+}
+
+.footer .footer-card {
+  width: 100%;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.footer-icon-text {
+  margin-left: 50px;
+}
+
+.footer-icon-text:first-of-type {
+  margin-left: 0px;
+}
+
+/* OFFERS OVERVIEW ----------------------------------------------------------- OFFERS OVERVIEW */
+.baseCard {
+  display: inline-block;
+  width: 340px;
+  border-radius: 5px;
+  position: relative;
+  margin-right: 30px;
+  margin-bottom: 30px;
+}
+.baseCard .card-title {
+  display: block;
+}
+.baseCard .headline {
+  font-size: 17px !important;
+  line-height: 17px !important;
+  font-weight: 800;
+  display: block;
+  margin-top: -5px;
+  margin-bottom: 15px;
+}
+.baseCard .status-container {
+  display: inline-block;
+  width: 60px;
+  height: 25px;
+  background-color: #90cf77;
+  color: white;
+  font-style: italic;
+  text-align: center;
+  border-radius: 3px;
+}
+.baseCard .status-container p {
+  line-height: 25px;
+}
+.baseCard .v-expansion-panel__header {
+  padding: 0px !important;
+}
+.baseCard .v-expansion-panel__container {
+  max-width: 100% !important;
+}
+.baseCard .v-card__text {
+  padding: 0px !important;
+}
+.baseCard .v-expansion-panel__container--active {
+  box-shadow: none !important;
+}
+.baseCard .v-expansion-panel--popout {
+  margin-bottom: 0 !important;
+}
+.baseCard .margin-auto {
+  margin: auto;
+}
+.baseCard .v-card__title {
+  line-height: 1.15 !important;
+}
+
+/* FILTERS --------------------------------------------------------------------- FILTERS */
+.dropdownContainer {
+  border-radius: 3px;
+  padding: 0;
+  min-width: 15em;
+  width: 200px;
+  display: inline-block;
+  margin-right: 20px;
+}
+.dropdownContainer .basicDropdown {
+  display: inline-block;
+  outline-color: #3a9ef0;
+  margin-right: 300px;
+  width: 200px;
+  cursor: pointer;
+  border-radius: 5px;
+  height: 50px;
+}
+
+/*# sourceMappingURL=style.css.map */
+
+  
+  </style>
 </head>
 
 <body>
@@ -29,7 +199,7 @@
       <v-toolbar-side-icon  @click.native.stop="sidebar = !sidebar"></v-toolbar-side-icon>
       <v-toolbar-title class="white--text">UFS Dashboard</v-toolbar-title>
       <v-spacer></v-spacer>
-      <img src="http://unilever-stage.neolane.net/res/unilever_stage/82b11d94f8b6e520f06ce3334218952d.png" alt="logo" class="navLogo">
+      <img src="https://unilever-stage.neolane.net/res/unilever_stage/82b11d94f8b6e520f06ce3334218952d.png" alt="logo" class="navLogo">
       <v-spacer></v-spacer>
       <v-btn icon>
         <v-icon>search</v-icon>
@@ -77,9 +247,7 @@
     <!-- Content -->
     <v-container grid-list-xl>
       <!-- Filters -->
-      <v-subheader>
-        Filters:
-      </v-subheader>
+     
       <v-container class="dropdownContainer">
           <v-select :items="filters.markets"
                     label="Market"
@@ -87,7 +255,7 @@
                     item-value="name"
                     clearable dense single-line solo flat
                     class="basicDropdown"
-                    content-class="basicDropdownContent">
+                   :menu-props="{contentClass:'basicDropdownContent'}">
           </v-select>
       </v-container>
       <v-container class="dropdownContainer">
@@ -97,17 +265,17 @@
                   item-value="name"
                   clearable dense single-line solo flat
                   class="basicDropdown"
-                  content-class="basicDropdownContent">
+                 :menu-props="{contentClass:'basicDropdownContent'}">
         </v-select>
       </v-container>
       <v-container class="dropdownContainer">
         <v-select :items="filters.categories"
                   label="Category"
-                  item-text="name"
-                  item-value="name"
+                  item-text="categoryLabel"
+                  item-value="categoryLabel"
                   clearable dense single-line solo flat
                   class="basicDropdown"
-                  content-class="basicDropdownContent">
+                 :menu-props="{contentClass:'basicDropdownContent'}">
         </v-select>
       </v-container>
       <v-container class="dropdownContainer">
@@ -117,61 +285,66 @@
                   item-value="name"
                   clearable dense single-line solo flat
                   class="basicDropdown"
-                  content-class="basicDropdownContent">
+                 :menu-props="{contentClass:'basicDropdownContent'}">
         </v-select>
       </v-container>
       <!-- Filters end -->
       <v-divider ></v-divider>
       <!-- Search results -->
-      <v-card v-for="offer in offers" class="baseCard">
-        <v-card-title primary-title class="card-title">
-          <h3 class="headline" :title="offer.name">{{ offer.name | maxLength(33) }} </h3>
-          <div class="status-container">
-            <p>Live</p>
-          </div>
-          <v-expansion-panel popout>
-            <v-expansion-panel-content>
-              <template v-slot:header>
-                <div>General</div>
-              </template>
-              <v-card>
-                <v-card-text>
-                  <div><b>Subject Line 1:</b><br>
-                    Dicas Unilever Food Solutions para sobremesas no Dia das Mães!</div>
-                <div><b>Subject Line 2:</b><br>
-                    Dicas da Unilever Food Solutions para um cardápio de Dia das Mães!</div>
-                <div><b>Pre Header:</b> Dicas especiais para o seu negócio!</div>
-                </v-card-text>
-              </v-card>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-          <v-expansion-panel popout>
-            <v-expansion-panel-content >
-              <template v-slot:header>
-                <div>Eligibility</div>
-              </template>
-              <v-card>
-                <v-card-text>
-                  <div>Eligibility Start Date : 01/05/2019</div>
-                  <div>Eligibility End Date : 12/05/2019</div>
-                </v-card-text>
-              </v-card>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-card-title>
-        <v-img src="https://www.unileverfoodsolutions.com.br/dam/global-ufs/mcos/sla/brazil/acm/recipe/naked-cake-de-doce-de-18AC.jpg" contain></v-img>
-        <v-card-title class="text-center center">
-          <div class="margin-auto" style="font-family:Verdana; font-weight:bold; mso-line-height-rule:exactly; line-height:22px !important; font-size:21px; color:#ff5a00; padding:0 0 8px 0;">Inspirações para o Dia das Mães!</div>
-          <div style="padding: 0 0 16px 0">Uma data especial, feita para cuidar de quem sempre cuidou da gente. Incremente seu cardápio com essas sobremesas incríveis e conquiste doces sorrisos!</div>
-          <div style="margin: auto; padding:6px 14px; -webkit-border-radius:4px; border-radius:4px; font-size:14px; font-family:Verdana; color:#ffffff; display:inline-block; border:1px solid #ff5a00; background-color: #ff5a00;">
-            <a href="#" style="font-size:14px; font-family:Verdana; text-decoration:none; font-weight:bold; mso-line-height-rule:exactly; line-height:14px !important; color:#ffffff;">Baixe o nosso receituário</a>
-          </div>
-        </v-card-title>
-        <v-card-actions>
-          <v-btn flat color="orange">Approve</v-btn>
-          <v-btn flat color="orange">Disable</v-btn>
-        </v-card-actions>
-      </v-card>
+      <template v-if="offers.length">
+        <v-card v-for="(offer,i) in offers" class="baseCard" :key="i">
+          <v-card-title primary-title class="card-title">
+            <h3 class="headline" :title="offer.offerLabel">{{ offer.offerLabel | maxLength(33) }} </h3>
+            <div class="status-container">
+              <p>Live</p>
+            </div>
+            <v-expansion-panel popout>
+              <v-expansion-panel-content>
+                <template v-slot:header>
+                  <div>General</div>
+                </template>
+                <v-card>
+                  <v-card-text>
+                    <div><b>Subject Line 1:</b><br>
+                      Dicas Unilever Food Solutions para sobremesas no Dia das Mães!</div>
+                  <div><b>Subject Line 2:</b><br>
+                      Dicas da Unilever Food Solutions para um cardápio de Dia das Mães!</div>
+                  <div><b>Pre Header:</b> Dicas especiais para o seu negócio!</div>
+                  </v-card-text>
+                </v-card>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel popout>
+              <v-expansion-panel-content >
+                <template v-slot:header>
+                  <div>Eligibility</div>
+                </template>
+                <v-card>
+                  <v-card-text>
+                    <div>Eligibility Start Date : 01/05/2019</div>
+                    <div>Eligibility End Date : 12/05/2019</div>
+                  </v-card-text>
+                </v-card>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-card-title>
+          <v-img src="https://www.unileverfoodsolutions.com.br/dam/global-ufs/mcos/sla/brazil/acm/recipe/naked-cake-de-doce-de-18AC.jpg" contain></v-img>
+          <v-card-title class="text-center center">
+            <div class="margin-auto" style="font-family:Verdana; font-weight:bold; mso-line-height-rule:exactly; line-height:22px !important; font-size:21px; color:#ff5a00; padding:0 0 8px 0;">Inspirações para o Dia das Mães!</div>
+            <div style="padding: 0 0 16px 0">Uma data especial, feita para cuidar de quem sempre cuidou da gente. Incremente seu cardápio com essas sobremesas incríveis e conquiste doces sorrisos!</div>
+            <div style="margin: auto; padding:6px 14px; -webkit-border-radius:4px; border-radius:4px; font-size:14px; font-family:Verdana; color:#ffffff; display:inline-block; border:1px solid #ff5a00; background-color: #ff5a00;">
+              <a href="#" style="font-size:14px; font-family:Verdana; text-decoration:none; font-weight:bold; mso-line-height-rule:exactly; line-height:14px !important; color:#ffffff;">Baixe o nosso receituário</a>
+            </div>
+          </v-card-title>
+          <v-card-actions>
+            <v-btn flat color="orange">Approve</v-btn>
+            <v-btn flat color="orange">Disable</v-btn>
+          </v-card-actions>
+        </v-card>
+      </template>
+      <template v-else>
+        Hello
+      </template>
       <!-- Search results end -->
     </v-container>
     <!-- Content ends -->
@@ -235,6 +408,9 @@
           }
         }
       },
+      props: {
+        offers: Array
+      },
       data: {
         message: "Heeeeello",
         sidebar: false,
@@ -267,31 +443,31 @@
         socialIcons: [
           {
             name: 'tumblr',
-            link: "http://unilever-stage.neolane.net/res/unilever_stage/64a84557abe8e5b85db5872cd3f97b20.png"
+            link: "https://unilever-stage.neolane.net/res/unilever_stage/64a84557abe8e5b85db5872cd3f97b20.png"
           },
           {
             name: 'twitter',
-            link: "http://unilever-stage.neolane.net/res/unilever_stage/29ff2cc1aaf55cdd7d4d5048831d9ced.png"
+            link: "https://unilever-stage.neolane.net/res/unilever_stage/29ff2cc1aaf55cdd7d4d5048831d9ced.png"
           },
           {
             name: 'youtube',
-            link: "http://unilever-stage.neolane.net/res/unilever_stage/9f26d4ccd5ef9a6eb1b13ddaaac55069.png"
+            link: "https://unilever-stage.neolane.net/res/unilever_stage/9f26d4ccd5ef9a6eb1b13ddaaac55069.png"
           },
           {
             name: 'whatsApp',
-            link: "http://unilever-stage.neolane.net/res/unilever_stage/96e103e615a88f2f7146aa1b6a29b348.png"
+            link: "https://unilever-stage.neolane.net/res/unilever_stage/96e103e615a88f2f7146aa1b6a29b348.png"
           },
           {
             name: 'facebook',
-            link: "http://unilever-stage.neolane.net/res/unilever_stage/ca3264cfa0247c069c8a311056f16c79.png"
+            link: "https://unilever-stage.neolane.net/res/unilever_stage/ca3264cfa0247c069c8a311056f16c79.png"
           },
           {
             name: 'google',
-            link: "http://unilever-stage.neolane.net/res/unilever_stage/e84e8b411d47b36257d0cae80bf90b3e.png"
+            link: "https://unilever-stage.neolane.net/res/unilever_stage/e84e8b411d47b36257d0cae80bf90b3e.png"
           },
           {
             name: 'instagram',
-            link: "http://unilever-stage.neolane.net/res/unilever_stage/f74da9663a397434375dcea5ad26c2c6.png"
+            link: "https://unilever-stage.neolane.net/res/unilever_stage/f74da9663a397434375dcea5ad26c2c6.png"
           }
           
         ],
@@ -374,32 +550,59 @@
           ],
           categories: [
             {
-              id: 8,
-              name: 'Hero promo'
+              categoryLabel: 'Recipe Recommendation',
+              categoryRef: '_rcr'
             },
             {
-              id: 9,
-              name: 'Hero Inspi'
+              categoryLabel: 'Whitespot - Product',
+              categoryRef: '_ws'
             },
             {
-              id: 10,
-              name: 'Secondary articles'
+              categoryLabel: 'Deepsell',
+              categoryRef: '_dps'
             },
             {
-              id: 11,
-              name: 'Events'
+              categoryLabel: 'Digital Product Recommendation - Sample',
+              categoryRef: '_dpr'
             },
             {
-              id: 12,
-              name: 'Competition'
+              categoryLabel: 'Hero Articles',
+              categoryRef: '_ha'
             },
             {
-              id: 13,
-              name: 'Chef new members'
+              categoryLabel: 'Promotion and Activation',
+              categoryRef: '_ha_proAct'
             },
             {
-              id: 14,
-              name: 'Chef new non members'
+              categoryLabel: 'Inspiration',
+              categoryRef: '_ha_inspr'
+            },
+            {
+              categoryLabel: 'Secondary Articles',
+              categoryRef: '_sa'
+            },
+            {
+              categoryLabel: 'Competitions and Events',
+              categoryRef: '_ce'
+            },
+            {
+              categoryLabel: 'Competitions',
+              categoryRef: '_ce_com'
+            },
+            {
+              categoryLabel: 'Events',
+              categoryRef: '_ce_event'
+            },
+            {
+              categoryLabel: 'Chef Rewards',
+              categoryRef: '_cr'
+            },
+            {
+              categoryLabel: 'Chef Rewards Members',
+              categoryRef: '_cr_crM'
+            },{
+              categoryLabel: 'Chef Rewards Non-Members',
+              categoryRef: 'cr_crNonM'
             }
           ],
           status: [
@@ -416,164 +619,26 @@
               name: 'To be approved'
             }
           ]
-        },
-        offers: [
-          {
-            id:30,
-            name: 'BR_PT_2_mothers day desserts_2019ssfsdfsf sfsf svsv sdv',
-            status: 'live',
-            general: [
-              {
-                name: 'Subject line 1',
-                value: 'Dicas Unilever Food Solutions para sobremesas no Dia das Mães!'
-              },
-              {
-                name: 'Subject line 2',
-                value: 'Dicas da Unilever Food Solutions para um cardápio de Dia das Mães!'
-              },
-              {
-                name: 'Preheader',
-                value: 'Dicas especiais para o seu negócio!'
-              },
-            ],
-            eligibility: {
-              start: '01/05/2019',
-              end: '12/05/2019'
-            },
-            imageUrl: 'https://www.chatelaine.com/wp-content/uploads/2017/03/rules-fo-rmaking-the-perfect-cake-1024x766.jpg',
-            block: {
-              header: 'Inspirações para o Dia das Mães!',
-              copy: 'Uma data especial, feita para cuidar de quem sempre cuidou da gente. Incremente seu cardápio com essas sobremesas incríveis e conquiste doces sorrisos!',
-              cta: 'Click me',
-              ctaColor: '#FF5A00'
-            }
-          },
-          {
-            id:31,
-            name: 'BR_PT_2_mothers day desserts_2019ssfsdfsf sfsf',
-            status: 'live',
-            general: [
-              {
-                name: 'Subject line 1',
-                value: 'Dicas Unilever Food Solutions para sobremesas no Dia das Mães!'
-              },
-              {
-                name: 'Subject line 2',
-                value: 'Dicas da Unilever Food Solutions para um cardápio de Dia das Mães!'
-              },
-              {
-                name: 'Preheader',
-                value: 'Dicas especiais para o seu negócio!'
-              },
-            ],
-            eligibility: {
-              start: '01/05/2019',
-              end: '12/05/2019'
-            },
-            imageUrl: 'https://www.chatelaine.com/wp-content/uploads/2017/03/rules-fo-rmaking-the-perfect-cake-1024x766.jpg',
-            block: {
-              header: 'Inspirações para o Dia das Mães!',
-              copy: 'Uma data especial, feita para cuidar de quem sempre cuidou da gente. Incremente seu cardápio com essas sobremesas incríveis e conquiste doces sorrisos!',
-              cta: 'Click me',
-              ctaColor: '#FF5A00'
-            }
-          },
-          {
-            id:32,
-            name: 'BR_PT_2_mothers day desserts_2019ssfsdfsf sfsf',
-            status: 'live',
-            general: [
-              {
-                name: 'Subject line 1',
-                value: 'Dicas Unilever Food Solutions para sobremesas no Dia das Mães!'
-              },
-              {
-                name: 'Subject line 2',
-                value: 'Dicas da Unilever Food Solutions para um cardápio de Dia das Mães!'
-              },
-              {
-                name: 'Preheader',
-                value: 'Dicas especiais para o seu negócio!'
-              },
-            ],
-            eligibility: {
-              start: '01/05/2019',
-              end: '12/05/2019'
-            },
-            imageUrl: 'https://www.chatelaine.com/wp-content/uploads/2017/03/rules-fo-rmaking-the-perfect-cake-1024x766.jpg',
-            block: {
-              header: 'Inspirações para o Dia das Mães!',
-              copy: 'Uma data especial, feita para cuidar de quem sempre cuidou da gente. Incremente seu cardápio com essas sobremesas incríveis e conquiste doces sorrisos!',
-              cta: 'Click me',
-              ctaColor: '#FF5A00'
-            }
-          },
-          {
-            id:33,
-            name: 'BR_PT_2_mothers day desserts_2019ssfsdfsf sfsf',
-            status: 'live',
-            general: [
-              {
-                name: 'Subject line 1',
-                value: 'Dicas Unilever Food Solutions para sobremesas no Dia das Mães!'
-              },
-              {
-                name: 'Subject line 2',
-                value: 'Dicas da Unilever Food Solutions para um cardápio de Dia das Mães!'
-              },
-              {
-                name: 'Preheader',
-                value: 'Dicas especiais para o seu negócio!'
-              },
-            ],
-            eligibility: {
-              start: '01/05/2019',
-              end: '12/05/2019'
-            },
-            imageUrl: 'https://www.chatelaine.com/wp-content/uploads/2017/03/rules-fo-rmaking-the-perfect-cake-1024x766.jpg',
-            block: {
-              header: 'Inspirações para o Dia das Mães!',
-              copy: 'Uma data especial, feita para cuidar de quem sempre cuidou da gente. Incremente seu cardápio com essas sobremesas incríveis e conquiste doces sorrisos!',
-              cta: 'Click me',
-              ctaColor: '#FF5A00'
-            }
-          },
-          {
-            id:34,
-            name: 'BR_PT_2_mothers day desserts_2019ssfsdfsf sfsf',
-            status: 'live',
-            general: [
-              {
-                name: 'Subject line 1',
-                value: 'Dicas Unilever Food Solutions para sobremesas no Dia das Mães!'
-              },
-              {
-                name: 'Subject line 2',
-                value: 'Dicas da Unilever Food Solutions para um cardápio de Dia das Mães!'
-              },
-              {
-                name: 'Preheader',
-                value: 'Dicas especiais para o seu negócio!'
-              },
-            ],
-            eligibility: {
-              start: '01/05/2019',
-              end: '12/05/2019'
-            },
-            imageUrl: 'https://www.chatelaine.com/wp-content/uploads/2017/03/rules-fo-rmaking-the-perfect-cake-1024x766.jpg',
-            block: {
-              header: 'Inspirações para o Dia das Mães!',
-              copy: 'Uma data especial, feita para cuidar de quem sempre cuidou da gente. Incremente seu cardápio com essas sobremesas incríveis e conquiste doces sorrisos!',
-              cta: 'Click me',
-              ctaColor: '#FF5A00'
-            }
-          }
-        ]
+        }
+      },
+      created() {
+        this.loadOffers();
+        //this.loadFilters();
       },
       methods: {
-        redirectTo(link) {
-          window.location.href = link;
+        loadOffers() {
+          var market ="Germany";
+          axios.get('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffers.jssp?market=' + market).then(function(offerData){
+          console.log(offerData.data);
+          this.offers = offerData.data;
+          })
+        },
+        loadFilters() {
+          axios.get('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetFilters.jssp').then(function(filterData){
+          console.log(filterData.data);
+          })
         }
+
       }
     })
   </script>

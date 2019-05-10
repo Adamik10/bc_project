@@ -12,8 +12,10 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 
-  <!-- below is vuetify -->
+  <!-- below is font -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+  
+  <!-- below is vuetify -->
   <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
 
   <!-- below is vue functionalities -->
@@ -181,7 +183,7 @@
       <v-toolbar-side-icon  @click.native.stop="sidebar = !sidebar"></v-toolbar-side-icon>
       <v-toolbar-title class="white--text">UFS Offers Dashboard</v-toolbar-title>
       <v-spacer></v-spacer>
-      <img src="http://unilever-stage.neolane.net/res/unilever_stage/82b11d94f8b6e520f06ce3334218952d.png" alt="logo" class="navLogo">
+      <img src="https://unilever-stage.neolane.net/res/unilever_stage/82b11d94f8b6e520f06ce3334218952d.png" alt="logo" class="navLogo">
       <v-spacer></v-spacer>
       <v-btn icon>
         <v-icon>search</v-icon>
@@ -322,31 +324,31 @@
         socialIcons: [
           {
             name: 'tumblr',
-            link: "http://unilever-stage.neolane.net/res/unilever_stage/64a84557abe8e5b85db5872cd3f97b20.png"
+            link: "https://unilever-stage.neolane.net/res/unilever_stage/64a84557abe8e5b85db5872cd3f97b20.png"
           },
           {
             name: 'twitter',
-            link: "http://unilever-stage.neolane.net/res/unilever_stage/29ff2cc1aaf55cdd7d4d5048831d9ced.png"
+            link: "https://unilever-stage.neolane.net/res/unilever_stage/29ff2cc1aaf55cdd7d4d5048831d9ced.png"
           },
           {
             name: 'youtube',
-            link: "http://unilever-stage.neolane.net/res/unilever_stage/9f26d4ccd5ef9a6eb1b13ddaaac55069.png"
+            link: "https://unilever-stage.neolane.net/res/unilever_stage/9f26d4ccd5ef9a6eb1b13ddaaac55069.png"
           },
           {
             name: 'whatsApp',
-            link: "http://unilever-stage.neolane.net/res/unilever_stage/96e103e615a88f2f7146aa1b6a29b348.png"
+            link: "https://unilever-stage.neolane.net/res/unilever_stage/96e103e615a88f2f7146aa1b6a29b348.png"
           },
           {
             name: 'facebook',
-            link: "http://unilever-stage.neolane.net/res/unilever_stage/ca3264cfa0247c069c8a311056f16c79.png"
+            link: "https://unilever-stage.neolane.net/res/unilever_stage/ca3264cfa0247c069c8a311056f16c79.png"
           },
           {
             name: 'google',
-            link: "http://unilever-stage.neolane.net/res/unilever_stage/e84e8b411d47b36257d0cae80bf90b3e.png"
+            link: "https://unilever-stage.neolane.net/res/unilever_stage/e84e8b411d47b36257d0cae80bf90b3e.png"
           },
           {
             name: 'instagram',
-            link: "http://unilever-stage.neolane.net/res/unilever_stage/f74da9663a397434375dcea5ad26c2c6.png"
+            link: "https://unilever-stage.neolane.net/res/unilever_stage/f74da9663a397434375dcea5ad26c2c6.png"
           }
           
         ],
@@ -362,15 +364,22 @@
         ],
         
       },
-      created() {
-        var market ="South Africa";
-        axios.get('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffers.jssp?market=' + market).then(function(data){
-          console.log(data);
-          console.log("loaded")
-        })
-
+      mounted() {
+        this.loadOffers();
+        this.loadFilters();
       },
       methods: {
+        loadOffers() {
+          var market ="Germany";
+          axios.get('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffers.jssp?market=' + market).then(function(offerData){
+          console.log(offerData);
+          })
+        },
+        loadFilters() {
+          axios.get('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetFilters.jssp').then(function(filterData){
+          console.log(filterData);
+          })
+        }
 
       }
     })
@@ -378,8 +387,6 @@
 
 <script>
     //CLICK ON LOAD OFFERS LOADS OFFERS
-    console.log("hello");
-
     $(".load-offers" ).click(function() {
            //var chosenOfferId =  $(this).prev(".hiddenId").text();
            //var chosenOfferLabel = $(this).next(".labelonoffer").text();
