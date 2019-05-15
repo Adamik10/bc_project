@@ -5,7 +5,7 @@
 <%
     var context = logonEscalation("admin");
 
-    var results = {"MCOs":[], "umbrellas":[], "countries":[], "categories":[]};
+    var results = {"MCOs":[], "umbrellas":[], "countries":[]};
 
 //----------------------------------------MCOs QUERY ----------------------------------------------
 var query = xtk.queryDef.create(

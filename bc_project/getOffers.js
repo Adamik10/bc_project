@@ -5,14 +5,15 @@
 <%
     var context = logonEscalation("admin");
     
-    var chosenMarket = request.getParameter("market");
+    var chosenCountry = request.getParameter("country");
     var chosenCategory = request.getParameter("category");
-    var chosenOfferId = request.getParameter("offerId");
+    var chosenMCO = request.getParameter("MCO");
+    var chosenUmbrella = request.getParameter("umbrella");
 
     var results = [];
 
     var query = xtk.queryDef.create(
-        <queryDef schema="nms:offer" operation="select">
+        <queryDef schema="nms:offer" operation="select" limit="5">
           <select>
             <node expr="[@label]" alias="@label" />
             <node expr="[@id]" alias="@id" />
@@ -44,7 +45,9 @@
            <groupBy/>
            <having/>
           <where>
-          <condition expr={"[category/@label]= 'Recipe Recommendation' AND [localOrgUnit/@label]= '"+chosenMarket+"'"}/>
+          //<condition expr={"[category/@label]= 'Recipe Recommendation' AND [localOrgUnit/@label]= '"+chosenMarket+"'"}/>
+          //<condition expr={"[category/@name] LIKE '%'+'"+chosenMCO+"'+'%' AND [category/@name] LIKE '%'+'"+chosenCategory+"'+'%' AND [category/@name] LIKE '%'+'"+chosenCountry+"'+'%'"}/>
+          <condition expr={"[category/@name] LIKE '%'+'DACH'+'%' "}/>
           </where>
          </queryDef>
        )

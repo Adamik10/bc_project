@@ -11,8 +11,9 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-  <!-- below is vuetify -->
+  <!-- below is FONT -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+  <!-- below is vuetify -->
   <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
   <!-- below is vue functionalities -->
   <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
@@ -167,25 +168,26 @@
 .dropdownContainer {
   border-radius: 3px;
   padding: 0;
-  min-width: 15em;
+  min-width: 5em;
+  max-width: 10em !important;
   width: 200px;
   display: inline-block;
   margin-right: 20px;
 }
+
+
 .dropdownContainer .basicDropdown {
   display: inline-block;
   outline-color: #3a9ef0;
   margin-right: 300px;
-  width: 200px;
+  width: 10em;
   cursor: pointer;
   border-radius: 5px;
   height: 50px;
 }
 
 /*# sourceMappingURL=style.css.map */
-
-  
-  </style>
+</style>
 </head>
 
 <body>
@@ -197,7 +199,7 @@
                 height="70px"
                 scroll-off-screen>
       <v-toolbar-side-icon  @click.native.stop="sidebar = !sidebar"></v-toolbar-side-icon>
-      <v-toolbar-title class="white--text">UFS Dashboard</v-toolbar-title>
+      <v-toolbar-title class="white--text">UFS Offer Dashboard</v-toolbar-title>
       <v-spacer></v-spacer>
       <img src="https://unilever-stage.neolane.net/res/unilever_stage/82b11d94f8b6e520f06ce3334218952d.png" alt="logo" class="navLogo">
       <v-spacer></v-spacer>
@@ -249,10 +251,20 @@
       <!-- Filters -->
      
       <v-container class="dropdownContainer">
-          <v-select :items="filters.markets"
-                    label="Market"
-                    item-text="name"
-                    item-value="name"
+          <v-select :items="filters.MCOs"
+                    label="MCO"
+                    item-text="marketLabel"
+                    item-value="marketLabel"
+                    clearable dense single-line solo flat
+                    class="basicDropdown"
+                   :menu-props="{contentClass:'basicDropdownContent'}">
+          </v-select>
+      </v-container>
+      <v-container class="dropdownContainer">
+          <v-select :items="filters.umbrellas"
+                    label="Umbrella"
+                    item-text="marketLabel"
+                    item-value="marketLabel"
                     clearable dense single-line solo flat
                     class="basicDropdown"
                    :menu-props="{contentClass:'basicDropdownContent'}">
@@ -261,15 +273,15 @@
       <v-container class="dropdownContainer">
         <v-select :items="filters.countries"
                   label="Country"
-                  item-text="name"
-                  item-value="name"
+                  item-text="marketLabel"
+                  item-value="marketLabel"
                   clearable dense single-line solo flat
                   class="basicDropdown"
                  :menu-props="{contentClass:'basicDropdownContent'}">
         </v-select>
       </v-container>
       <v-container class="dropdownContainer">
-        <v-select :items="filters.categories"
+        <v-select :items="staticFilters.categories"
                   label="Category"
                   item-text="categoryLabel"
                   item-value="categoryLabel"
@@ -291,7 +303,7 @@
       <!-- Filters end -->
       <v-divider ></v-divider>
       <!-- Search results ---------------------------------------------------------------------------------- -->
-      <template v-if="offers.length">
+      <!-- <template v-if="offers.length"> -->
         <v-card v-for="(offer,i) in offers" class="baseCard" :key="i">
           <v-card-title primary-title class="card-title">
             <h3 class="headline" :title="offer.offerLabel">{{ offer.offerLabel | maxLength(33) }} </h3>
@@ -343,10 +355,7 @@
             <v-btn flat color="orange">Disable</v-btn>
           </v-card-actions>
         </v-card>
-      </template>
-      <template v-else>
-        Hello
-      </template>
+      <!--</template> -->
       <!-- Search results end ------------------------------------------------------------------------------------------------------ -->
     </v-container>
     <!-- Content ends -->
@@ -394,7 +403,7 @@
   <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
 
   <script>
-    new Vue({
+    var vm = new Vue({
       el: '#app',
       filters: {
         maxLength: function(value, desiredLength) {
@@ -411,7 +420,8 @@
         }
       },
       props: {
-        offers: Array
+        offers: Array,
+        filters: Object,
       },
       data: {
         message: "Heeeeello",
@@ -419,7 +429,7 @@
         subPages: [
           {
             id: 1,
-            name: 'Campaign dashboard',
+            name: 'Proofing dashboard',
             link: 'file:///C:/Users/antala/Documents/bc_peoject/bc_project/bc_project/campaign-dashboard.html',
             icon: 'list'
           },
@@ -483,73 +493,7 @@
             description: 'Call us:'
           }
         ],
-        filters: {
-          markets: [
-            {
-              id: 1,
-              name: 'SEA',
-              countries: [
-                {
-                  id: 1,
-                  name: 'Romania'
-                },
-                {
-                  id: 2,
-                  name: 'Estonie'
-                }
-              ]
-            },
-            {
-              id: 2,
-              name: 'NAM',
-              countries: [
-                {
-                  id: 3,
-                  name: 'Denmark'
-                },
-                {
-                  id: 4,
-                  name: 'Finland'
-                },
-                {
-                  id: 5,
-                  name: 'US'
-                }
-              ]
-            },
-            {
-              id: 3,
-              name: 'NEE',
-              countries: [
-                {
-                  id: 6,
-                  name: 'Canada'
-                },
-                {
-                  id: 7,
-                  name: 'Taiwan'
-                }
-              ]
-            }
-          ],
-          countries: [
-            { 
-              id: 20,
-              name: 'Romania'
-            },
-            {
-              id: 21,
-              name: 'Estonie'
-            },
-            { 
-              id: 22,
-              name: 'Hawaii'
-            },
-            {
-              id: 23,
-              name: 'Sri Lanka'
-            }
-          ],
+        staticFilters: {
           categories: [
             {
               categoryLabel: 'Recipe Recommendation',
@@ -605,6 +549,21 @@
             },{
               categoryLabel: 'Chef Rewards Non-Members',
               categoryRef: 'cr_crNonM'
+            },{
+              categoryLabel: 'Retention - Product',
+              categoryRef: '_ret'
+            },{
+              categoryLabel: 'Article - Product',
+              categoryRef: '_arc'
+            },{
+              categoryLabel: 'Recipe Recommendation V02',
+              categoryRef: '_rcrv02'
+            },{
+              categoryLabel: 'Recipe Recommendation V03',
+              categoryRef: '_rcrv03'
+            },{
+              categoryLabel: 'Upsell - Product',
+              categoryRef: '_ups'
             }
           ],
           status: [
@@ -624,19 +583,24 @@
         }
       },
       created() {
+        this.loadFilters();
+      },
+      mounted() {
         this.loadOffers();
-        //this.loadFilters();
       },
       methods: {
         loadOffers() {
-          var market ="Germany";
-          axios.get('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffers.jssp?market=' + market).then(function(offerData){
+          var country ="DE";
+          var MCO = "DACH";
+          var category = "_rcp";
+          axios.get('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffers.jssp?MCO=' + MCO +'&country='+ country + '&category=' + category ).then(function(offerData){
+          vm.offers = offerData.data;
           console.log(offerData.data);
-          this.offers = offerData.data;
           })
         },
         loadFilters() {
           axios.get('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetFilters.jssp').then(function(filterData){
+          vm.filters = filterData.data;
           console.log(filterData.data);
           })
         }
