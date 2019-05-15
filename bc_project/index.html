@@ -272,6 +272,7 @@
       </v-container>
       <v-container class="dropdownContainer">
         <v-select :items="filters.countries"
+                  v-model="filtersSelected.country"
                   label="Country"
                   item-text="marketLabel"
                   item-value="marketLabel"
@@ -292,6 +293,7 @@
       </v-container>
       <v-container class="dropdownContainer">
         <v-select :items="filters.status"
+                  v-model="filtersSelected.status"
                   label="Status"
                   item-text="name"
                   item-value="name"
