@@ -90,6 +90,7 @@
 }
 .baseCard .card-title {
   display: block;
+  margin: 0 !important;
 }
 .baseCard .headline {
   font-size: 17px !important;
@@ -97,7 +98,7 @@
   font-weight: 800;
   display: block;
   margin-top: -5px;
-  margin-bottom: 15px;
+  margin-bottom: 14px;
 }
 .baseCard .status-container {
   display: inline-block;
@@ -119,7 +120,10 @@
   max-width: 100% !important;
 }
 .baseCard .v-card__text {
-  padding: 0px !important;
+  padding: 10px 0px 0px 0px !important;
+}
+.baseCard .v-card__text div {
+  padding-bottom: 10px;
 }
 .baseCard .v-expansion-panel__container--active {
   box-shadow: none !important;
@@ -134,12 +138,15 @@
   line-height: 1.15 !important;
 }
 
+.offer-content {
+  min-width: 100%;
+}
+
 /* FILTERS --------------------------------------------------------------------- FILTERS */
 .dropdownContainer {
   border-radius: 3px;
   padding: 0;
-  min-width: 5em;
-  max-width: 10em !important;
+  min-width: 15em;
   width: 200px;
   display: inline-block;
   margin-right: 20px;

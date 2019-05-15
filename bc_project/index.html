@@ -28,7 +28,7 @@
   <!-- below css is temporary -->
   <link rel="stylesheet" type="text/css" href="css/style.css">
   <style>
-    /* sass --watch style.scss style.css */
+/* sass --watch style.scss style.css */
 * {
   position: relative;
 }
@@ -120,6 +120,7 @@
 }
 .baseCard .card-title {
   display: block;
+  margin: 0 !important;
 }
 .baseCard .headline {
   font-size: 17px !important;
@@ -127,7 +128,7 @@
   font-weight: 800;
   display: block;
   margin-top: -5px;
-  margin-bottom: 15px;
+  margin-bottom: 14px;
 }
 .baseCard .status-container {
   display: inline-block;
@@ -149,7 +150,10 @@
   max-width: 100% !important;
 }
 .baseCard .v-card__text {
-  padding: 0px !important;
+  padding: 10px 0px 0px 0px !important;
+}
+.baseCard .v-card__text div {
+  padding-bottom: 10px;
 }
 .baseCard .v-expansion-panel__container--active {
   box-shadow: none !important;
@@ -164,29 +168,31 @@
   line-height: 1.15 !important;
 }
 
+.offer-content {
+  min-width: 100%;
+}
+
 /* FILTERS --------------------------------------------------------------------- FILTERS */
 .dropdownContainer {
   border-radius: 3px;
   padding: 0;
-  min-width: 5em;
-  max-width: 10em !important;
+  min-width: 15em;
   width: 200px;
   display: inline-block;
   margin-right: 20px;
 }
-
-
 .dropdownContainer .basicDropdown {
   display: inline-block;
   outline-color: #3a9ef0;
   margin-right: 300px;
-  width: 10em;
+  width: 200px;
   cursor: pointer;
   border-radius: 5px;
   height: 50px;
 }
 
 /*# sourceMappingURL=style.css.map */
+
 </style>
 </head>
 
@@ -272,7 +278,6 @@
       </v-container>
       <v-container class="dropdownContainer">
         <v-select :items="filters.countries"
-                  v-model="filtersSelected.country"
                   label="Country"
                   item-text="marketLabel"
                   item-value="marketLabel"
@@ -293,7 +298,6 @@
       </v-container>
       <v-container class="dropdownContainer">
         <v-select :items="filters.status"
-                  v-model="filtersSelected.status"
                   label="Status"
                   item-text="name"
                   item-value="name"
@@ -305,50 +309,30 @@
       <!-- Filters end -->
       <v-divider ></v-divider>
       <!-- Search results ---------------------------------------------------------------------------------- -->
-      <!-- <template v-if="offers.length"> -->
-        <v-card v-for="(offer,i) in offers" class="baseCard" :key="i">
+      <template v-if="offers.length">
+        <v-card v-for="(offer,i) in offers" class="baseCard align-top" :key="i" align="top">
           <v-card-title primary-title class="card-title">
             <h3 class="headline" :title="offer.offerLabel">{{ offer.offerLabel | maxLength(33) }} </h3>
             <div class="status-container">
               <p>Live</p>
             </div>
-            <v-expansion-panel popout>
-              <v-expansion-panel-content>
-                <template v-slot:header>
-                  <div>General</div>
-                </template>
-                <v-card>
-                  <v-card-text>
-                    <div><b>Subject Line 1:</b><br>
-                      {{offer.subject1}}</div>
-                  <div><b>Subject Line 2:</b><br>
-                      {{offer.subject2}}</div>
-                  <div><b>Pre Header:</b> Dicas especiais para o seu negócio!</div>
-                  </v-card-text>
-                </v-card>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-            <v-expansion-panel popout>
-              <v-expansion-panel-content >
-                <template v-slot:header>
-                  <div>Eligibility</div>
-                </template>
-                <v-card>
-                  <v-card-text>
-                    <div>Eligibility Start Date : 01/05/2019</div>
-                    <div>Eligibility End Date : 12/05/2019</div>
-                  </v-card-text>
-                </v-card>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
+            <v-card-text>
+              <div><b>Subject Line 1:</b><br>
+                {{offer.subject1}}</div>
+            <div><b>Subject Line 2:</b><br>
+                {{offer.subject2}}</div>
+            <div><b>Pre Header:</b><br>
+              {{offer.preheader}}</div>
+            </v-card-text>
+           
           </v-card-title>
-          <a :href="offer.destinationURL">
-            <v-img :src="offer.imageDesktopURL" contain></v-img>
+          <a v-if="offer.destinationURL" :href="offer.destinationURL">
+            <v-img v-if="offer.imageDesktopURL" :src="offer.imageDesktopURL" aspect-ratio="2"></v-img>
           </a>
           <v-card-title class="text-center center">
-            <div class="margin-auto" style="font-family:Verdana; font-weight:bold; mso-line-height-rule:exactly; line-height:22px !important; font-size:21px; color:#ff5a00; padding:0 0 8px 0;">{{offer.headline}}</div>
-            <div style="padding: 0 0 16px 0">{{offer.copyText}}</div>
-            <div style="margin: auto; padding:6px 14px; -webkit-border-radius:4px; border-radius:4px; font-size:14px; font-family:Verdana; color:#ffffff; display:inline-block; border:1px solid #ff5a00; background-color: #ff5a00;">
+            <div v-if="offer.headline" class="margin-auto offer-content" style="font-family:Verdana; font-weight:bold; mso-line-height-rule:exactly; line-height:22px !important; font-size:21px; color:#ff5a00; padding:0 0 8px 0;">{{offer.headline}}</div>
+            <div v-if="offer.copyText" class="offer-content" style="padding: 0 0 16px 0">{{offer.copyText}}</div>
+            <div v-if="offer.CTAtext" style="margin: auto; padding:6px 14px; -webkit-border-radius:4px; border-radius:4px; font-size:14px; font-family:Verdana; color:#ffffff; display:inline-block; border:1px solid #ff5a00; background-color: #ff5a00;">
               <a :href="offer.destinationURL" style="font-size:14px; font-family:Verdana; text-decoration:none; font-weight:bold; mso-line-height-rule:exactly; line-height:14px !important; color:#ffffff;">{{offer.CTAtext}}</a>
             </div>
           </v-card-title>
@@ -357,7 +341,7 @@
             <v-btn flat color="orange">Disable</v-btn>
           </v-card-actions>
         </v-card>
-      <!--</template> -->
+      </template>
       <!-- Search results end ------------------------------------------------------------------------------------------------------ -->
     </v-container>
     <!-- Content ends -->
@@ -592,9 +576,9 @@
       },
       methods: {
         loadOffers() {
-          var country ="DE";
-          var MCO = "DACH";
-          var category = "_rcp";
+          var country ="NAM";
+          var MCO = "US";
+          var category = "_rcr";
           axios.get('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffers.jssp?MCO=' + MCO +'&country='+ country + '&category=' + category ).then(function(offerData){
           vm.offers = offerData.data;
           console.log(offerData.data);
