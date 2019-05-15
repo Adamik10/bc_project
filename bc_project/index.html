@@ -25,8 +25,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css">
   <!-- below is bootstrap -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <!-- below css is temporary -->
-  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <!-- below css is temporary 
+  <link rel="stylesheet" type="text/css" href="css/style.css">-->
   <style>
     /* sass --watch style.scss style.css */
 * {
@@ -249,59 +249,63 @@
     <!-- Content -->
     <v-container grid-list-xl>
       <!-- Filters -->
-     
-      <v-container class="dropdownContainer">
-          <v-select :items="filters.MCOs"
-                    label="MCO"
+      <template v-if="filters != undefined">
+        <v-container class="dropdownContainer">
+            <v-select :items="filters.MCOs"
+                      v-model="filtersSelected.mco"
+                      label="MCO"
+                      item-text="marketLabel"
+                      item-value="marketCountryCode"
+                      clearable dense single-line solo flat
+                      class="basicDropdown"
+                    :menu-props="{contentClass:'basicDropdownContent'}">
+            </v-select>
+        </v-container>
+        <v-container class="dropdownContainer">
+            <v-select :items="filters.umbrellas"
+                      v-model="filtersSelected.umbrella"
+                      label="Umbrella"
+                      item-text="marketLabel"
+                      item-value="marketCountryCode"
+                      clearable dense single-line solo flat
+                      class="basicDropdown"
+                    :menu-props="{contentClass:'basicDropdownContent'}">
+            </v-select>
+        </v-container>
+        <v-container class="dropdownContainer">
+          <v-select :items="filters.countries"
+                    v-model="filtersSelected.country"
+                    label="Country"
                     item-text="marketLabel"
-                    item-value="marketLabel"
+                    item-value="marketCountryCode"
                     clearable dense single-line solo flat
                     class="basicDropdown"
-                   :menu-props="{contentClass:'basicDropdownContent'}">
+                  :menu-props="{contentClass:'basicDropdownContent'}">
           </v-select>
-      </v-container>
-      <v-container class="dropdownContainer">
-          <v-select :items="filters.umbrellas"
-                    label="Umbrella"
-                    item-text="marketLabel"
-                    item-value="marketLabel"
+        </v-container>
+        <v-container class="dropdownContainer">
+          <v-select :items="staticFilters.categories"
+                    v-model="filtersSelected.category"
+                    label="Category"
+                    item-text="categoryLabel"
+                    item-value="marketCountryCode"
                     clearable dense single-line solo flat
                     class="basicDropdown"
-                   :menu-props="{contentClass:'basicDropdownContent'}">
+                  :menu-props="{contentClass:'basicDropdownContent'}">
           </v-select>
-      </v-container>
-      <v-container class="dropdownContainer">
-        <v-select :items="filters.countries"
-                  v-model="filtersSelected.country"
-                  label="Country"
-                  item-text="marketLabel"
-                  item-value="marketLabel"
-                  clearable dense single-line solo flat
-                  class="basicDropdown"
-                 :menu-props="{contentClass:'basicDropdownContent'}">
-        </v-select>
-      </v-container>
-      <v-container class="dropdownContainer">
-        <v-select :items="staticFilters.categories"
-                  label="Category"
-                  item-text="categoryLabel"
-                  item-value="categoryLabel"
-                  clearable dense single-line solo flat
-                  class="basicDropdown"
-                 :menu-props="{contentClass:'basicDropdownContent'}">
-        </v-select>
-      </v-container>
-      <v-container class="dropdownContainer">
-        <v-select :items="filters.status"
-                  v-model="filtersSelected.status"
-                  label="Status"
-                  item-text="name"
-                  item-value="name"
-                  clearable dense single-line solo flat
-                  class="basicDropdown"
-                 :menu-props="{contentClass:'basicDropdownContent'}">
-        </v-select>
-      </v-container>
+        </v-container>
+        <v-container class="dropdownContainer">
+          <v-select :items="filters.status"
+                    v-model="filtersSelected.status"
+                    label="Status"
+                    item-text="name"
+                    item-value="name"
+                    clearable dense single-line solo flat
+                    class="basicDropdown"
+                  :menu-props="{contentClass:'basicDropdownContent'}">
+          </v-select>
+        </v-container>
+      </template>
       <!-- Filters end -->
       <v-divider ></v-divider>
       <!-- Search results ---------------------------------------------------------------------------------- -->
@@ -413,10 +417,10 @@
           value = value.toString();
           desiredLength = desiredLength*1;
           if(value.length > desiredLength) {
-            console.log('we here')
+            //console.log('we here')
             return value.substring(0, desiredLength) + '...';
           } else {
-            console.log('we actually here '+ value.length +' '+ desiredLength)
+            //console.log('we actually here '+ value.length +' '+ desiredLength)
             return value;
           }
         }
@@ -427,6 +431,13 @@
       },
       data: {
         message: "Heeeeello",
+        filtersSelected: {
+          mco: '',
+          umbrella: '',
+          country: '',
+          category: '',
+          status: '',
+        },
         sidebar: false,
         subPages: [
           {
@@ -584,20 +595,80 @@
           ]
         }
       },
+      watch: {
+        'filtersSelected': {
+          handler(val) {
+            this.loadOffers(val);      
+          },
+          deep: true
+        }
+      },
       created() {
         this.loadFilters();
       },
       mounted() {
-        this.loadOffers();
+        let startPayload = {
+          mco: '',
+          umbrella: '',
+          country: '',
+          category: '',
+          status: '',
+        };
+        this.loadOffers(startPayload);
       },
       methods: {
-        loadOffers() {
-          var country ="DE";
-          var MCO = "DACH";
-          var category = "_rcp";
-          axios.get('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffers.jssp?MCO=' + MCO +'&country='+ country + '&category=' + category ).then(function(offerData){
+        loadOffers(payload) {
+          let baseUrl = 'https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffers.jssp';
+          let hasUrlBeenAddedTo = false;
+          console.log(payload)
+          if(payload.mco != '' && payload.mco != undefined && payload.mco != null){
+            console.log('we in')
+            if(hasUrlBeenAddedTo == false){
+              baseUrl = baseUrl+'?MCO='+payload.mco;
+              hasUrlBeenAddedTo = true;
+              console.log('we here')
+            }else{
+              baseUrl = baseUrl+'&MCO='+payload.mco;
+              console.log('we here')
+            }
+          }
+          if(payload.umbrella != '' && payload.umbrella != undefined && payload.umbrella != null){
+            if(hasUrlBeenAddedTo == false){
+              baseUrl = baseUrl+'?umbrella='+payload.umbrella;
+              hasUrlBeenAddedTo = true;
+            }else{
+              baseUrl = baseUrl+'&umbrella='+payload.umbrella;
+            }
+          }
+          if(payload.country != '' && payload.country != undefined && payload.country != null){
+            if(hasUrlBeenAddedTo == false){
+              baseUrl = baseUrl+'?country='+payload.country;
+              hasUrlBeenAddedTo = true;
+            }else{
+              baseUrl = baseUrl+'&country='+payload.country;
+            }
+          }
+          if(payload.category != '' && payload.category != undefined && payload.category != null){
+            if(hasUrlBeenAddedTo == false){
+              baseUrl = baseUrl+'?category='+payload.category;
+              hasUrlBeenAddedTo = true;
+            }else{
+              baseUrl = baseUrl+'&category='+payload.category;
+            }
+          }
+          if(payload.status != '' && payload.status != undefined && payload.status != null){
+            if(hasUrlBeenAddedTo == false){
+              baseUrl = baseUrl+'?status='+payload.status;
+              hasUrlBeenAddedTo = true;
+            }else{
+              baseUrl = baseUrl+'&status='+payload.status;
+            }
+          }
+          console.log(baseUrl)
+          axios.get(baseUrl).then(function(offerData){
           vm.offers = offerData.data;
           console.log(offerData.data);
+          //console.log(offerData.data);
           })
         },
         loadFilters() {
