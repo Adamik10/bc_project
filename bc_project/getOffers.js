@@ -13,7 +13,7 @@
     var results = [];
 
     var query = xtk.queryDef.create(
-        <queryDef schema="nms:offer" operation="select" limit="5">
+        <queryDef schema="nms:offer" operation="select" lineCount="12" startLine="0">
           <select>
             <node expr="[@label]" alias="@label" />
             <node expr="[@id]" alias="@id" />
@@ -45,9 +45,7 @@
            <groupBy/>
            <having/>
           <where>
-          //<condition expr={"[category/@label]= 'Recipe Recommendation' AND [localOrgUnit/@label]= '"+chosenMarket+"'"}/>
-          //<condition expr={"[category/@name] LIKE '%'+'"+chosenMCO+"'+'%' AND [category/@name] LIKE '%'+'"+chosenCategory+"'+'%' AND [category/@name] LIKE '%'+'"+chosenCountry+"'+'%'"}/>
-          <condition expr={"[category/@name] LIKE '%'+'DACH'+'%' "}/>
+          <condition expr={"[category/@name] LIKE '%'+'"+chosenMCO+"'+'%' AND [category/@name] LIKE '%'+'"+chosenCountry+"'+'%' AND [category/@name] LIKE '%'+'"+chosenCategory+"'+'%'"}/>
           </where>
          </queryDef>
        )

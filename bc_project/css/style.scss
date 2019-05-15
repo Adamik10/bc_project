@@ -93,6 +93,7 @@
 
   .card-title {
     display: block;
+    margin: 0 !important;
   }
 
   .headline {
@@ -101,7 +102,7 @@
     font-weight: 800;
     display: block;
     margin-top: -5px;
-    margin-bottom: 15px;
+    margin-bottom: 14px;
   }
 
   .status-container {
@@ -128,7 +129,11 @@
   }
 
   .v-card__text {
-    padding: 0px !important;
+    padding: 10px 0px 0px 0px !important;
+
+    div {
+      padding-bottom: 10px;
+    }
   }
 
   .v-expansion-panel__container--active {
@@ -149,6 +154,10 @@
     line-height: 1.15 !important; 
   }
 
+}
+
+.offer-content {
+  min-width: 100%;
 }
 
 /* FILTERS --------------------------------------------------------------------- FILTERS */
