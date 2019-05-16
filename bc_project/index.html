@@ -630,7 +630,7 @@
         this.loadOffers(startPayload, 'filtering');
       },
       methods: {
-        loadOffers(payload) {
+        loadOffers(payload, caller) {
           let baseUrl = 'https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffersADAM.jssp';
           let hasUrlBeenAddedTo = false;
           console.log(payload)
