@@ -333,7 +333,7 @@
            
           </v-card-title>
           <a v-if="offer.destinationURL" :href="offer.destinationURL">
-            <v-img v-if="offer.imageDesktopURL" :src="offer.imageDesktopURL" aspect-ratio="2"></v-img>
+            <v-img v-if="offer.imageDesktopURL" :src="'https://'+offer.imageDesktopURL" aspect-ratio="2"></v-img>
           </a>
           <v-card-title class="text-center center">
             <div v-if="offer.headline" class="margin-auto offer-content" style="font-family:Verdana; font-weight:bold; mso-line-height-rule:exactly; line-height:22px !important; font-size:21px; color:#ff5a00; padding:0 0 8px 0;">{{offer.headline}}</div>
@@ -348,6 +348,10 @@
           </v-card-actions>
         </v-card>
       </template>
+
+      <div>
+        <v-btn v-on:click="loadMoreOffers()" depressed large center>Load more</v-btn>
+      </div>
       <!-- Search results end ------------------------------------------------------------------------------------------------------ -->
     </v-container>
     <!-- Content ends -->
@@ -416,7 +420,7 @@
         filters: Object,
       },
       data: {
-        message: "Heeeeello",
+        queryStartLine: 0,
         filtersSelected: {
           mco: '',
           umbrella: '',
@@ -584,7 +588,8 @@
       watch: {
         'filtersSelected': {
           handler(val) {
-            this.loadOffers(val);      
+            let caller = "filtering";
+            this.loadOffers(val, caller);      
           },
           deep: true
         }
@@ -600,13 +605,14 @@
           category: '',
           status: '',
         };
-        this.loadOffers(startPayload);
+        this.loadOffers(startPayload, 'filtering');
       },
       methods: {
-        loadOffers(payload) {
+        loadOffers(payload, caller) {
           let baseUrl = 'https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffers.jssp';
           let hasUrlBeenAddedTo = false;
           console.log(payload)
+          console.log(caller)
           if(payload.mco != '' && payload.mco != undefined && payload.mco != null){
             console.log('we in')
             if(hasUrlBeenAddedTo == false){
@@ -650,12 +656,43 @@
               baseUrl = baseUrl+'&status='+payload.status;
             }
           }
-          console.log(baseUrl)
-          axios.get(baseUrl).then(function(offerData){
-          vm.offers = offerData.data;
-          console.log(offerData.data);
-          //console.log(offerData.data);
-          })
+          
+          if(caller == "loadingMoreOffers"){
+            console.log('we loading more offers')
+            if(hasUrlBeenAddedTo == false){
+              baseUrl = baseUrl+'?startLine='+vm.queryStartLine;
+              hasUrlBeenAddedTo = true;
+
+              console.log(baseUrl)
+              axios.get(baseUrl).then(function(offerData){
+                vm.offers = vm.offers.concat(offerData.data)
+
+              })
+            }else{
+              baseUrl = baseUrl+'&startLine='+vm.queryStartLine;
+
+              console.log(baseUrl)
+              axios.get(baseUrl).then(function(offerData){
+                vm.offers = vm.offers.concat(offerData.data)
+              })
+            }
+          }else if(caller == "filtering"){
+            console.log(this.queryStartLine)
+            this.queryStartLine = 0;
+
+            console.log(baseUrl)
+            axios.get(baseUrl).then(function(offerData){
+              vm.offers = offerData.data;
+              console.log(offerData.data);
+            })
+          }
+
+          
+        },
+        loadMoreOffers() {
+        let caller = "loadingMoreOffers";  
+        vm.queryStartLine += 12;
+        vm.loadOffers(vm.filtersSelected, caller);
         },
         loadFilters() {
           axios.get('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetFilters.jssp').then(function(filterData){
