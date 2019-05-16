@@ -32,6 +32,14 @@
 * {
   position: relative;
 }
+*::-webkit-scrollbar {
+  background-color: rgba(255, 255, 255, 0);
+  width: 3px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #3A9EF0;
+  width: 3px;
+}
 
 /* INDEX ------------------------------------------------------------------------- INDEX */
 .navLogo {
@@ -111,12 +119,16 @@
 
 /* OFFERS OVERVIEW ----------------------------------------------------------- OFFERS OVERVIEW */
 .baseCard {
+  position: relative;
   display: inline-block;
   width: 340px;
-  border-radius: 5px;
+  border-radius: 2px;
   position: relative;
   margin-right: 30px;
   margin-bottom: 30px;
+}
+.baseCard.clickable {
+  cursor: pointer;
 }
 .baseCard .card-title {
   display: block;
@@ -131,17 +143,12 @@
   margin-bottom: 14px;
 }
 .baseCard .status-container {
-  display: inline-block;
-  width: 60px;
-  height: 25px;
-  background-color: #90cf77;
-  color: white;
-  font-style: italic;
-  text-align: center;
-  border-radius: 3px;
-}
-.baseCard .status-container p {
-  line-height: 25px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background-color: #4cc541;
 }
 .baseCard .v-expansion-panel__header {
   padding: 0px !important;
@@ -179,7 +186,7 @@
   min-width: 15em;
   width: 200px;
   display: inline-block;
-  margin-right: 20px;
+  margin-right: 5px;
 }
 .dropdownContainer .basicDropdown {
   display: inline-block;
@@ -190,6 +197,15 @@
   border-radius: 5px;
   height: 50px;
 }
+.inputContainer {
+  width: 300px;
+  display: inline-block;
+  margin-bottom: -35px;
+  margin-top: -20px;
+}
+.inputContainer .basicInput {
+  width: 100%;
+}
 
 /*# sourceMappingURL=style.css.map */
 
@@ -198,7 +214,7 @@
 
 <body>
   <v-app id="app">
-    <!-- Navigation -->   
+    <!-- Navigation -------------------------------------------------------------------------------------------------------->   
     <v-toolbar  absolute 
                 dark 
                 color="#3A9EF0"
@@ -242,9 +258,9 @@
                 </v-icon>
               </div>
             </v-list-tile-action>
-            <v-header class="mx-4">
+            <v-subheader class="mx-4">
               {{ subPage.name }}
-            </v-header>
+            </v-subheader>
           </v-list-tile>
         </template>
       </v-list>
@@ -254,30 +270,8 @@
 
     <!-- Content -->
     <v-container grid-list-xl>
-      <!-- Filters -->
+      <!-- Filters -------------------------------------------------------------------------------------------------------->
       <template v-if="filters != undefined">
-        <v-container class="dropdownContainer">
-            <v-select :items="filters.MCOs"
-                      v-model="filtersSelected.mco"
-                      label="MCO"
-                      item-text="marketLabel"
-                      item-value="marketCountryCode"
-                      clearable dense single-line solo flat
-                      class="basicDropdown"
-                    :menu-props="{contentClass:'basicDropdownContent'}">
-            </v-select>
-        </v-container>
-        <v-container class="dropdownContainer">
-            <v-select :items="filters.umbrellas"
-                      v-model="filtersSelected.umbrella"
-                      label="Umbrella"
-                      item-text="marketLabel"
-                      item-value="marketCountryCode"
-                      clearable dense single-line solo flat
-                      class="basicDropdown"
-                    :menu-props="{contentClass:'basicDropdownContent'}">
-            </v-select>
-        </v-container>
         <v-container class="dropdownContainer">
           <v-select :items="filters.countries"
                     v-model="filtersSelected.country"
@@ -308,51 +302,79 @@
                     item-value="name"
                     clearable dense single-line solo flat
                     class="basicDropdown"
-                  :menu-props="{contentClass:'basicDropdownContent'}">
+                    :menu-props="{contentClass:'basicDropdownContent'}">
           </v-select>
+        </v-container>
+        <v-container class="inputContainer">
+          <v-text-field v-model="filtersSelected.label"
+                        label="Label contains"
+                        class="basicInput">
+          </v-text-field>
         </v-container>
       </template>
       <!-- Filters end -->
       <v-divider ></v-divider>
       <!-- Search results ---------------------------------------------------------------------------------- -->
       <template v-if="offers.length">
-        <v-card v-for="(offer,i) in offers" class="baseCard align-top" :key="i" align="top">
-          <v-card-title primary-title class="card-title">
-            <h3 class="headline" :title="offer.offerLabel">{{ offer.offerLabel | maxLength(33) }} </h3>
-            <div class="status-container">
-              <p>Live</p>
-            </div>
-            <v-card-text>
-              <div><b>Subject Line 1:</b><br>
-                {{offer.subject1}}</div>
-            <div><b>Subject Line 2:</b><br>
-                {{offer.subject2}}</div>
-            <div><b>Pre Header:</b><br>
-              {{offer.preheader}}</div>
-            </v-card-text>
-           
-          </v-card-title>
-          <a v-if="offer.destinationURL" :href="offer.destinationURL">
+        <v-hover v-for="(offer,i) in offers" :key="i">
+          <v-card class="baseCard clickable align-top" 
+                  align="top"
+                  slot-scope="{ hover }"
+                  :class="`elevation-${hover ? 12 : 2}`"
+                  @click="openDetailView(offer)">
+              <v-card-title primary-title class="card-title" >
+                <div class="status-container"></div>
+                <h3 class="headline" :title="offer.offerLabel">{{ offer.offerLabel | maxLength(33) }} </h3>
+                <v-card-text>
+                  <div><b>SL 1:</b>
+                    {{offer.subject1}}</div>
+                <div><b>SL 2:</b>
+                    {{offer.subject2}}</div>
+                <div><b>Pre Header:</b>
+                  {{offer.preheader}}</div>
+                </v-card-text>
+              
+              </v-card-title>
             <v-img v-if="offer.imageDesktopURL" :src="offer.imageDesktopURL" aspect-ratio="2"></v-img>
-          </a>
-          <v-card-title class="text-center center">
-            <div v-if="offer.headline" class="margin-auto offer-content" style="font-family:Verdana; font-weight:bold; mso-line-height-rule:exactly; line-height:22px !important; font-size:21px; color:#ff5a00; padding:0 0 8px 0;">{{offer.headline}}</div>
-            <div v-if="offer.copyText" class="offer-content" style="padding: 0 0 16px 0">{{offer.copyText}}</div>
-            <div v-if="offer.CTAtext" style="margin: auto; padding:6px 14px; -webkit-border-radius:4px; border-radius:4px; font-size:14px; font-family:Verdana; color:#ffffff; display:inline-block; border:1px solid #ff5a00; background-color: #ff5a00;">
-              <a :href="offer.destinationURL" style="font-size:14px; font-family:Verdana; text-decoration:none; font-weight:bold; mso-line-height-rule:exactly; line-height:14px !important; color:#ffffff;">{{offer.CTAtext}}</a>
-            </div>
-          </v-card-title>
-          <v-card-actions>
-            <v-btn flat color="orange">Approve</v-btn>
-            <v-btn flat color="orange">Disable</v-btn>
-          </v-card-actions>
-        </v-card>
+            <v-card-title class="text-center center">
+              <div v-if="offer.headline" class="margin-auto offer-content" style="font-family:Verdana; font-weight:bold; mso-line-height-rule:exactly; line-height:22px !important; font-size:21px; color:#ff5a00; padding:0 0 8px 0;">{{offer.headline}}</div>
+              <div v-if="offer.copyText" class="offer-content" style="padding: 0 0 16px 0">{{offer.copyText}}</div>
+              <div v-if="offer.CTAtext" style="margin: auto; padding:6px 14px; -webkit-border-radius:4px; border-radius:4px; font-size:14px; font-family:Verdana; color:#ffffff; display:inline-block; border:1px solid #ff5a00; background-color: #ff5a00;">
+                <a :href="offer.destinationURL" style="font-size:14px; font-family:Verdana; text-decoration:none; font-weight:bold; mso-line-height-rule:exactly; line-height:14px !important; color:#ffffff;">{{offer.CTAtext}}</a>
+              </div>
+            </v-card-title>
+          </v-card>
+        </v-hover>
       </template>
-      <!-- Search results end ------------------------------------------------------------------------------------------------------ -->
+      <template v-else>
+        <v-container>There are no offers to display</v-container>
+      </template>
+      <!-- Search results end  -->
     </v-container>
+    <!-- Detailed offer view -------------------------------------------------------------------------------------------------------->
+    <v-dialog v-model="detailOfferView" 
+              fullscreen hide-overlay 
+              transition="dialog-bottom-transition"
+              content-class="detailViewContent">
+      <v-card v-if="detailOfferData != {}">
+        <v-toolbar dark color="#FF5A00">
+          <v-toolbar-title>{{ detailOfferData.offerLabel }}</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-btn icon dark @click="closeDetailView()">
+            <v-icon>close</v-icon>
+          </v-btn>
+        </v-toolbar>
+        <v-container>
+          <v-list>
+            SOME CONTENT
+          </v-list>
+        </v-container>
+      </v-card>
+    </v-dialog>
+    <!-- Detailed offer view ends -->
     <!-- Content ends -->
 
-    <!-- Footer -->
+    <!-- Footer -------------------------------------------------------------------------------------------------------->
     <v-footer dark
               height="auto"
               class="footer">
@@ -416,13 +438,16 @@
         filters: Object,
       },
       data: {
-        message: "Heeeeello",
+        isLoadingOffers: false,
+        detailOfferView: false,
+        detailOfferData: {},
         filtersSelected: {
           mco: '',
           umbrella: '',
           country: '',
           category: '',
           status: '',
+          label: '',
         },
         sidebar: false,
         subPages: [
@@ -604,7 +629,7 @@
       },
       methods: {
         loadOffers(payload) {
-          let baseUrl = 'https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffers.jssp';
+          let baseUrl = 'https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffersADAM.jssp';
           let hasUrlBeenAddedTo = false;
           console.log(payload)
           if(payload.mco != '' && payload.mco != undefined && payload.mco != null){
@@ -657,11 +682,22 @@
           //console.log(offerData.data);
           })
         },
+
         loadFilters() {
           axios.get('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetFilters.jssp').then(function(filterData){
           vm.filters = filterData.data;
           console.log(filterData.data);
           })
+        },
+
+        openDetailView(dataForOffer) {
+          vm.detailOfferData = dataForOffer;
+          vm.detailOfferView = true;
+        },
+
+        closeDetailView() {
+          vm.detailOfferView = false;
+          vm.detailOfferData = {};
         }
 
       }

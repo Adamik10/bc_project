@@ -1,7 +1,20 @@
 /* sass --watch style.scss style.css */ 
+$blue: #3A9EF0;
+$white: #fff;
+$transparent: rgba(255, 255, 255, 0);
 
 * {
   position: relative;
+
+  &::-webkit-scrollbar {
+    background-color: $transparent;
+    width: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $blue;
+    width: 3px;
+  }
 }
 
 /* INDEX ------------------------------------------------------------------------- INDEX */
@@ -84,12 +97,17 @@
 /* OFFERS OVERVIEW ----------------------------------------------------------- OFFERS OVERVIEW */
 
 .baseCard {
+  position: relative;
   display: inline-block;
   width: 340px;
-  border-radius: 5px;
+  border-radius: 2px;
   position: relative;
   margin-right: 30px;
   margin-bottom: 30px;
+
+  &.clickable {
+    cursor: pointer;
+  }
 
   .card-title {
     display: block;
@@ -106,18 +124,12 @@
   }
 
   .status-container {
-    display: inline-block;;
-    width: 60px;
-    height: 25px;
-    background-color: rgb(144, 207, 119);
-    color: white;
-    font-style: italic;
-    text-align: center;
-    border-radius: 3px;
-
-    p {
-      line-height: 25px;
-    }
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: rgb(76, 197, 65);
   }
 
   .v-expansion-panel__header {
@@ -168,7 +180,7 @@
   min-width: 15em;
   width: 200px;
   display: inline-block;
-  margin-right: 20px;
+  margin-right: 5px;
 
   .basicDropdown {
     display: inline-block;
@@ -182,5 +194,16 @@
 
   .basicDropdownContent {
 
+  }
+}
+
+.inputContainer {
+  width: 300px;
+  display: inline-block;
+  margin-bottom: -35px;
+  margin-top: -20px;
+
+  .basicInput {
+    width: 100%;
   }
 }

@@ -2,6 +2,14 @@
 * {
   position: relative;
 }
+*::-webkit-scrollbar {
+  background-color: rgba(255, 255, 255, 0);
+  width: 3px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #3A9EF0;
+  width: 3px;
+}
 
 /* INDEX ------------------------------------------------------------------------- INDEX */
 .navLogo {
@@ -81,12 +89,16 @@
 
 /* OFFERS OVERVIEW ----------------------------------------------------------- OFFERS OVERVIEW */
 .baseCard {
+  position: relative;
   display: inline-block;
   width: 340px;
-  border-radius: 5px;
+  border-radius: 2px;
   position: relative;
   margin-right: 30px;
   margin-bottom: 30px;
+}
+.baseCard.clickable {
+  cursor: pointer;
 }
 .baseCard .card-title {
   display: block;
@@ -101,17 +113,12 @@
   margin-bottom: 14px;
 }
 .baseCard .status-container {
-  display: inline-block;
-  width: 60px;
-  height: 25px;
-  background-color: #90cf77;
-  color: white;
-  font-style: italic;
-  text-align: center;
-  border-radius: 3px;
-}
-.baseCard .status-container p {
-  line-height: 25px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background-color: #4cc541;
 }
 .baseCard .v-expansion-panel__header {
   padding: 0px !important;
@@ -149,7 +156,7 @@
   min-width: 15em;
   width: 200px;
   display: inline-block;
-  margin-right: 20px;
+  margin-right: 5px;
 }
 .dropdownContainer .basicDropdown {
   display: inline-block;
@@ -159,6 +166,15 @@
   cursor: pointer;
   border-radius: 5px;
   height: 50px;
+}
+.inputContainer {
+  width: 300px;
+  display: inline-block;
+  margin-bottom: -35px;
+  margin-top: -20px;
+}
+.inputContainer .basicInput {
+  width: 100%;
 }
 
 /*# sourceMappingURL=style.css.map */
