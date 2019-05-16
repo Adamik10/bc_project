@@ -345,13 +345,15 @@
             </v-card-title>
           </v-card>
         </v-hover>
+        <div>
+          <v-btn v-on:click="loadMoreOffers()" depressed large center>Load more</v-btn>
+        </div>
       </template>
+      
       <template v-else>
         <v-container>There are no offers to display</v-container>
       </template>
-      <div>
-        <v-btn v-on:click="loadMoreOffers()" depressed large center>Load more</v-btn>
-      </div>
+      
       <!-- Search results end  -->
     </v-container>
     <!-- Detailed offer view -------------------------------------------------------------------------------------------------------->
