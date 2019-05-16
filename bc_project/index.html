@@ -335,7 +335,7 @@
                 </v-card-text>
               
               </v-card-title>
-            <v-img v-if="offer.imageDesktopURL" :src="offer.imageDesktopURL" aspect-ratio="2"></v-img>
+            <v-img v-if="offer.imageDesktopURL" :src="'https://'+offer.imageDesktopURL" aspect-ratio="2"></v-img>
             <v-card-title class="text-center center">
               <div v-if="offer.headline" class="margin-auto offer-content" style="font-family:Verdana; font-weight:bold; mso-line-height-rule:exactly; line-height:22px !important; font-size:21px; color:#ff5a00; padding:0 0 8px 0;">{{offer.headline}}</div>
               <div v-if="offer.copyText" class="offer-content" style="padding: 0 0 16px 0">{{offer.copyText}}</div>
@@ -349,6 +349,9 @@
       <template v-else>
         <v-container>There are no offers to display</v-container>
       </template>
+      <div>
+        <v-btn v-on:click="loadMoreOffers()" depressed large center>Load more</v-btn>
+      </div>
       <!-- Search results end  -->
     </v-container>
     <!-- Detailed offer view -------------------------------------------------------------------------------------------------------->
@@ -631,7 +634,7 @@
       },
       methods: {
         loadOffers(payload, caller) {
-          let baseUrl = 'https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffersADAM.jssp';
+          let baseUrl = 'https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffers.jssp';
           let hasUrlBeenAddedTo = false;
           console.log(payload)
           console.log(caller)
