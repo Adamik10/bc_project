@@ -441,6 +441,7 @@
         isLoadingOffers: false,
         detailOfferView: false,
         detailOfferData: {},
+        queryStartLine: 0,
         filtersSelected: {
           mco: '',
           umbrella: '',
@@ -609,7 +610,8 @@
       watch: {
         'filtersSelected': {
           handler(val) {
-            this.loadOffers(val);      
+            let caller = "filtering";
+            this.loadOffers(val, caller);      
           },
           deep: true
         }
@@ -625,13 +627,14 @@
           category: '',
           status: '',
         };
-        this.loadOffers(startPayload);
+        this.loadOffers(startPayload, 'filtering');
       },
       methods: {
         loadOffers(payload) {
           let baseUrl = 'https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffersADAM.jssp';
           let hasUrlBeenAddedTo = false;
           console.log(payload)
+          console.log(caller)
           if(payload.mco != '' && payload.mco != undefined && payload.mco != null){
             console.log('we in')
             if(hasUrlBeenAddedTo == false){
@@ -675,12 +678,43 @@
               baseUrl = baseUrl+'&status='+payload.status;
             }
           }
-          console.log(baseUrl)
-          axios.get(baseUrl).then(function(offerData){
-          vm.offers = offerData.data;
-          console.log(offerData.data);
-          //console.log(offerData.data);
-          })
+          
+          if(caller == "loadingMoreOffers"){
+            console.log('we loading more offers')
+            if(hasUrlBeenAddedTo == false){
+              baseUrl = baseUrl+'?startLine='+vm.queryStartLine;
+              hasUrlBeenAddedTo = true;
+
+              console.log(baseUrl)
+              axios.get(baseUrl).then(function(offerData){
+                vm.offers = vm.offers.concat(offerData.data)
+
+              })
+            }else{
+              baseUrl = baseUrl+'&startLine='+vm.queryStartLine;
+
+              console.log(baseUrl)
+              axios.get(baseUrl).then(function(offerData){
+                vm.offers = vm.offers.concat(offerData.data)
+              })
+            }
+          }else if(caller == "filtering"){
+            console.log(this.queryStartLine)
+            this.queryStartLine = 0;
+
+            console.log(baseUrl)
+            axios.get(baseUrl).then(function(offerData){
+              vm.offers = offerData.data;
+              console.log(offerData.data);
+            })
+          }
+
+          
+        },
+        loadMoreOffers() {
+        let caller = "loadingMoreOffers";  
+        vm.queryStartLine += 12;
+        vm.loadOffers(vm.filtersSelected, caller);
         },
 
         loadFilters() {

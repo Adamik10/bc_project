@@ -9,11 +9,12 @@
     var chosenCategory = request.getParameter("category");
     var chosenMCO = request.getParameter("MCO");
     var chosenUmbrella = request.getParameter("umbrella");
+    var chosenStartLine = request.getParameter("startLine");
 
     var results = [];
 
     var query = xtk.queryDef.create(
-        <queryDef schema="nms:offer" operation="select" lineCount="12" startLine="0">
+        <queryDef schema="nms:offer" operation="select" lineCount="12" startLine={"chosenStartLine"}>
           <select>
             <node expr="[@label]" alias="@label" />
             <node expr="[@id]" alias="@id" />
@@ -52,7 +53,14 @@
 
 var  selectedOffers = query.ExecuteQuery();
 
+
+
 for each (var offer in selectedOffers){
+
+    var correctURL = offer.@imageDesktopURL.toString();
+    correctURL = correctURL.replace("https://","");
+    correctURL = correctURL.replace("http://","");
+
     var offerBlock = {
       "offerLabel" :offer.@label.toString(),
       "offerId" :offer.@id.toString(),
@@ -67,7 +75,7 @@ for each (var offer in selectedOffers){
       "eventDate" :offer.@eventDate.toString(),
       "CTAtext" :offer.@CTAtext.toString(),
       "destinationURL" :offer.@destinationURL.toString(),
-      "imageDesktopURL" :offer.@imageDesktopURL.toString(),
+      "imageDesktopURL" : correctURL,
       "imageMobileURL" :offer.@imageMobileURL.toString(),
       "imageAltText" :offer.@imageAltText.toString(),
       "rating" :offer.@rating.toString(),
