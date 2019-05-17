@@ -133,7 +133,13 @@ $gray: rgb(192, 192, 192);
     left: 0;
     right: 0;
     height: 4px;
-    background-color: rgb(76, 197, 65);
+
+    &.green{
+      background-color: rgb(76, 197, 65);
+    }
+    &.red{
+      background-color: #ca1717;
+    }
   }
 
   .v-expansion-panel__header {

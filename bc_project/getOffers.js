@@ -5,20 +5,57 @@
 <%
     var context = logonEscalation("admin");
     
+    //get all parameters from the URL
     var chosenCountry = request.getParameter("country");
     var chosenCategory = request.getParameter("category");
     var chosenMCO = request.getParameter("MCO");
     var chosenUmbrella = request.getParameter("umbrella");
     var chosenStartLine = request.getParameter("startLine");
+    var getStatus = request.getParameter("status");
+
+    var condition = "";
+
+    //building the condition for query based on parameters that were passed through URL (has to start with AND!!!)
+    //COUNTRY
+    if(chosenCountry != null && chosenCountry != ''){
+      condition += "AND [category/@name] LIKE '%'+'"+chosenCountry+"'+'%'";
+    }
+    //MCO
+    if(chosenMCO != null && chosenMCO != ''){
+      condition += "AND [category/@name] LIKE '%'+'"+chosenMCO+"'+'%'";
+    }
+
+    //UMBRELLA
+    if(chosenUmbrella != null && chosenUmbrella != ''){
+      condition += "AND [category/@name] LIKE '%'+'"+chosenUmbrella+"'+'%'";
+    }
+
+    //CATEGORY
+    if(chosenCategory == "Default"){
+      condition += "AND [@name] LIKE '%'+'"+chosenCategory+"'+'%'";
+    }else if(chosenCategory != null && chosenCategory != ''){
+      condition += "AND [category/@name] LIKE '%'+'"+chosenCategory+"'+'%'";
+    }
+
+    //STATUS
+    if(getStatus == "Live"){
+      var status = 6;
+      condition += "AND [prodOffer/@status] = "+status;
+    }else if(getStatus == "Disabled"){
+      var status = 6;
+      condition += "AND [prodOffer/@status] != "+status;
+    }
 
     var results = [];
 
     var query = xtk.queryDef.create(
-        <queryDef schema="nms:offer" operation="select" lineCount="12" startLine={"chosenStartLine"}>
+        <queryDef schema="nms:offer" operation="select" lineCount="12" startLine={+chosenStartLine}>
           <select>
             <node expr="[@label]" alias="@label" />
             <node expr="[@id]" alias="@id" />
-            <node expr="[@status]" alias="@status"/>
+            <node expr="[@status]" alias="@statusDesign"/>
+            <node expr="[prodOffer/@status]" alias="@statusLive"/>
+            <node expr="[@name]" alias="@internalName"/>
             <node expr="[@created]" sort="true" alias="@created"/>
             //offer content fields below
             <node expr="[view/emailSubject1_jst]" alias="@subject1"/>
@@ -46,7 +83,7 @@
            <groupBy/>
            <having/>
           <where>
-          <condition expr={"[category/@name] LIKE '%'+'"+chosenMCO+"'+'%' AND [category/@name] LIKE '%'+'"+chosenCountry+"'+'%' AND [category/@name] LIKE '%'+'"+chosenCategory+"'+'%'"}/>
+          <condition expr={"[category/@name] NOT LIKE '%'+'_liveRcp'+'%' "+condition}/>
           </where>
          </queryDef>
        )
@@ -64,7 +101,8 @@ for each (var offer in selectedOffers){
     var offerBlock = {
       "offerLabel" :offer.@label.toString(),
       "offerId" :offer.@id.toString(),
-      "status" :offer.@status.toString(),
+      "statusDesign" :offer.@statusDesign.toString(),
+      "statusLive" :offer.@statusLive.toString(),
       "created" :offer.@created.toString(),
       //offer content fields below
       "subject1" :offer.@subject1.toString(),
@@ -85,12 +123,12 @@ for each (var offer in selectedOffers){
       "utmTerm" :offer.@utmTerm.toString(),
       "utmImageTerm" :offer.@utmImageTerm.toString(),
       "copyText" :offer.@copyText.toString(),
-      "eligibility": [
-      ]
+      "eligibility": []
     }
     results.push(offerBlock);
           
       var offerId = offer.@id;
+      var offerLabel = offer.@label;
 
       var query2 = xtk.queryDef.create(
         <queryDef schema="nms:offerContext" operation="select">
@@ -119,10 +157,8 @@ for each (var offer in selectedOffers){
         }
         offerBlock.eligibility.push(eligibilityBlock);
       }
+
 }
-
-
-
 
     document.write(JSON.stringify(results));
     console.log(JSON.stringify(results))

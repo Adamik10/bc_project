@@ -5,7 +5,7 @@
 <%
     var context = logonEscalation("admin");
 
-    var results = {"MCOs":[], "umbrellas":[], "countries":[], "all":[]};
+    var results = {"MCOs":[], "umbrellas":[], "countries":[]};
 
 //----------------------------------------MCOs QUERY ----------------------------------------------
 var query = xtk.queryDef.create(
@@ -57,11 +57,16 @@ for each (var umbrella in umbrellas){
 
 
 //----------------------------------------COUNTRIES QUERY ----------------------------------------------
-    var query = xtk.queryDef.create(
+    var query3 = xtk.queryDef.create(
         <queryDef schema="nms:localOrgUnit" operation="select">
           <select>
             <node expr="[@label]" alias="@label" />
+            <node expr="[@id]" alias="@id" />
             <node expr="[@abbreviation]" alias="@countryCode" />
+            <node expr="[parent/@nature]" alias="@natureOne" />
+            <node expr="[parent/@abbreviation]" alias="@abbreviationOne" />
+            <node expr="[parent/parent/@nature]" alias="@natureTwo" />
+            <node expr="[parent/parent/@abbreviation]" alias="@abbreviationTwo" />
           </select>
           <orderBy displayOrder="Label (ascending)">
              <node expr="[@label]" label="label" sort="1" sortAsc="1"/>
@@ -72,12 +77,20 @@ for each (var umbrella in umbrellas){
          </queryDef>
        )
 
-var  countries = query.ExecuteQuery();
+var  countries = query3.ExecuteQuery();
 
 for each (var country in countries){
-          results.countries.push({"marketLabel" :country.@label.toString(),
-          "marketCountryCode" :country.@countryCode.toString()
-        });
+          if(country.@natureOne.toString() == "MCO"){
+            results.countries.push({
+              "marketLabel" :country.@label.toString(),
+              "marketCountryCode" :country.@abbreviationOne.toString()+"_"+country.@countryCode.toString()
+            });
+          }else{
+            results.countries.push({
+              "marketLabel" :country.@label.toString(),
+              "marketCountryCode" :country.@abbreviationTwo.toString()+"_"+country.@countryCode.toString()
+            });
+          } 
 }
 
 
