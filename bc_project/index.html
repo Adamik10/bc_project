@@ -207,6 +207,96 @@
   width: 100%;
 }
 
+/* DETAIL OFFER --------------------------------------------------------------------- DETAIL OFFER */
+.display-flex {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.display-flex .mobile-preview {
+  position: relative;
+  padding-top: 30px;
+  width: 500px;
+}
+.display-flex .mobile-preview .phone {
+  width: 100%;
+}
+.display-flex .mobile-preview__container {
+  width: 300px;
+  display: block;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+}
+.display-flex .mobile-preview__container-content {
+  position: absolute;
+  top: 5px;
+  left: 7px;
+  width: 285px;
+  height: 615px;
+  border-radius: 30px;
+  overflow-x: auto;
+  overflow-y: auto;
+  padding-top: 30px;
+  box-shadow: 2px 2px 10px black;
+}
+.display-flex .desktop-preview {
+  padding-top: 30px;
+  width: 1000px;
+}
+.display-flex .desktop-preview__container {
+  width: 900px;
+  display: block;
+  position: relative;
+  margin-left: 0px;
+  margin-right: auto;
+}
+.display-flex .desktop-preview__container-content {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 900px;
+  max-height: 700px;
+  border-radius: 3px;
+  overflow-x: auto;
+  overflow-y: auto;
+  box-shadow: 2px 2px 15px #5a5a5a;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.display-flex .sidebar {
+  padding: 20px;
+  padding-top: 30px;
+  width: 400px;
+  height: 90vh;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.base-button {
+  height: 36px;
+  width: 100px;
+  color: white;
+  text-align: center;
+  line-height: 36px;
+}
+.base-button.full-width {
+  width: 100%;
+  margin: 0 auto;
+}
+.base-button.green {
+  background-color: #4CC541;
+}
+
 /*# sourceMappingURL=style.css.map */
 
 </style>
@@ -340,7 +430,8 @@
               <div v-if="offer.headline" class="margin-auto offer-content" style="font-family:Verdana; font-weight:bold; mso-line-height-rule:exactly; line-height:22px !important; font-size:21px; color:#ff5a00; padding:0 0 8px 0;">{{offer.headline}}</div>
               <div v-if="offer.copyText" class="offer-content" style="padding: 0 0 16px 0">{{offer.copyText}}</div>
               <div v-if="offer.CTAtext" style="margin: auto; padding:6px 14px; -webkit-border-radius:4px; border-radius:4px; font-size:14px; font-family:Verdana; color:#ffffff; display:inline-block; border:1px solid #ff5a00; background-color: #ff5a00;">
-                <a :href="offer.destinationURL" style="font-size:14px; font-family:Verdana; text-decoration:none; font-weight:bold; mso-line-height-rule:exactly; line-height:14px !important; color:#ffffff;">{{offer.CTAtext}}</a>
+                <a :href="offer.destinationURL" style="font-size:14px; font-family:Verdana; text-decoration:none; font-weight:bold; mso-line-height-rule:exactly; 
+                  line-height:14px !important; color:#ffffff;" target="_blank">{{offer.CTAtext}}</a>
               </div>
             </v-card-title>
           </v-card>
@@ -369,11 +460,176 @@
             <v-icon>close</v-icon>
           </v-btn>
         </v-toolbar>
-        <v-container>
-          <v-list>
-            SOME CONTENT
-          </v-list>
-        </v-container>
+        <div class="display-flex">
+          <div class="mobile-preview">
+            <v-subheader class="center-text full-width"><p class="center-text full-width">Mobile preview</p></v-subheader>
+            <div class="mobile-preview__container">
+              <img src="http://unilever-stage.neolane.net/res/unilever_stage/a48bed274267d6735f4a0dc9435c9dfc.png" alt="phone" class="phone">
+              <div class="mobile-preview__container-content">
+                <!-- Mobile preview -->
+                <table border="0" width="100%" cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="border-collapse: collapse">
+                  <tbody style="display: table-row-group; vertical-align: middle; border-color: inherit;">
+                    <tr style="display: table-row; vertical-align: inherit; border-color: inherit; border-collapse: collapse">
+                      <td align="center" valign="top">
+                        <table border="0" width="100%" cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="width:100%!important;max-width:100%!important; border-collapse:collapse">
+                          <tbody style="display: table-row-group; vertical-align: middle; border-color: inherit; border-collapse: collapse">
+                            <tr style="display: table-row; vertical-align: inherit; border-color: inherit; border-collapse:collapse">
+                              <td align="left" valign="top" style="padding:0 10px 30px 10px;" style="padding-left: 0 !important; padding-right:0!important">
+                                <table border="0" width="100%" cellspacing="0" cellpadding="0">
+                                  <tbody style="display: table-row-group; vertical-align: middle; border-color: inherit;">
+                                    <tr style="display: table-row; vertical-align: inherit; border-color: inherit;">
+                                      <th valign="top" style="font-weight: normal; padding: 0; vertical-align: top; display: block; padding-right: 0 !important; 
+                                        padding-left: 0 !important; width: 100%;">
+                                        <table cellpadding="0" cellspacing="0" style="height:381px;table-layout: fixed; margin-top:30px !important; 
+                                          width: 100% !important; max-width: 100% !important; border-collapse: collapse;" align="left" border="0">
+                                          <tbody style="display: table-row-group; vertical-align: middle; border-color: inherit; border-collapse: collapse;">
+                                            <tr style="display: table-row; vertical-align: inherit; border-color: inherit;">
+                                              <td v-if="detailOfferData.headline && detailOfferData.headline != '' && detailOfferData.headline != undefined && detailOfferData.headline != null" 
+                                                style="font-family:Verdana; color:#000000; font-size:17px; mso-line-height-rule:exactly; line-height:20px; 
+                                                height: 90px; overflow: hidden; max-width: 173px; max-height: 120px;" valign="top" align="left">
+                                                {{ detailOfferData.headline }}
+                                              </td>
+                                            </tr>
+                                            <tr style="display:none; width:0; max-height:0; overflow:hidden; float:left; display: table-row !important;
+                                              width: auto !important; max-height: inherit !important; overflow: visible !important; float: none !important;">
+                                              <td style="display:none; width:0; max-height:0; overflow:hidden; float:left; display: table-cell !important;
+                                                width: auto !important; max-height: inherit !important; overflow: visible !important; float: none !important;">
+                                                <a :href="detailOfferData.destinationURL" target="_blank" style="text-decoration:none; color: -webkit-link; cursor: pointer;">
+                                                  <template v-if="detailOfferData.imageMobileURL && detailOfferData.imageMobileURL != '' && detailOfferData.imageMobileURL != undefined && detailOfferData.imageMobileURL != null">
+                                                    <img :src="'http://'+detailOfferData.imageMobileURL" :alt="detailOfferData.imageAltText" border="0" 
+                                                    style="display: block; width: 265px"/>
+                                                  </template>
+                                                  <template v-else>
+                                                    <img v-if="detailOfferData.imageDesktopURL && detailOfferData.imageDesktopURL != '' && detailOfferData.imageDesktopURL != undefined && detailOfferData.imageDesktopURL != null"
+                                                      :src="'http://'+detailOfferData.imageDesktopURL" :alt="detailOfferData.imageAltText" border="0" 
+                                                      style="display: block; width: 265px"/>
+                                                  </template>
+                                                </a>
+                                              </td>
+                                            </tr>
+                                            <tr v-if="detailOfferData.copyText && detailOfferData.copyText != '' && detailOfferData.copyText != undefined && detailOfferData.copyText != null"
+                                              style="display: table-row; vertical-align: inherit; border-color: inherit;">
+                                              <td align="left" valign="top" style="font-family:Verdana; line-height:17px; font-size:13px; 
+                                                color:#000000; padding:16px 0 16px 0;">
+                                                {{ detailOfferData.copyText }}
+                                              </td>
+                                            </tr>
+                                            <tr v-if="detailOfferData.CTAtext && detailOfferData.CTAtext != '' && detailOfferData.CTAtext != undefined && detailOfferData.CTAtext != null"
+                                                style="display: table-row; vertical-align: inherit; border-color: inherit;">
+                                              <td align="center" style="padding:0 0 0 0; border-collapse: collapse">
+                                                <table style="border-collapse: collapse">
+                                                  <tbody>
+                                                    <tr>
+                                                      <th bgcolor="#ff5a00" style="padding:6px 14px; -webkit-border-radius:4px; border-radius:4px; font-size:14px; 
+                                                          font-family:Verdana; color:#ffffff; display:inline-block; border:1px solid #ff5a00;">
+                                                        <a :href="detailOfferData.destinationURL" style="font-size:14px; font-family:Verdana;line-height:14px; 
+                                                            text-decoration:none; font-weight:bold; mso-line-height-rule:exactly; color:#ffffff;" target="_blank">
+                                                          {{ detailOfferData.CTAtext }}
+                                                        </a>  
+                                                      </th>
+                                                    </tr>
+                                                  </tbody>
+                                                </table>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </th>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- Mobile preview ends -->
+              </div>
+            </div>
+          </div>
+          <div class="desktop-preview">
+            <v-subheader class="center-text full-width"><p class="center-text full-width">Desktop preview</p></v-subheader>
+            <div class="desktop-preview__container">
+              <div class="desktop-preview__container-content">
+                <!-- Desktop preview -->
+                <table width="100%" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+                  <tbody style="display: table-row-group; vertical-align: middle; border-color: inherit; border-collapse: collapse">
+                    <tr style="display: table-row; vertical-align: inherit; border-color: inherit;">
+                      <td align="center" valign="top" style="border-collapse: collapse">
+                        <table cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="width:600px; border-collapse: collapse;">
+                          <tbody style="display: table-row-group; vertical-align: middle; ">
+                            <tr style="display: table-row; vertical-align: inherit;">
+                              <td align="left" valign="top" style="border-collapse: collapse">
+                                <table style="border:0; width:100%">
+                                  <tbody style="display: table-row-group">
+                                    <tr style="display: table-row;">
+                                      <td style="padding:0 10px 16px 10px">
+                                        <a :href="detailOfferData.destinationURL" target="_blank">
+                                          <img v-if="detailOfferData.imageDesktopURL && detailOfferData.imageDesktopURL != '' && detailOfferData.imageDesktopURL != undefined && detailOfferData.imageDesktopURL != null"
+                                            :src="'http://'+detailOfferData.imageDesktopURL" :alt="detailOfferData.imageAltText" style="display:block; width: 580px;">
+                                        </a>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </td>
+                            </tr>
+                            <tr style="display: table-row;">
+                              <td dir="ltr" valign="top" style="padding:0 20px 0 20px; border-collapse: collapse">
+                                <table border="0" width="100%" cellpadding="0" cellspacing="0">
+                                  <tbody style="display: table-row-group; vertical-align: middle; border-color: inherit;">
+                                    <tr v-if="detailOfferData.headline && detailOfferData.headline != '' && detailOfferData.headline != undefined && detailOfferData.headline != null"
+                                      style="display: table-row; vertical-align: inherit; border-color: inherit;">
+                                      <td align="left" valign="top" style="font-family:Verdana; font-weight:bold; font-size:21px; color:#ff5a00; padding:0 0 8px 0;">
+                                        {{ detailOfferData.headline }}
+                                      </td>
+                                    </tr>
+                                    <tr v-if="detailOfferData.copyText && detailOfferData.copyText != '' && detailOfferData.copyText != undefined && detailOfferData.copyText != null"
+                                        style="display: table-row; vertical-align: inherit; border-color: inherit;">
+                                      <td align="left" valign="top" style="font-family:Verdana; line-height:17px; font-size:13px; color:#000000; padding:0 0 16px 0;">
+                                        {{ detailOfferData.copyText }}
+                                      </td>
+                                    </tr>
+                                    <tr v-if="detailOfferData.CTAtext && detailOfferData.CTAtext != '' && detailOfferData.CTAtext != undefined && detailOfferData.CTAtext != null"
+                                        style="display: table-row; vertical-align: inherit; border-color: inherit;">
+                                      <td align="center" style="padding:0 0 0 0; border-collapse: collapse">
+                                        <table style="border-collapse: collapse">
+                                          <tbody>
+                                            <tr>
+                                              <th bgcolor="#ff5a00" style="padding:6px 14px; -webkit-border-radius:4px; border-radius:4px; font-size:14px; 
+                                                  font-family:Verdana; color:#ffffff; display:inline-block; border:1px solid #ff5a00;">
+                                                <a :href="detailOfferData.destinationURL" style="font-size:14px; font-family:Verdana;line-height:14px; 
+                                                    text-decoration:none; font-weight:bold; mso-line-height-rule:exactly; color:#ffffff;" target="_blank"> 
+                                                  {{ detailOfferData.CTAtext }}
+                                                </a>  
+                                              </th>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- Desktop preview ends -->
+              </div>
+            </div>
+          </div>
+          <div class="sidebar">
+            <div class="base-button green full-width">live</div>
+            <v-subheader class="center-text full-width">Mobile preview</v-subheader>
+          </div>
+        </div>
       </v-card>
     </v-dialog>
     <!-- Detailed offer view ends -->
@@ -636,7 +892,7 @@
       },
       methods: {
         loadOffers(payload, caller) {
-          let baseUrl = 'https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffers.jssp';
+          let baseUrl = 'https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffersADAM.jssp';
           let hasUrlBeenAddedTo = false;
           console.log(payload)
           console.log(caller)
@@ -716,6 +972,7 @@
 
           
         },
+
         loadMoreOffers() {
         let caller = "loadingMoreOffers";  
         vm.queryStartLine += 12;
