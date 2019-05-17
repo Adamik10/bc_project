@@ -98,6 +98,10 @@ for each (var offer in selectedOffers){
     correctURL = correctURL.replace("https://","");
     correctURL = correctURL.replace("http://","");
 
+    var correctURLMobile = offer.@imageDesktopURL.toString();
+    correctURLMobile = correctURLMobile.replace("https://","");
+    correctURLMobile = correctURLMobile.replace("http://","");
+
     var offerBlock = {
       "offerLabel" :offer.@label.toString(),
       "offerId" :offer.@id.toString(),
@@ -114,7 +118,7 @@ for each (var offer in selectedOffers){
       "CTAtext" :offer.@CTAtext.toString(),
       "destinationURL" :offer.@destinationURL.toString(),
       "imageDesktopURL" : correctURL,
-      "imageMobileURL" :offer.@imageMobileURL.toString(),
+      "imageMobileURL" : correctURLMobile,
       "imageAltText" :offer.@imageAltText.toString(),
       "rating" :offer.@rating.toString(),
       "loyaltyPoints" :offer.@loyaltyPoints.toString(),

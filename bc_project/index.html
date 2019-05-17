@@ -1082,7 +1082,7 @@
         },
 
         loadFilters() {
-          axios.get('https://unilever-s.neolane.net/ufs/TEST_OfferDashboardGetFilters.jssp').then(function(filterData){
+          axios.get('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetFilters.jssp').then(function(filterData){
           vm.filters = filterData.data;
           console.log(filterData.data);
           })
