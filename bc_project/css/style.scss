@@ -3,7 +3,9 @@ $blue: #3A9EF0;
 $white: #fff;
 $transparent: rgba(255, 255, 255, 0);
 $orange: #FF5A00;
-$green: #4CC541;
+$green: #6DC570;
+$red: #FF6D6D;
+$gray: rgb(192, 192, 192);
 
 * {
   position: relative;
@@ -212,6 +214,10 @@ $green: #4CC541;
 
 /* DETAIL OFFER --------------------------------------------------------------------- DETAIL OFFER */
 
+.long-title {
+  overflow: visible !important;
+}
+
 .display-flex {
   display: flex;
   width: 100%;
@@ -283,11 +289,45 @@ $green: #4CC541;
     padding-top: 30px;
     width: 400px;
     height: 90vh;
+
+    .minus-margin {
+      margin-top: -16px;
+    }
+
+    .display-flex {
+      height: auto;
+
+      .half-width {
+        p {
+          margin-bottom: 0px;
+        }
+      }
+    }
+    
   }
+}
+
+.no-padding {
+  padding: 0 0 !important;
+  margin-top: -10px;
+
+  &.v-subheader {
+    padding: 0 0 !important;
+    margin-top: -10px;
+    color: $gray;
+  }
+}
+
+.align-right {
+  text-align: right;
 }
 
 .full-width {
   width: 100%;
+}
+
+.half-width {
+  width: 50%;
 }
 
 .center-text {
@@ -295,9 +335,10 @@ $green: #4CC541;
 }
 
 .base-button {
-  height: 36px;
+  height: 40px;
   width: 100px;
   color: white;
+  border-radius: 3px;
   text-align: center;
   line-height: 36px;
 
@@ -308,5 +349,17 @@ $green: #4CC541;
 
   &.green {
     background-color: $green;
+  }
+}
+
+.spacer {
+  display: block;
+  width: 100%;
+  height: 20px;
+
+  &-big {
+    display: block;
+    width: 100%;
+    height: 30px;
   }
 }
