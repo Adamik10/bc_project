@@ -135,7 +135,7 @@ for each (var offer in selectedOffers){
       "utmTerm" :offer.@utmTerm.toString(),
       "utmImageTerm" :offer.@utmImageTerm.toString(),
       "copyText" :offer.@copyText.toString(),
-      "categoryInternalName" :offer.@categoryInternalName,
+      "categoryInternalName" :offer.@categoryInternalName.toString(),
       "eligibility": []
     }
     results.push(offerBlock);
@@ -161,14 +161,19 @@ for each (var offer in selectedOffers){
       
       var eligibilities = query2.ExecuteQuery();
       for each (var eligibility in eligibilities){
+        if(eligibility.@label.toString().toLowerCase().indexOf("longproof") === -1){
 
-        var eligibilityBlock = {
-          "label" : eligibility.@label.toString(),
-          "startDate" : eligibility.@startDate.toString(),
-          "endDate" : eligibility.@endDate.toString(),
-          "weight" : eligibility.@weightExpr.toString()
+          var eligibilityBlock = {
+            "label" : eligibility.@label.toString(),
+            "startDate" : eligibility.@startDate.toString(),
+            "endDate" : eligibility.@endDate.toString(),
+            "weight" : eligibility.@weightExpr.toString()
+          }
+          
+          offerBlock.eligibility.push(eligibilityBlock);
         }
-        offerBlock.eligibility.push(eligibilityBlock);
+
+        
       }
 
 }
