@@ -847,7 +847,7 @@
             </div>
           </div>
           <div class="sidebar">
-            <v-btn class="base-button full-width">Send a proof to yourself</v-btn>
+            <v-btn class="base-button full-width" flat outline>Send a proof to yourself</v-btn>
             <div class="spacer-big"></div>
             <v-subheader class="no-padding">Subject Line 1</v-subheader>
             <p v-if="detailOfferData.subject1 && detailOfferData.subject1 != '' && detailOfferData.subject1 != undefined" 
@@ -899,20 +899,22 @@
             <template v-else>
               <p>There is no eligibility data.</p>
             </template>
-            <template v-if="detailOfferData.categoryInternalName == Deepsell">
-              <template v-if="detailOfferData.statusLive == 6">
-                <v-btn class="base-button green full-width" 
-                  color="rgb(255, 78, 78)" outline
-                  @click.native="enableOffer(detailOfferData.offerId)">
-                  Enable offer
-                </v-btn>
-              </template>
-              <template v-else>
-                <v-btn class="base-button red full-width" 
-                  color="rgb(255, 78, 78)" outline
-                  @click.native="disableOffer(detailOfferData.offerId)">
-                  Disable offer
-                </v-btn>
+            <template v-if="detailOfferData.categoryInternalName">
+              <template v-if="doesStringContain(detailOfferData.categoryInternalName, eligibleSubstrings)">
+                <template v-if="detailOfferData.statusLive == 6">
+                  <v-btn class="base-button green full-width" 
+                    color="rgb(255, 78, 78)" outline
+                    @click.native="enableOffer(detailOfferData.offerId)">
+                    Enable offer
+                  </v-btn>
+                </template>
+                <template v-else>
+                  <v-btn class="base-button red full-width" 
+                    color="rgb(255, 78, 78)" outline
+                    @click.native="disableOffer(detailOfferData.offerId)">
+                    Disable offer
+                  </v-btn>
+                </template>
               </template>
             </template>
           </div>
@@ -1200,6 +1202,7 @@
           lineCount: 12
         },
         currentView: 'mainOneColumn',
+        eligibleSubstrings: ['_rcr', '_dps', '_ws', '_dpr', '_ret', '_arc', '_rcrv02', '_rcrv03', '_ups'],
         newOffer: {
           offerType: '',
           country: '',
@@ -1405,7 +1408,7 @@
 
       methods: {
         loadOffers(payload, caller) {
-          let baseUrl = 'https://unilever-s.neolane.net/ufs/TEST_OfferDashboardGetOffers.jssp';
+          let baseUrl = 'https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffersADAM.jssp';
           let hasUrlBeenAddedTo = false;
           
           console.log(payload)
@@ -1507,7 +1510,7 @@
         },
 
         loadFilters() {
-          axios.get('https://unilever-s.neolane.net/ufs/TEST_OfferDashboardGetFilters.jssp').then(function(filterData){
+          axios.get('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetFilters.jssp').then(function(filterData){
           vm.filters = filterData.data;
           console.log(filterData.data);
           })
@@ -1555,7 +1558,19 @@
             console.log("error")
             console.log(response)
           })
-        }
+        },
+
+        doesStringContain(stringToCompare, arrayOfSubstrings) {
+          //console.log('we are checking for '+ arrayOfSubstrings +' substring in' + stringToCompare);
+          for(var i = 0; i < arrayOfSubstrings.length; i++) {
+            let substring = arrayOfSubstrings[i];
+            if(stringToCompare.includes(substring)) {
+              console.log(stringToCompare + ' contains '+ substring);
+              return true;
+            }
+          }
+          return false;
+        },
 
       }
     })
