@@ -901,17 +901,17 @@
             </template>
             <template v-if="detailOfferData.categoryInternalName">
               <template v-if="doesStringContain(detailOfferData.categoryInternalName, eligibleSubstrings)">
-                <template v-if="detailOfferData.statusLive == 6">
+                <template v-if="detailOfferData.statusLive !== 6">
                   <v-btn class="base-button green full-width" 
                     color="rgb(255, 78, 78)" outline
-                    @click.native="enableOffer(detailOfferData.offerId)">
+                    @click.native="dispatcher(detailOfferData.offerId, detailOfferData.categoryInternalName, 'enable')">
                     Enable offer
                   </v-btn>
                 </template>
                 <template v-else>
                   <v-btn class="base-button red full-width" 
                     color="rgb(255, 78, 78)" outline
-                    @click.native="disableOffer(detailOfferData.offerId)">
+                    @click.native="dispatcher(detailOfferData.offerId, detailOfferData.categoryInternalName, 'disable')">
                     Disable offer
                   </v-btn>
                 </template>
@@ -1408,7 +1408,7 @@
 
       methods: {
         loadOffers(payload, caller) {
-          let baseUrl = 'https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffersADAM.jssp';
+          let baseUrl = 'https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffers.jssp';
           let hasUrlBeenAddedTo = false;
           
           console.log(payload)
@@ -1548,7 +1548,7 @@
         createNewOffer(e) {
           let formData = {name: 'Alex', surname: 'pls'}
           console.log("clicked")
-          axios.post('https://unilever-s.neolane.net/ufs/TEST_OfferDashboardCreateOffer.jssp', {name: 'Alex', surname: 'pls'})
+          axios.post('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardCreateOffer.jssp', {name: 'Alex', surname: 'pls'})
           .then(function(response) {
             
             console.log(response)
@@ -1571,6 +1571,21 @@
           }
           return false;
         },
+
+        dispatcher(offerId, categoryInternalName, action) {
+          console.log("dispatcher called")
+          axios.post('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardDispatcher.jssp', {offerId: offerId, categoryInternalName: categoryInternalName, action : action})
+          .then(function(response) {
+            
+            console.log(response)
+          })
+          .catch(function (error) {
+            
+            console.log("error")
+            console.log(response)
+          })
+
+        }
 
       }
     })
