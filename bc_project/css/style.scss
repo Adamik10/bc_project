@@ -113,7 +113,7 @@ $lightGrey: #e2e2e2;
 .baseCard {
   position: relative;
   display: inline-block;
-  width: 340px;
+  width: 350px;
   border-radius: 2px;
   position: relative;
   margin-right: 30px;
@@ -121,6 +121,20 @@ $lightGrey: #e2e2e2;
 
   &.clickable {
     cursor: pointer;
+
+    &.align-top.v-card:nth-child(3n+2) { 
+      margin-right: 0px;
+    }
+
+    .load-overlay {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      background-color: $lightGrey;
+    }
   }
 
   .card-title {
@@ -291,6 +305,7 @@ $lightGrey: #e2e2e2;
 
     &__container {
       width: 900px;
+      height: 500px;
       display: block;
       position: relative;
       margin-left: 0px;
@@ -380,7 +395,7 @@ $lightGrey: #e2e2e2;
   }
 
   &.green {
-    
+
   }
 
   &.red {

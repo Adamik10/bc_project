@@ -99,7 +99,7 @@
 .baseCard {
   position: relative;
   display: inline-block;
-  width: 340px;
+  width: 350px;
   border-radius: 2px;
   position: relative;
   margin-right: 30px;
@@ -107,6 +107,18 @@
 }
 .baseCard.clickable {
   cursor: pointer;
+}
+.baseCard.clickable.align-top.v-card:nth-child(3n+2) {
+  margin-right: 0px;
+}
+.baseCard.clickable .load-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  background-color: #e2e2e2;
 }
 .baseCard .card-title {
   display: block;
@@ -248,6 +260,7 @@
 }
 .display-flex .desktop-preview__container {
   width: 900px;
+  height: 500px;
   display: block;
   position: relative;
   margin-left: 0px;
