@@ -30,7 +30,7 @@
   <!-- below css is temporary 
   <link rel="stylesheet" type="text/css" href="css/style.css">-->
   <style>
-    /* sass --watch style.scss style.css */
+/* sass --watch style.scss style.css */
 * {
   position: relative;
 }
@@ -44,6 +44,10 @@
 }
 
 /* INDEX ------------------------------------------------------------------------- INDEX */
+.v-toolbar__title {
+  overflow: visible !important;
+}
+
 .navLogo {
   height: 50px;
 }
@@ -120,6 +124,10 @@
 }
 
 /* OFFERS OVERVIEW ----------------------------------------------------------- OFFERS OVERVIEW */
+.addNewButton {
+  margin-top: 70px;
+}
+
 .baseCard {
   position: relative;
   display: inline-block;
@@ -152,10 +160,10 @@
   height: 4px;
 }
 .baseCard .status-container.green {
-  background-color: #4cc541;
+  background-color: #6DC570;
 }
 .baseCard .status-container.red {
-  background-color: #ca1717;
+  background-color: #FF6D6D;
 }
 .baseCard .v-expansion-panel__header {
   padding: 0px !important;
@@ -197,7 +205,7 @@
 }
 .dropdownContainer .basicDropdown {
   display: inline-block;
-  outline-color: #3a9ef0;
+  outline-color: #3A9EF0;
   margin-right: 300px;
   width: 200px;
   cursor: pointer;
@@ -217,6 +225,18 @@
 /* DETAIL OFFER --------------------------------------------------------------------- DETAIL OFFER */
 .long-title {
   overflow: visible !important;
+}
+
+.greenBackground {
+  background-color: #6DC570 !important;
+}
+
+.redBackground {
+  background-color: #FF6D6D !important;
+}
+
+.blueBackground {
+  background-color: #3A9EF0 !important;
 }
 
 .display-flex {
@@ -252,7 +272,7 @@
   overflow-x: auto;
   overflow-y: auto;
   padding-top: 30px;
-  box-shadow: 2px 2px 10px black;
+  box-shadow: 0px 5px 10px #a8a8a8;
 }
 .display-flex .desktop-preview {
   padding-top: 30px;
@@ -324,16 +344,17 @@
   height: 40px;
   width: 100px;
   color: white;
-  border-radius: 3px;
+  border-radius: 5px;
   text-align: center;
-  line-height: 36px;
+  line-height: 40px;
+  cursor: pointer;
+  border: 1px solid silver;
+  color: silver;
+  background-color: rgba(255, 255, 255, 0);
 }
 .base-button.full-width {
   width: 100%;
   margin: 0 auto;
-}
-.base-button.green {
-  background-color: #6DC570;
 }
 
 .spacer {
@@ -347,6 +368,110 @@
   height: 30px;
 }
 
+/* NEW OFFER --------------------------------------------------------------------- NEW OFFER */
+.basicInputContainer {
+  display: block;
+}
+.basicInputContainer.special {
+  display: block;
+  padding-right: 10px;
+}
+.basicInputContainer .basicInput {
+  width: 100%;
+  margin-right: 5px;
+}
+.basicInputContainer .v-text-field {
+  padding-top: 0px;
+  margin-top: 0px;
+}
+.basicInputContainer .v-text-field .v-input__slot {
+  margin-bottom: 2px;
+}
+
+.dropdownContainerForm {
+  border-radius: 5px;
+  padding: 0;
+  width: 202px;
+  display: inline-block;
+  margin-right: 5px;
+}
+.dropdownContainerForm .basicDropdownForm {
+  display: inline-block;
+  width: 100%;
+  border-radius: 5px;
+  height: 50px;
+}
+.dropdownContainerForm .basicDropdownForm .v-input__control {
+  border-radius: 5px;
+}
+.dropdownContainerForm .basicDropdownForm .v-input__control .v-input__slot {
+  border: solid 1px #e2e2e2;
+  border-radius: 5px;
+}
+.dropdownContainerForm .basicDropdownForm .v-input__control .v-select__selection {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.new-offer-dialog {
+  overflow-x: hidden;
+  overflow-y: hidden;
+  background-color: #FAFAFA !important;
+}
+.new-offer-dialog .v-card {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+.new-offer-dialog .leftSide {
+  display: inline-block;
+  position: relative;
+  width: 478px;
+  min-height: 100%;
+  padding: 30px 15px 30px 40px;
+}
+.new-offer-dialog .rightSide {
+  display: inline-block;
+  position: relative;
+  width: 718px;
+  min-height: 100%;
+  padding: 30px 40px 30px 15px;
+}
+.new-offer-dialog .rightSide .previewContainer {
+  width: 100%;
+  height: 500px;
+  display: block;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
+.new-offer-dialog .rightSide .previewContainer-content {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 500px;
+  max-height: 500px;
+  border-radius: 0px;
+  overflow-x: auto;
+  overflow-y: auto;
+  box-shadow: 0px 5px 15px #a8a8a8;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.float-right {
+  float: right;
+}
+
+.float-left {
+  float: right;
+}
+
+.dialog-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
 /*# sourceMappingURL=style.css.map */
 
   </style>
@@ -358,22 +483,12 @@
     <v-toolbar  absolute 
                 dark 
                 color="#3A9EF0"
-                height="70px"
-                scroll-off-screen>
+                height="70px">
       <v-toolbar-side-icon  @click.native.stop="sidebar = !sidebar"></v-toolbar-side-icon>
       <v-toolbar-title class="white--text">UFS Offer Dashboard</v-toolbar-title>
       <v-spacer></v-spacer>
-      <img src="https://unilever-stage.neolane.net/res/unilever_stage/82b11d94f8b6e520f06ce3334218952d.png" alt="logo" class="navLogo">
+      <img src="https://unilever-stage.neolane.net/res/unilever_stage/82b11d94f8b6e520f06ce3334218952d.png" alt="logo" class="navLogo" style="margin-right: 300px;">
       <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon>search</v-icon>
-      </v-btn>
-      <v-btn icon>
-        <v-icon>notifications_active</v-icon>
-      </v-btn>
-      <v-btn icon>
-        <v-icon>person</v-icon>
-      </v-btn>
     </v-toolbar>
     <v-navigation-drawer  v-model="sidebar"
                           absolute
@@ -421,6 +536,9 @@
                     clearable dense single-line solo flat
                     class="basicDropdown"
                   :menu-props="{contentClass:'basicDropdownContent'}">
+            <template slot="selection" slot-scope="data">
+              {{ data.item.marketLabel | maxLength(13) }}
+            </template>
           </v-select>
         </v-container>
         <v-container class="dropdownContainer">
@@ -432,6 +550,9 @@
                     clearable dense single-line solo flat
                     class="basicDropdown"
                   :menu-props="{contentClass:'basicDropdownContent'}">
+            <template slot="selection" slot-scope="data">
+              {{ data.item.categoryLabel | maxLength(12) }}
+            </template>
           </v-select>
         </v-container>
         <v-container class="dropdownContainer">
@@ -443,6 +564,9 @@
                     clearable dense single-line solo flat
                     class="basicDropdown"
                     :menu-props="{contentClass:'basicDropdownContent'}">
+            <template slot="selection" slot-scope="data">
+              {{ data.item.name | maxLength(13) }}
+            </template>
           </v-select>
         </v-container>
         <v-container class="inputContainer">
@@ -463,7 +587,7 @@
                   :class="`elevation-${hover ? 12 : 2}`"
                   @click="openDetailView(offer)">
               <v-card-title primary-title class="card-title" >
-                <div class="status-container" :class="{green: offer.statusLive == 6, red: offer.statusLive !== 6}"></div>
+                <div class="status-container" :class="{greenBackground: offer.statusLive == 6, redBackground: offer.statusLive != 6}"></div>
                 <h3 class="headline" :title="offer.offerLabel">{{ offer.offerLabel | maxLength(30) }} </h3>
                 <v-card-text>
                   <div><b>SL 1:</b>
@@ -494,7 +618,11 @@
       <template v-else>
         <v-container>There are no offers to display</v-container>
       </template>
-      
+
+      <v-btn fab dark class="blueBackground addNewButton" @click="openNewOfferDialog()"
+        fixed right top>
+          <v-icon dark>add</v-icon>
+      </v-btn>
       <!-- Search results end  -->
     </v-container>
     <!-- Detailed offer view -------------------------------------------------------------------------------------------------------->
@@ -503,7 +631,7 @@
               transition="dialog-bottom-transition"
               content-class="detailViewContent">
       <v-card v-if="detailOfferData != {} && detailOfferData != undefined && detailOfferData != null">
-        <v-toolbar dark color="#FF5A00">
+        <v-toolbar dark :class="{greenBackground: detailOfferData.statusLive == 6, redBackground: detailOfferData.statusLive != 6}">
           <v-toolbar-title class="long-title">{{ detailOfferData.offerLabel }}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn icon dark @click="closeDetailView()">
@@ -676,7 +804,7 @@
             </div>
           </div>
           <div class="sidebar">
-            <div class="base-button green full-width" style="pointer-events: none">Currently: {{ detailOfferData.statusLive }}</div>
+            <div class="base-button greenBackground full-width" style="pointer-events: none">Currently: {{ detailOfferData.statusLive }}</div>
             <div class="spacer-big"></div>
             <v-subheader class="no-padding">Subject Line 1</v-subheader>
             <p v-if="detailOfferData.subject1 && detailOfferData.subject1 != '' && detailOfferData.subject1 != undefined" 
@@ -733,6 +861,150 @@
       </v-card>
     </v-dialog>
     <!-- Detailed offer view ends -->
+
+    <!-- New offer  -------------------------------------------------------------------------------------------------------->
+    <v-dialog v-model="newOfferDialog" 
+              @keydown.esc="newOfferDialog = false"
+              width="1200px" height="850px">
+      <v-card width="1200px" height="850px" class="display-flex new-offer-dialog">
+        <div class="leftSide">
+          <p class="dialog-title" style="width: 207px; display: inline-block">Create offer</p>
+          <v-container class="dropdownContainerForm">
+            <v-select :items="offerTypes"
+                      v-model="newOffer.offerType"
+                      label="Offer type"
+                      item-text="label"
+                      item-value="label"
+                      dense single-line solo flat
+                      class="basicDropdownForm"
+                      :menu-props="{contentClass:'basicDropdownContent'}">
+            </v-select>
+          </v-container>
+          <div class="spacer"></div>
+          <v-container class="dropdownContainerForm">
+            <v-select :items="filters.countries"
+                      v-model="newOffer.country"
+                      label="Country"
+                      item-text="marketLabel"
+                      item-value="marketId"
+                      dense single-line solo flat 
+                      class="basicDropdownForm"
+                      :menu-props="{contentClass:'basicDropdownContent'}">
+              <template slot="selection" slot-scope="data">
+                {{ data.item.marketLabel | maxLength(15) }}
+              </template>
+            </v-select>
+          </v-container>
+          <v-container class="dropdownContainerForm">
+            <v-select :items="staticFilters.categories"
+                      v-model="newOffer.category"
+                      label="Category"
+                      item-text="categoryLabel"
+                      item-value="categoryId"
+                      title="categoryLabel"
+                      dense single-line solo flat
+                      class="basicDropdownForm"
+                      :menu-props="{contentClass:'basicDropdownContent'}">
+              <template slot="selection" slot-scope="data">
+                {{ data.item.categoryLabel | maxLength(15) }}
+              </template>
+            </v-select>
+          </v-container>
+          <div class="spacer"></div>
+          <div class="basicInputContainer special full-width">
+            <v-text-field v-model="newOffer.offerLabel"
+                          label="Offer Label"
+                          class="basicInput">
+            </v-text-field>
+          </div>
+          <div class="spacer"></div>
+          <div class="basicInputContainer special full-width">
+            <v-text-field v-model="newOffer.preHeader"
+                          label="Pre Header"
+                          class="basicInput">
+            </v-text-field>
+          </div>
+          <div class="basicInputContainer special full-width">
+            <v-text-field v-model="newOffer.subjectOne"
+                          label="Subject line 1"
+                          class="basicInput">
+            </v-text-field>
+          </div>
+          <div class="basicInputContainer special full-width">
+            <v-text-field v-model="newOffer.subjectTwo"
+                          label="Subject line 2"
+                          class="basicInput">
+            </v-text-field>
+          </div>
+          <div class="spacer"></div>
+          <div class="basicInputContainer special full-width">
+            <v-text-field v-model="newOffer.headline"
+                          label="Headline"
+                          class="basicInput">
+            </v-text-field>
+          </div>
+          <div class="basicInputContainer special full-width">
+            <v-text-field v-model="newOffer.subheadline"
+                          label="Subheadline"
+                          class="basicInput">
+            </v-text-field>
+          </div>
+          <div class="spacer"></div>
+          <div class="basicInputContainer special full-width">
+            <v-text-field v-model="newOffer.imageURL"
+                          label="Image URL"
+                          class="basicInput">
+            </v-text-field>
+          </div>
+          <div class="basicInputContainer special full-width">
+            <v-text-field v-model="newOffer.mobileImageURL"
+                          label="Mobile Image URL"
+                          class="basicInput">
+            </v-text-field>
+          </div>
+          <div class="basicInputContainer special full-width">
+            <v-text-field v-model="newOffer.imageAltText"
+                          label="Image Alt Text"
+                          class="basicInput">
+            </v-text-field>
+          </div>
+          <div class="spacer"></div>
+          <div class="basicInputContainer special full-width">
+            <v-text-field v-model="newOffer.copyText"
+                          label="Copy Text"
+                          class="basicInput">
+            </v-text-field>
+          </div>
+          <div class="basicInputContainer special full-width">
+            <v-text-field v-model="newOffer.CTAText"
+                          label="CTA Text"
+                          class="basicInput">
+            </v-text-field>
+          </div>
+          <div class="basicInputContainer special full-width">
+            <v-text-field v-model="newOffer.destinationURL"
+                          label="Destination URL"
+                          class="basicInput">
+            </v-text-field>
+          </div>
+        </div>
+        <div class="rightSide">
+          <p class="dialog-title full-width center-text">Offer preveiw</p>
+          <div class="previewContainer">
+            <div class="previewContainer-content">
+
+            </div>
+          </div>
+          <v-btn class="base-button full-width" style="margin-top: 50px;"
+            :disabled="!isNewOfferFormValid"
+            outline color="#6DC570">
+            Create offer
+          </v-btn>
+        </div>
+      </v-card>
+    </v-dialog>
+    <!-- New offer ends -->
+
     <!-- Content ends -->
 
     <!-- Footer -------------------------------------------------------------------------------------------------------->
@@ -780,6 +1052,7 @@
   <script>
     var vm = new Vue({
       el: '#app',
+
       filters: {
         maxLength: function(value, desiredLength) {
           if (!value) return '';
@@ -799,11 +1072,14 @@
           return moment(value).format(desiredFormat);
         }
       },
+
       props: {
         offers: Array,
         filters: Object,
       },
+
       data: {
+        newOfferDialog: false,
         isLoadingOffers: false,
         detailOfferView: false,
         detailOfferData: {},
@@ -816,6 +1092,27 @@
           status: '',
           label: '',
         },
+        newOffer: {
+          offerType: '',
+          country: '',
+          category: '',
+          offerLabel: '',
+          preHeader: '',
+          subjectOne: '',
+          subjectTwo: '',
+          headline: '',
+          subheadline: '',
+          imageURL: '',
+          mobileImageURL: '',
+          imageAltText: '',
+          copyText: '',
+          CTAText: '',
+          destinationURL: '',
+        },
+        isNewOfferFormValid: false,
+        offerTypes: [
+          { label: 'Default offer'}
+        ],
         sidebar: false,
         subPages: [
           {
@@ -829,12 +1126,6 @@
             name: 'Offer dashboard',
             link: 'file:///C:/Users/antala/Documents/bc_peoject/bc_project/bc_project/index.html',
             icon: 'extension'
-          },
-          {
-            id: 3,
-            name: 'Settings',
-            link: 'xyz',
-            icon: 'settings'
           },
           {
             id: 4,
@@ -970,6 +1261,7 @@
           ]
         }
       },
+      
       watch: {
         'filtersSelected': {
           handler(val) {
@@ -977,11 +1269,19 @@
             this.loadOffers(val, caller);      
           },
           deep: true
+        },
+        'newOffer': {
+          handler(val) {
+            this.validateForm();
+          },
+          deep: true
         }
       },
+
       created() {
         this.loadFilters();
       },
+
       mounted() {
         let startPayload = {
           mco: '',
@@ -992,6 +1292,7 @@
         };
         this.loadOffers(startPayload, 'filtering');
       },
+
       methods: {
         loadOffers(payload, caller) {
           let baseUrl = 'https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffersADAM.jssp';
@@ -1071,8 +1372,6 @@
               console.log(offerData.data);
             })
           }
-
-          
         },
 
         loadMoreOffers() {
@@ -1096,7 +1395,26 @@
         closeDetailView() {
           vm.detailOfferView = false;
           vm.detailOfferData = {};
-        }
+        },
+
+        openNewOfferDialog() {
+          vm.newOfferDialog = true;
+        },
+
+        validateForm() {
+          for (var key in vm.newOffer) {
+            if(vm.newOffer[key].length < 1){
+              if(key == 'offerType' || key == 'country' || key == 'category' || key == 'subjectOne' || key == 'offerLabel') {
+                vm.isNewOfferFormValid = false;
+                //console.log(key +' is empty and equals to: '+vm.newOffer[key])
+                return;
+              }else{
+
+              }
+            }
+          }
+          vm.isNewOfferFormValid = true;
+        },
 
       }
     })
