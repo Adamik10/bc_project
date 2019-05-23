@@ -1301,7 +1301,7 @@
 
       methods: {
         loadOffers(payload, caller) {
-          let baseUrl = 'https://unilever-s.neolane.net/ufs/TEST_OfferDashboardGetOffers.jssp';
+          let baseUrl = 'https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffersADAM.jssp';
           let hasUrlBeenAddedTo = false;
           
           console.log(payload)
@@ -1403,7 +1403,7 @@
         },
 
         loadFilters() {
-          axios.get('https://unilever-s.neolane.net/ufs/TEST_OfferDashboardGetFilters.jssp').then(function(filterData){
+          axios.get('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetFilters.jssp').then(function(filterData){
           vm.filters = filterData.data;
           console.log(filterData.data);
           })
@@ -1437,7 +1437,7 @@
           }
           vm.isNewOfferFormValid = true;
         },
-        
+
         createNewOffer(e) {
           let formData = {name: 'Alex', surname: 'pls'}
           console.log("clicked")
