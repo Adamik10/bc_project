@@ -619,47 +619,70 @@
       <!-- Filters end -->
       <v-divider ></v-divider>
       <!-- Search results ---------------------------------------------------------------------------------- -->
-      <template v-if="offers.length">
-        <v-hover v-for="(offer,i) in offers" :key="i">
-          <v-card class="baseCard clickable align-top" 
-                  align="top"
-                  slot-scope="{ hover }"
-                  :class="`elevation-${hover ? 12 : 2}`"
-                  @click="openDetailView(offer)">
-              <v-card-title primary-title class="card-title" >
-                <div class="status-container" :class="{greenBackground: offer.statusLive == 6, redBackground: offer.statusLive != 6}"></div>
-                <h3 class="headline" :title="offer.offerLabel">{{ offer.offerLabel | maxLength(30) }} </h3>
-                <v-card-text>
-                  <div><b>SL 1:</b>
-                    {{offer.subject1}}</div>
-                <div><b>SL 2:</b>
-                    {{offer.subject2}}</div>
-                <div><b>Pre Header:</b>
-                  {{offer.preheader}}</div>
-                </v-card-text>
-              
+      <template v-if="isLoadingOffers != true">
+        <template v-if="offers.length">
+          <v-hover v-for="(offer,i) in offers" :key="i">
+            <v-card class="baseCard clickable align-top" 
+                    align="top"
+                    slot-scope="{ hover }"
+                    :class="`elevation-${hover ? 12 : 2}`"
+                    @click="openDetailView(offer)">
+                <v-card-title primary-title class="card-title" >
+                  <div class="status-container" :class="{greenBackground: offer.statusLive == 6, redBackground: offer.statusLive != 6}"></div>
+                  <h3 class="headline" :title="offer.offerLabel">{{ offer.offerLabel | maxLength(30) }} </h3>
+                  <v-card-text>
+                    <div><b>SL 1:</b>
+                      {{offer.subject1}}</div>
+                  <div><b>SL 2:</b>
+                      {{offer.subject2}}</div>
+                  <div><b>Pre Header:</b>
+                    {{offer.preheader}}</div>
+                  </v-card-text>
+                
+                </v-card-title>
+              <v-img v-if="offer.imageDesktopURL" :src="'http://'+offer.imageDesktopURL" aspect-ratio="2"></v-img>
+              <v-card-title class="text-center center">
+                <div v-if="offer.headline" class="margin-auto offer-content" style="font-family:Verdana; font-weight:bold; mso-line-height-rule:exactly; line-height:22px !important; font-size:21px; color:#ff5a00; padding:0 0 8px 0;">{{offer.headline}}</div>
+                <div v-if="offer.copyText" class="offer-content" style="padding: 0 0 16px 0">{{offer.copyText}}</div>
+                <div v-if="offer.CTAtext" style="margin: auto; padding:6px 14px; -webkit-border-radius:4px; border-radius:4px; font-size:14px; font-family:Verdana; color:#ffffff; display:inline-block; border:1px solid #ff5a00; background-color: #ff5a00;">
+                  <a :href="offer.destinationURL" style="font-size:14px; font-family:Verdana; text-decoration:none; font-weight:bold; mso-line-height-rule:exactly; 
+                    line-height:14px !important; color:#ffffff;" target="_blank">{{offer.CTAtext}}</a>
+                </div>
               </v-card-title>
-            <v-img v-if="offer.imageDesktopURL" :src="'http://'+offer.imageDesktopURL" aspect-ratio="2"></v-img>
-            <v-card-title class="text-center center">
-              <div v-if="offer.headline" class="margin-auto offer-content" style="font-family:Verdana; font-weight:bold; mso-line-height-rule:exactly; line-height:22px !important; font-size:21px; color:#ff5a00; padding:0 0 8px 0;">{{offer.headline}}</div>
-              <div v-if="offer.copyText" class="offer-content" style="padding: 0 0 16px 0">{{offer.copyText}}</div>
-              <div v-if="offer.CTAtext" style="margin: auto; padding:6px 14px; -webkit-border-radius:4px; border-radius:4px; font-size:14px; font-family:Verdana; color:#ffffff; display:inline-block; border:1px solid #ff5a00; background-color: #ff5a00;">
-                <a :href="offer.destinationURL" style="font-size:14px; font-family:Verdana; text-decoration:none; font-weight:bold; mso-line-height-rule:exactly; 
-                  line-height:14px !important; color:#ffffff;" target="_blank">{{offer.CTAtext}}</a>
+            </v-card>
+          </v-hover>
+          <v-btn v-on:click="loadMoreOffers()" 
+                  class="full-width"
+                  color="rgb(192, 192, 192)"
+                  outline flat center>
+            <template v-if="!isLoadingMoreOffers">
+              Load more
+            </template>
+            <template v-else>
+              <div class="text-xs-center">
+                <v-progress-circular
+                  :size="20" :width="3"
+                  color="rgb(192, 192, 192)"
+                  indeterminate></v-progress-circular>
               </div>
-            </v-card-title>
-          </v-card>
-        </v-hover>
-        <div>
-          <v-btn v-on:click="loadMoreOffers()" depressed large center>Load more</v-btn>
-        </div>
-        <div>
-          <v-btn v-on:click="createNewOffer()" depressed large center>Create offer test</v-btn>
-        </div>
+            </template>
+          </v-btn>
+          <div>
+            <v-btn v-on:click="createNewOffer()" depressed large center>Create offer test</v-btn>
+          </div>
+        </template>
+        
+        <template v-else>
+          <v-container>There are no offers to display</v-container>
+        </template>
       </template>
-      
       <template v-else>
-        <v-container>There are no offers to display</v-container>
+          <div class="text-xs-center">
+            <v-progress-circular
+              :size="50" :width="3"
+              color="#51A9F2"
+              indeterminate></v-progress-circular>
+          </div>
       </template>
 
       <v-btn fab dark class="blueBackground addNewButton" @click="openNewOfferDialog()"
@@ -882,13 +905,13 @@
                 </div>
                 <div class="half-width align-right">
                   <p v-if="eligibility.startDate && eligibility.startDate != '' && eligibility.startDate != undefined">
-                    Start: {{ eligibility.startDate | formatDate("M/DD/YYYY") }}
+                    Start: {{ eligibility.startDate | formatDate("DD/M/YYYY") }}
                   </p>
                   <p v-else>
                     Start: --
                   </p>
                   <p v-if="eligibility.endDate && eligibility.endDate != '' && eligibility.endDate != undefined">
-                    End: {{ eligibility.endDate | formatDate("M/DD/YYYY") }}
+                    End: {{ eligibility.endDate | formatDate("DD/M/YYYY") }}
                   </p>
                   <p v-else>
                     End --
@@ -900,16 +923,17 @@
               <p>There is no eligibility data.</p>
             </template>
             <template v-if="detailOfferData.categoryInternalName">
+              <div class="spacer-big"></div>
               <template v-if="doesStringContain(detailOfferData.categoryInternalName, eligibleSubstrings)">
-                <template v-if="detailOfferData.statusLive == 6">
-                  <v-btn class="base-button green full-width" 
-                    color="rgb(255, 78, 78)" outline
+                <template v-if="detailOfferData.statusLive != 6">
+                  <v-btn class="base-button full-width" 
+                    color="#6DC570" outline
                     @click.native="enableOffer(detailOfferData.offerId)">
                     Enable offer
                   </v-btn>
                 </template>
                 <template v-else>
-                  <v-btn class="base-button red full-width" 
+                  <v-btn class="base-button full-width" 
                     color="rgb(255, 78, 78)" outline
                     @click.native="disableOffer(detailOfferData.offerId)">
                     Disable offer
@@ -1189,6 +1213,7 @@
       data: {
         newOfferDialog: false,
         isLoadingOffers: false,
+        isLoadingMoreOffers: false,
         detailOfferView: false,
         detailOfferData: {},
         queryStartLine: 0,
@@ -1408,6 +1433,10 @@
 
       methods: {
         loadOffers(payload, caller) {
+          if(caller != 'loadingMoreOffers') {
+            this.isLoadingOffers = true;
+          }
+          
           let baseUrl = 'https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffersADAM.jssp';
           let hasUrlBeenAddedTo = false;
           
@@ -1469,8 +1498,6 @@
               baseUrl = baseUrl+'&label='+payload.label;
             }
           }
-
-          
           
           if(caller == "loadingMoreOffers"){
             console.log('we loading more offers')
@@ -1481,7 +1508,7 @@
               console.log(baseUrl)
               axios.get(baseUrl).then(function(offerData){
                 vm.offers = vm.offers.concat(offerData.data)
-
+                vm.isLoadingMoreOffers = false;
               })
             }else{
               baseUrl = baseUrl+'&startLine='+vm.queryStartLine;
@@ -1489,6 +1516,7 @@
               console.log(baseUrl)
               axios.get(baseUrl).then(function(offerData){
                 vm.offers = vm.offers.concat(offerData.data)
+                vm.isLoadingMoreOffers = false;
               })
             }
           }else if(caller == "filtering"){
@@ -1499,14 +1527,16 @@
             axios.get(baseUrl).then(function(offerData){
               vm.offers = offerData.data;
               console.log(offerData.data);
+              vm.isLoadingOffers = false;
             })
           }
         },
 
         loadMoreOffers() {
-        let caller = "loadingMoreOffers";  
-        vm.queryStartLine += 12;
-        vm.loadOffers(vm.filtersSelected, caller);
+          this.isLoadingMoreOffers = true;
+          let caller = "loadingMoreOffers";  
+          vm.queryStartLine += 12;
+          vm.loadOffers(vm.filtersSelected, caller);
         },
 
         loadFilters() {
