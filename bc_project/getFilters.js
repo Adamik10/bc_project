@@ -83,12 +83,14 @@ for each (var country in countries){
           if(country.@natureOne.toString() == "MCO"){
             results.countries.push({
               "marketLabel" :country.@label.toString(),
-              "marketCountryCode" :country.@abbreviationOne.toString()+"_"+country.@countryCode.toString()
+              "marketCountryCode" :country.@abbreviationOne.toString()+"_"+country.@countryCode.toString(),
+              "marketId" :country.@id.toString()
             });
           }else{
             results.countries.push({
               "marketLabel" :country.@label.toString(),
-              "marketCountryCode" :country.@abbreviationTwo.toString()+"_"+country.@countryCode.toString()
+              "marketCountryCode" :country.@abbreviationTwo.toString()+"_"+country.@countryCode.toString(),
+              "marketId" :country.@id.toString()
             });
           } 
 }

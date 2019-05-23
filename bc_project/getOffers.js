@@ -11,7 +11,9 @@
     var chosenMCO = request.getParameter("MCO");
     var chosenUmbrella = request.getParameter("umbrella");
     var chosenStartLine = request.getParameter("startLine");
-    var getStatus = request.getParameter("status");
+    var chosenStatus = request.getParameter("status");
+    var chosenLabel = request.getParameter("label");
+    var chosenLineCount = request.getParameter("lineCount");
 
     var condition = "";
 
@@ -38,18 +40,23 @@
     }
 
     //STATUS
-    if(getStatus == "Live"){
+    if(chosenStatus == "Live"){
       var status = 6;
       condition += "AND [prodOffer/@status] = "+status;
-    }else if(getStatus == "Disabled"){
+    }else if(chosenStatus == "Disabled"){
       var status = 6;
       condition += "AND [prodOffer/@status] != "+status;
+    }
+    
+    //LABEL
+    if(chosenLabel !== "" || chosenLabel !== null || chosenLabel !== undefined){
+    condition += "AND [@label] LIKE '%'+'"+chosenLabel+"'+'%'";
     }
 
     var results = [];
 
     var query = xtk.queryDef.create(
-        <queryDef schema="nms:offer" operation="select" lineCount="12" startLine={+chosenStartLine}>
+        <queryDef schema="nms:offer" operation="select" lineCount={+chosenLineCount} startLine={+chosenStartLine}>
           <select>
             <node expr="[@label]" alias="@label" />
             <node expr="[@id]" alias="@id" />

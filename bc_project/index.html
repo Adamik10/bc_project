@@ -613,6 +613,9 @@
         <div>
           <v-btn v-on:click="loadMoreOffers()" depressed large center>Load more</v-btn>
         </div>
+        <div>
+          <v-btn v-on:click="createNewOffer()" depressed large center>Create offer test</v-btn>
+        </div>
       </template>
       
       <template v-else>
@@ -1091,6 +1094,7 @@
           category: '',
           status: '',
           label: '',
+          lineCount: 12
         },
         newOffer: {
           offerType: '',
@@ -1289,25 +1293,25 @@
           country: '',
           category: '',
           status: '',
+          lineCount: 12,
+          label: ''
         };
         this.loadOffers(startPayload, 'filtering');
       },
 
       methods: {
         loadOffers(payload, caller) {
-          let baseUrl = 'https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffersADAM.jssp';
+          let baseUrl = 'https://unilever-s.neolane.net/ufs/TEST_OfferDashboardGetOffers.jssp';
           let hasUrlBeenAddedTo = false;
+          
           console.log(payload)
           console.log(caller)
           if(payload.mco != '' && payload.mco != undefined && payload.mco != null){
-            console.log('we in')
             if(hasUrlBeenAddedTo == false){
               baseUrl = baseUrl+'?MCO='+payload.mco;
               hasUrlBeenAddedTo = true;
-              console.log('we here')
             }else{
               baseUrl = baseUrl+'&MCO='+payload.mco;
-              console.log('we here')
             }
           }
           if(payload.umbrella != '' && payload.umbrella != undefined && payload.umbrella != null){
@@ -1342,6 +1346,24 @@
               baseUrl = baseUrl+'&status='+payload.status;
             }
           }
+          if(payload.lineCount != '' && payload.lineCount != undefined && payload.lineCount != null){
+            if(hasUrlBeenAddedTo == false){
+              baseUrl = baseUrl+'?lineCount='+payload.lineCount;
+              hasUrlBeenAddedTo = true;
+            }else{
+              baseUrl = baseUrl+'&lineCount='+payload.lineCount;
+            }
+          }
+          if(payload.label != '' && payload.label != undefined && payload.label != null){
+            if(hasUrlBeenAddedTo == false){
+              baseUrl = baseUrl+'?label='+payload.label;
+              hasUrlBeenAddedTo = true;
+            }else{
+              baseUrl = baseUrl+'&label='+payload.label;
+            }
+          }
+
+          
           
           if(caller == "loadingMoreOffers"){
             console.log('we loading more offers')
@@ -1381,7 +1403,7 @@
         },
 
         loadFilters() {
-          axios.get('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetFilters.jssp').then(function(filterData){
+          axios.get('https://unilever-s.neolane.net/ufs/TEST_OfferDashboardGetFilters.jssp').then(function(filterData){
           vm.filters = filterData.data;
           console.log(filterData.data);
           })
@@ -1415,6 +1437,21 @@
           }
           vm.isNewOfferFormValid = true;
         },
+        
+        createNewOffer(e) {
+          let formData = {name: 'Alex', surname: 'pls'}
+          console.log("clicked")
+          axios.post('https://unilever-s.neolane.net/ufs/TEST_OfferDashboardCreateOffer.jssp', encodeForm(formData))
+          .then(function(response) {
+            
+            console.log(response)
+          })
+          .catch(function (error) {
+            
+            console.log("error")
+            console.log(response)
+          })
+        }
 
       }
     })
