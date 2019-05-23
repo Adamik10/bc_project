@@ -6,7 +6,7 @@
   var context = logonEscalation("admin");
   var label = "label";
 
-  //query to get catgory id
+  //query to get category id - each folder for each market has different id
   
   function createNewDefaultOffer(offerCategoryId){
     var newOffer = nms.offer.create(
