@@ -394,6 +394,25 @@ $lightGrey: #e2e2e2;
     margin: 0 auto;
   }
 
+  &.almost-full-width {
+    width: 99%;
+    margin: 0 auto;
+  }
+
+  &.partial-width {
+    width: 29%;
+    display: inline-block;
+    margin: 0 auto;
+  }
+
+  &.bottom-actions {
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    right: 20px;
+    width: calc(100% - 40px);
+  }
+
   &.green {
 
   }
@@ -423,6 +442,40 @@ $lightGrey: #e2e2e2;
   &.special {
     display: block;
     padding-right: 10px;
+  }
+
+  &.no-width {
+    display: inline-block;
+    width: 0%;
+    padding-top: 5px;
+  }
+
+  &.partial-width {
+    display: inline-block;
+    padding-top: 5px;
+    width: 70%;
+    animation: get-wide 0.3s forwards ease-in;
+  }
+
+  @keyframes get-wide {
+    from {width: 0%}
+    to {width: 70%}
+  }
+
+  .disappear {
+    display: inline-block;
+    width: 0%;
+    padding-top: 5px;
+    animation: get-narrow 0.9s forwards ease-in;
+  }
+
+  @keyframes get-narrow {
+    from {width: 70%}
+    to {width: 0%}
+  }
+
+  & .v-text-field__details {
+    display: none;
   }
 
   .basicInput {

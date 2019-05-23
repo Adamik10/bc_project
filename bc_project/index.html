@@ -369,6 +369,22 @@
   width: 100%;
   margin: 0 auto;
 }
+.base-button.almost-full-width {
+  width: 99%;
+  margin: 0 auto;
+}
+.base-button.partial-width {
+  width: 29%;
+  display: inline-block;
+  margin: 0 auto;
+}
+.base-button.bottom-actions {
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
+  right: 20px;
+  width: calc(100% - 40px);
+}
 .spacer {
   display: block;
   width: 100%;
@@ -387,6 +403,42 @@
 .basicInputContainer.special {
   display: block;
   padding-right: 10px;
+}
+.basicInputContainer.no-width {
+  display: inline-block;
+  width: 0%;
+  padding-top: 5px;
+}
+.basicInputContainer.partial-width {
+  display: inline-block;
+  padding-top: 5px;
+  width: 70%;
+  animation: get-wide 0.3s forwards ease-in;
+}
+@keyframes get-wide {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 70%;
+  }
+}
+.basicInputContainer .disappear {
+  display: inline-block;
+  width: 0%;
+  padding-top: 5px;
+  animation: get-narrow 0.9s forwards ease-in;
+}
+@keyframes get-narrow {
+  from {
+    width: 70%;
+  }
+  to {
+    width: 0%;
+  }
+}
+.basicInputContainer .v-text-field__details {
+  display: none;
 }
 .basicInputContainer .basicInput {
   width: 100%;
@@ -674,8 +726,8 @@
                 <div v-if="offer.headline" class="margin-auto offer-content" style="font-family:Verdana; font-weight:bold; mso-line-height-rule:exactly; line-height:22px !important; font-size:21px; color:#ff5a00; padding:0 0 8px 0;">{{offer.headline}}</div>
                 <div v-if="offer.copyText" class="offer-content" style="padding: 0 0 16px 0">{{offer.copyText}}</div>
                 <div v-if="offer.CTAtext" style="margin: auto; padding:6px 14px; -webkit-border-radius:4px; border-radius:4px; font-size:14px; font-family:Verdana; color:#ffffff; display:inline-block; border:1px solid #ff5a00; background-color: #ff5a00;">
-                  <a :href="offer.destinationURL" style="font-size:14px; font-family:Verdana; text-decoration:none; font-weight:bold; mso-line-height-rule:exactly; 
-                    line-height:14px !important; color:#ffffff;" target="_blank">{{offer.CTAtext}}</a>
+                  <span style="font-size:14px; font-family:Verdana; text-decoration:none; font-weight:bold; mso-line-height-rule:exactly; 
+                    line-height:14px !important; color:#ffffff;" target="_blank">{{offer.CTAtext}}</span>
                 </div>
               </v-card-title>
             </v-card>
@@ -708,8 +760,8 @@
       <template v-else>
           <div class="text-xs-center">
             <v-progress-circular
-              :size="20" :width="3"
-              color="#FF5A00"
+              :size="50" :width="3"
+              color="rgb(192, 192, 192)"
               indeterminate></v-progress-circular>
           </div>
       </template>
@@ -729,6 +781,8 @@
         <v-toolbar dark :class="{greenBackground: detailOfferData.statusLive == 6, redBackground: detailOfferData.statusLive != 6}">
           <v-toolbar-title class="long-title">{{ detailOfferData.offerLabel }}</v-toolbar-title>
           <v-spacer></v-spacer>
+          <div v-if="detailOfferData.statusLive == 6" style="width: 210px; min-width: 210px; font-weight: 700;">Current status: LIVE</div>
+          <div v-else style="width: 232px; min-width: 232px; font-weight: 700;">Current status: DISABLED</div>
           <v-btn icon dark @click="closeDetailView()">
             <v-icon>close</v-icon>
           </v-btn>
@@ -899,7 +953,26 @@
             </div>
           </div>
           <div class="sidebar">
-            <v-btn class="base-button full-width" flat outline>Send a proof to yourself</v-btn>
+            <div class="full-width">
+              <div class="basicInputContainer no-width align-top" :class="{ 'partial-width' : sendingProof, 'disappear' : !sendingProof }">
+                <v-text-field v-model="proofEmailAddress"
+                              label="Recipient email"
+                              class="basicInput">
+                  <template slot="append">
+                    <v-icon v-if="sendingProof" @click="sendingProof = false">clear</v-icon>
+                  </template>
+                </v-text-field>
+              </div>
+              <v-btn class="base-button align-top" :class="{ 'almost-full-width' : !sendingProof, 'partial-width' : sendingProof }" 
+                flat outline @click="sendingProof = true">
+                <template v-if="!sendingProof">
+                  Send a proof to yourself
+                </template>
+                <template v-else>
+                  Send
+                </template>
+              </v-btn>
+            </div>
             <div class="spacer-big"></div>
             <v-subheader class="no-padding">Subject Line 1</v-subheader>
             <p v-if="detailOfferData.subject1 && detailOfferData.subject1 != '' && detailOfferData.subject1 != undefined" 
@@ -915,54 +988,58 @@
             <p v-else><i>Undefined</i></p>
             <div class="spacer-big"></div>
             <div class="spacer-big"></div>
-            <v-subheader class="no-padding">Eligibility</v-subheader>
-            <template v-if="detailOfferData.eligibility">
-              <div v-for="(eligibility, i) in detailOfferData.eligibility" class="display-flex" :key="i">
-                <div class="half-width">
-                  <p v-if="eligibility.label && eligibility.label != '' && eligibility.label != undefined">
-                    <b>{{ eligibility.label }}</b>
-                  </p>
-                  <p v-else>
-                    <b><i>No label</i></b>
-                  </p>
-                  <p v-if="eligibility.weight && eligibility.weight != '' && eligibility.weight != undefined">
-                    Weight {{ eligibility.weight }}
-                  </p>
-                  <p v-else>
-                    <i>No weight</i>
-                  </p>
-                </div>
-                <div class="half-width align-right">
-                  <p v-if="eligibility.startDate && eligibility.startDate != '' && eligibility.startDate != undefined">
-                    Start: {{ eligibility.startDate | formatDate("DD/M/YYYY") }}
-                  </p>
-                  <p v-else>
-                    Start: --
-                  </p>
-                  <p v-if="eligibility.endDate && eligibility.endDate != '' && eligibility.endDate != undefined">
-                    End: {{ eligibility.endDate | formatDate("DD/M/YYYY") }}
-                  </p>
-                  <p v-else>
-                    End --
-                  </p>
-                </div>
-              </div>
-            </template>
-            <template v-else>
-              <p>There is no eligibility data.</p>
+            <template v-if="detailOfferData.categoryInternalName">
+              <template v-if="!doesStringContain(detailOfferData.categoryInternalName, eligibleSubstrings)">
+                <v-subheader class="no-padding">Eligibility</v-subheader>
+                <template v-if="detailOfferData.eligibility">
+                  <div v-for="(eligibility, i) in detailOfferData.eligibility" class="display-flex" :key="i">
+                    <div class="half-width">
+                      <p v-if="eligibility.label && eligibility.label != '' && eligibility.label != undefined">
+                        <b>{{ eligibility.label }}</b>
+                      </p>
+                      <p v-else>
+                        <b><i>No label</i></b>
+                      </p>
+                      <p v-if="eligibility.weight && eligibility.weight != '' && eligibility.weight != undefined">
+                        Weight {{ eligibility.weight }}
+                      </p>
+                      <p v-else>
+                        <i>No weight</i>
+                      </p>
+                    </div>
+                    <div class="half-width align-right">
+                      <p v-if="eligibility.startDate && eligibility.startDate != '' && eligibility.startDate != undefined">
+                        Start: {{ eligibility.startDate | formatDate("DD/M/YYYY") }}
+                      </p>
+                      <p v-else>
+                        Start: --
+                      </p>
+                      <p v-if="eligibility.endDate && eligibility.endDate != '' && eligibility.endDate != undefined">
+                        End: {{ eligibility.endDate | formatDate("DD/M/YYYY") }}
+                      </p>
+                      <p v-else>
+                        End --
+                      </p>
+                    </div>
+                  </div>
+                </template>
+                <template v-else>
+                  <p>There is no eligibility data.</p>
+                </template>
+              </template>
             </template>
             <template v-if="detailOfferData.categoryInternalName">
               <div class="spacer-big"></div>
               <template v-if="doesStringContain(detailOfferData.categoryInternalName, eligibleSubstrings)">
                 <template v-if="detailOfferData.statusLive != 6">
-                  <v-btn class="base-button full-width" 
+                  <v-btn class="base-button full-width bottom-actions" 
                     color="#6DC570" outline
                     @click.native="dispatcher(detailOfferData.offerId, detailOfferData.categoryInternalName, 'enable')">
                     Enable offer
                   </v-btn>
                 </template>
                 <template v-else>
-                  <v-btn class="base-button full-width" 
+                  <v-btn class="base-button full-width bottom-actions" 
                     color="rgb(255, 78, 78)" outline
                     @click.native="dispatcher(detailOfferData.offerId, detailOfferData.categoryInternalName, 'disable')">
                     Disable offer
@@ -1165,7 +1242,6 @@
         </div>
       </v-card>
     </v-dialog>
-
     <!-- New offer ends -->
 
     <!-- Content ends -->
@@ -1424,7 +1500,9 @@
               name: 'Disabled'
             }
           ]
-        }
+        },
+        sendingProof: false,
+        proofEmailAddress: '',
       },
       
       watch: {
@@ -1646,8 +1724,7 @@
             console.log("error")
             console.log(response)
           })
-
-        }
+        },
 
       }
     })
