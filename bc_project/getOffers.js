@@ -63,6 +63,7 @@
             <node expr="[@status]" alias="@statusDesign"/>
             <node expr="[prodOffer/@status]" alias="@statusLive"/>
             <node expr="[@name]" alias="@internalName"/>
+            <node expr="[category/@name]" alias="@categoryInternalName"/>
             <node expr="[@created]" sort="true" alias="@created"/>
             //offer content fields below
             <node expr="[view/emailSubject1_jst]" alias="@subject1"/>
@@ -134,6 +135,7 @@ for each (var offer in selectedOffers){
       "utmTerm" :offer.@utmTerm.toString(),
       "utmImageTerm" :offer.@utmImageTerm.toString(),
       "copyText" :offer.@copyText.toString(),
+      "categoryInternalName" :offer.@categoryInternalName,
       "eligibility": []
     }
     results.push(offerBlock);
