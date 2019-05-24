@@ -365,6 +365,9 @@
   color: silver;
   background-color: rgba(255, 255, 255, 0);
 }
+.base-button:focus {
+  outline: none;
+}
 .base-button.full-width {
   width: 100%;
   margin: 0 auto;
@@ -372,11 +375,29 @@
 .base-button.almost-full-width {
   width: 99%;
   margin: 0 auto;
+  animation: widen-up 0.26s forwards ease-out;
+}
+@keyframes widen-up {
+  from {
+    width: 29%;
+  }
+  to {
+    width: 99%;
+  }
 }
 .base-button.partial-width {
   width: 29%;
   display: inline-block;
   margin: 0 auto;
+  animation: shrink-down 0.25s forwards ease-out;
+}
+@keyframes shrink-down {
+  from {
+    width: 99%;
+  }
+  to {
+    width: 29%;
+  }
 }
 .base-button.bottom-actions {
   position: absolute;
@@ -413,28 +434,36 @@
   display: inline-block;
   padding-top: 5px;
   width: 70%;
-  animation: get-wide 0.3s forwards ease-in;
+  animation: get-wide 0.25s forwards ease-out;
 }
 @keyframes get-wide {
-  from {
+  0% {
     width: 0%;
+    display: none;
+  }
+  1% {
+    display: inline-block;
   }
   to {
     width: 70%;
   }
 }
-.basicInputContainer .disappear {
+.basicInputContainer.disappear {
   display: inline-block;
   width: 0%;
   padding-top: 5px;
-  animation: get-narrow 0.9s forwards ease-in;
+  animation: get-narrow 0.25s forwards ease-out;
 }
 @keyframes get-narrow {
-  from {
+  0% {
     width: 70%;
   }
-  to {
+  99% {
     width: 0%;
+    display: inline-block;
+  }
+  100% {
+    display: none;
   }
 }
 .basicInputContainer .v-text-field__details {
@@ -774,7 +803,7 @@
     </v-container>
     <!-- Detailed offer view -------------------------------------------------------------------------------------------------------->
     <v-dialog v-model="detailOfferView" 
-      fullscreen hide-overlay 
+      fullscreen hide-overlay  @keydown.esc="closeDetailView()"
       transition="dialog-bottom-transition"
       content-class="detailViewContent">
       <v-card v-if="detailOfferData != {} && detailOfferData != undefined && detailOfferData != null">
@@ -954,7 +983,7 @@
           </div>
           <div class="sidebar">
             <div class="full-width">
-              <div class="basicInputContainer no-width align-top" :class="{ 'partial-width' : sendingProof, 'disappear' : !sendingProof }">
+              <div class="basicInputContainer align-top" :class="{ 'partial-width' : sendingProof, 'disappear' : !sendingProof }">
                 <v-text-field v-model="proofEmailAddress"
                               label="Recipient email"
                               class="basicInput">
@@ -964,7 +993,7 @@
                 </v-text-field>
               </div>
               <v-btn class="base-button align-top" :class="{ 'almost-full-width' : !sendingProof, 'partial-width' : sendingProof }" 
-                flat outline @click="sendingProof = true">
+                flat outline @click="sendTheOfferProof(); sendingProof = true">
                 <template v-if="!sendingProof">
                   Send a proof to yourself
                 </template>
@@ -1642,6 +1671,12 @@
           }
         },
 
+        sendTheOfferProof() {
+          if(this.sendingProof == true) {
+            console.log('we here sending shit to:' + this.proofEmailAddress);
+          }
+        },
+
         loadMoreOffers() {
           this.isLoadingMoreOffers = true;
           let caller = "loadingMoreOffers";  
@@ -1664,6 +1699,8 @@
         closeDetailView() {
           vm.detailOfferView = false;
           vm.detailOfferData = {};
+          vm.proofEmailAddress = '';
+          vm.sendingProof = false;
         },
 
         openNewOfferDialog() {
