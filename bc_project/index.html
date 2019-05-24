@@ -1063,14 +1063,14 @@
                 <template v-if="detailOfferData.statusLive != 6">
                   <v-btn class="base-button full-width bottom-actions" 
                     color="#6DC570" outline
-                    @click.native="dispatcher(detailOfferData.offerId, detailOfferData.categoryInternalName, 'enable')">
+                    @click.native="dispatcher(detailOfferData.offerId, detailOfferData.offerLabel, detailOfferData.categoryInternalName, 'enable')">
                     Enable offer
                   </v-btn>
                 </template>
                 <template v-else>
                   <v-btn class="base-button full-width bottom-actions" 
                     color="rgb(255, 78, 78)" outline
-                    @click.native="dispatcher(detailOfferData.offerId, detailOfferData.categoryInternalName, 'disable')">
+                    @click.native="dispatcher(detailOfferData.offerId, detailOfferData.offerLabel, detailOfferData.categoryInternalName, 'disable')">
                     Disable offer
                   </v-btn>
                 </template>
@@ -1576,7 +1576,7 @@
             this.isLoadingOffers = true;
           }
           
-          let baseUrl = 'https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffersADAM.jssp';
+          let baseUrl = 'https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffers.jssp';
           let hasUrlBeenAddedTo = false;
           
           console.log(payload)
@@ -1749,9 +1749,9 @@
           return false;
         },
 
-        dispatcher(offerId, categoryInternalName, action) {
+        dispatcher(offerId, offerLabel, categoryInternalName, action) {
           console.log("dispatcher called")
-          axios.post('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardDispatcher.jssp', {offerId: offerId, categoryInternalName: categoryInternalName, action : action})
+          axios.post('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardDispatcher.jssp', {offerId: offerId, offerLabel : offerLabel, categoryInternalName: categoryInternalName, action : action})
           .then(function(response) {
             
             console.log(response)
