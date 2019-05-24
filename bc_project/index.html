@@ -537,7 +537,7 @@
   position: relative;
   width: 718px;
   min-height: 100%;
-  padding: 30px 40px 30px 15px;
+  padding: 10px 40px 30px 15px;
 }
 .new-offer-dialog .rightSide .previewContainer {
   width: 100%;
@@ -586,7 +586,7 @@
   position: relative;
   width: 100%;
   height: 50px;
-  margin-top: 40px;
+  margin-top: 25px;
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
@@ -605,6 +605,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+}
+.view-actions .icon-container:hover {
+  background-color: lighter(silver, 10%);
+}
+.view-actions .icon-container.active {
+  width: 47px;
+  height: 47px;
+  background-color: silver;
 }
 .view-actions .icon-container .icon {
   line-height: 40px;
@@ -614,6 +623,18 @@
 .view-actions .icon-container .icon.rotateIcon {
   display: inline-block;
   transform: rotate(90deg);
+}
+.view-actions .icon-container .icon.active {
+  line-height: 47px;
+  font-size: 30px;
+}
+
+.v-stepper__content {
+  padding: 0;
+}
+
+.v-stepper__header {
+  box-shadow: none;
 }
 
 /*# sourceMappingURL=style.css.map */
@@ -1097,10 +1118,183 @@
     <!-- New offer  -------------------------------------------------------------------------------------------------------->
     <v-dialog v-model="newOfferDialog" 
               @keydown.esc="newOfferDialog = false"
-              width="1200px" height="850px">
-      <v-card width="1200px" height="850px" class="display-flex new-offer-dialog">
-        <div class="leftSide">
-          <p class="dialog-title" style="width: 207px; display: inline-block">Create offer</p>
+              width="1200px" height="830px">
+      <v-card width="1200px" height="830px" class="display-flex new-offer-dialog">
+        <v-stepper v-model="currentStep">
+          <v-stepper-header>
+            <v-stepper-step :complete="currentStep > 1" step="1"></v-stepper-step>
+            <v-divider></v-divider>
+            <v-stepper-step :complete="currentStep > 2" step="2"></v-stepper-step>
+            <v-divider></v-divider>
+            <v-stepper-step step="3"></v-stepper-step>
+          </v-stepper-header>
+          <v-stepper-items>
+            <v-stepper-content step="1">
+              <div class="leftSide align-top">
+                <div class="spacer"></div>
+                <div class="basicInputContainer special full-width">
+                  <v-text-field v-model="newOffer.offerLabel"
+                                label="Offer Label *"
+                                class="basicInput">
+                  </v-text-field>
+                </div>
+                <div class="spacer-big"></div>
+                <div class="basicInputContainer special full-width">
+                  <v-text-field v-model="newOffer.preHeader"
+                                label="Pre Header"
+                                class="basicInput">
+                  </v-text-field>
+                </div>
+                <div class="basicInputContainer special full-width">
+                  <v-text-field v-model="newOffer.subjectOne"
+                                label="Subject line 1 *"
+                                class="basicInput">
+                  </v-text-field>
+                </div>
+                <div class="basicInputContainer special full-width">
+                  <v-text-field v-model="newOffer.subjectTwo"
+                                label="Subject line 2"
+                                class="basicInput">
+                  </v-text-field>
+                </div>
+                <div class="spacer-big"></div>
+                <div class="basicInputContainer special full-width">
+                  <v-text-field v-model="newOffer.headline"
+                                label="Headline *"
+                                class="basicInput">
+                  </v-text-field>
+                </div>
+                <div class="basicInputContainer special full-width">
+                  <v-text-field v-model="newOffer.subheadline"
+                                label="Subheadline"
+                                class="basicInput">
+                  </v-text-field>
+                </div>
+                <div class="spacer-big"></div>
+                <div class="basicInputContainer special full-width">
+                  <v-text-field v-model="newOffer.imageURL"
+                                label="Image URL *"
+                                class="basicInput">
+                  </v-text-field>
+                </div>
+                <div class="basicInputContainer special full-width">
+                  <v-text-field v-model="newOffer.mobileImageURL"
+                                label="Mobile Image URL"
+                                class="basicInput">
+                  </v-text-field>
+                </div>
+                <div class="basicInputContainer special full-width">
+                  <v-text-field v-model="newOffer.imageAltText"
+                                label="Image Alt Text"
+                                class="basicInput">
+                  </v-text-field>
+                </div>
+                <div class="spacer-big"></div>
+                <div class="basicInputContainer special full-width">
+                  <v-text-field v-model="newOffer.copyText"
+                                label="Copy Text"
+                                class="basicInput">
+                  </v-text-field>
+                </div>
+                <div class="basicInputContainer special full-width">
+                  <v-text-field v-model="newOffer.CTAText"
+                                label="CTA Text"
+                                class="basicInput">
+                  </v-text-field>
+                </div>
+                <div class="basicInputContainer special full-width">
+                  <v-text-field v-model="newOffer.destinationURL"
+                                label="Destination URL"
+                                class="basicInput">
+                  </v-text-field>
+                </div>
+              </div>
+              <div class="rightSide align-top">
+                <p class="dialog-title full-width center-text">Offer preveiw</p>
+                <div class="previewContainer">
+                  <div class="previewContainer-content">
+      
+                  </div>
+                </div>
+                <v-flex>
+                  <div class="view-actions">
+                    <v-tooltip top open-delay="300">
+                      <template v-slot:activator="{ on }">
+                        <div class="icon-container" :class="{ active: currentView == 'mainOneColumn' }" @click="currentView = 'mainOneColumn'" v-on="on">
+                          <v-icon color="white" 
+                                  class="icon" 
+                                  :class="{ active: currentView == 'mainOneColumn' }">
+                                  filter_1
+                          </v-icon> 
+                        </div>
+                      </template>
+                      <span>Main column 1</span>
+                    </v-tooltip>
+                    <div class="icon-divider"></div>
+                    <v-tooltip top open-delay="300">
+                      <template v-slot:activator="{ on }">
+                        <div class="icon-container" :class="{ active: currentView == 'mainTwoColumn' }" @click="currentView = 'mainTwoColumn'" v-on="on">
+                          <v-icon color="white" 
+                                  class="icon" 
+                                  :class="{ active: currentView == 'mainTwoColumn' }">
+                                  filter_2
+                          </v-icon> 
+                        </div>
+                      </template>
+                      <span>Main column 2</span>
+                    </v-tooltip>
+                    <div class="icon-divider"></div>
+                    <v-tooltip top open-delay="300">
+                      <template v-slot:activator="{ on }">
+                        <div class="icon-container" :class="{ active: currentView == 'ecommerce' }" @click="currentView = 'ecommerce'" v-on="on">
+                          <v-icon color="white" 
+                                  class="icon" 
+                                  :class="{ active: currentView == 'ecommerce' }">
+                                  view_week
+                          </v-icon> 
+                        </div>
+                      </template>
+                      <span>Ecommerce block</span>
+                    </v-tooltip>
+                    <div class="icon-divider"></div>
+                    <v-tooltip top open-delay="300">
+                      <template v-slot:activator="{ on }">
+                        <div class="icon-container" :class="{ active: currentView == 'split' }" @click="currentView = 'split'" v-on="on">
+                          <v-icon color="white" 
+                                  class="icon rotateIcon" 
+                                  :class="{ active: currentView == 'split' }">
+                                  view_agenda
+                          </v-icon> 
+                        </div>
+                      </template>
+                      <span>Split 50/50</span>
+                    </v-tooltip>
+                  </div>
+                </v-flex>
+                <template v-if="!isNewOfferFormValid">
+                  <v-btn class="base-button full-width" style="margin-top: 20px;"
+                    disabled outline color="#6DC570">
+                    Create offer
+                  </v-btn>
+                  <p class="hint" style="margin-top: 10px;">* You need to fill out all the fields with a star</p>
+                </template>
+                <template v-else>
+                  <v-btn class="base-button full-width" style="margin-top: 20px;"
+                    outline color="#6DC570">
+                    Create offer
+                  </v-btn>
+                </template>
+              </div>
+            </v-stepper-content>
+            <v-stepper-content step="2">
+              No, you hewwo
+            </v-stepper-content>
+            <v-stepper-content step="3">
+              Boii hewwo
+            </v-stepper-content>
+          </v-stepper-items>
+        
+          <!-- <p class="dialog-title" style="width: 207px; display: inline-block">Create offer</p>
           <v-container class="dropdownContainerForm">
             <v-select :items="offerTypes"
                       v-model="newOffer.offerType"
@@ -1141,145 +1335,7 @@
                 {{ data.item.categoryLabel | maxLength(15) }}
               </template>
             </v-select>
-          </v-container>
-          <div class="spacer"></div>
-          <div class="basicInputContainer special full-width">
-            <v-text-field v-model="newOffer.offerLabel"
-                          label="Offer Label *"
-                          class="basicInput">
-            </v-text-field>
-          </div>
-          <div class="spacer"></div>
-          <div class="basicInputContainer special full-width">
-            <v-text-field v-model="newOffer.preHeader"
-                          label="Pre Header"
-                          class="basicInput">
-            </v-text-field>
-          </div>
-          <div class="basicInputContainer special full-width">
-            <v-text-field v-model="newOffer.subjectOne"
-                          label="Subject line 1 *"
-                          class="basicInput">
-            </v-text-field>
-          </div>
-          <div class="basicInputContainer special full-width">
-            <v-text-field v-model="newOffer.subjectTwo"
-                          label="Subject line 2"
-                          class="basicInput">
-            </v-text-field>
-          </div>
-          <div class="spacer"></div>
-          <div class="basicInputContainer special full-width">
-            <v-text-field v-model="newOffer.headline"
-                          label="Headline *"
-                          class="basicInput">
-            </v-text-field>
-          </div>
-          <div class="basicInputContainer special full-width">
-            <v-text-field v-model="newOffer.subheadline"
-                          label="Subheadline"
-                          class="basicInput">
-            </v-text-field>
-          </div>
-          <div class="spacer"></div>
-          <div class="basicInputContainer special full-width">
-            <v-text-field v-model="newOffer.imageURL"
-                          label="Image URL *"
-                          class="basicInput">
-            </v-text-field>
-          </div>
-          <div class="basicInputContainer special full-width">
-            <v-text-field v-model="newOffer.mobileImageURL"
-                          label="Mobile Image URL"
-                          class="basicInput">
-            </v-text-field>
-          </div>
-          <div class="basicInputContainer special full-width">
-            <v-text-field v-model="newOffer.imageAltText"
-                          label="Image Alt Text"
-                          class="basicInput">
-            </v-text-field>
-          </div>
-          <div class="spacer"></div>
-          <div class="basicInputContainer special full-width">
-            <v-text-field v-model="newOffer.copyText"
-                          label="Copy Text"
-                          class="basicInput">
-            </v-text-field>
-          </div>
-          <div class="basicInputContainer special full-width">
-            <v-text-field v-model="newOffer.CTAText"
-                          label="CTA Text"
-                          class="basicInput">
-            </v-text-field>
-          </div>
-          <div class="basicInputContainer special full-width">
-            <v-text-field v-model="newOffer.destinationURL"
-                          label="Destination URL"
-                          class="basicInput">
-            </v-text-field>
-          </div>
-        </div>
-        <div class="rightSide">
-          <p class="dialog-title full-width center-text">Offer preveiw</p>
-          <div class="previewContainer">
-            <div class="previewContainer-content">
-
-            </div>
-          </div>
-          <v-flex>
-            <div class="view-actions">
-              <div class="icon-container">
-                <v-icon color="white" 
-                        class="icon" 
-                        @click="currentView = mainOneColumn"
-                        :class="{ active: currentView == 'mainOneColumn' }">
-                        filter_1
-                </v-icon> 
-              </div>
-              <div class="icon-divider"></div>
-              <div class="icon-container">
-                <v-icon color="white" 
-                        class="icon" 
-                        @click="currentView = mainTwoColumn"
-                        :class="{ active: currentView == 'mainTwoColumn' }">
-                        filter_2
-                </v-icon> 
-              </div>
-              <div class="icon-divider"></div>
-              <div class="icon-container">
-                <v-icon color="white" 
-                        class="icon" 
-                        @click="currentView = ecommerce"
-                        :class="{ active: currentView == 'ecommerce' }">
-                        view_week
-                </v-icon> 
-              </div>
-              <div class="icon-divider"></div>
-              <div class="icon-container">
-                <v-icon color="white" 
-                        class="icon rotateIcon" 
-                        @click="currentView = split"
-                        :class="{ active: currentView == 'split' }">
-                        view_agenda
-                </v-icon> 
-              </div>
-            </div>
-          </v-flex>
-          <template v-if="!isNewOfferFormValid">
-            <v-btn class="base-button full-width" style="margin-top: 50px;"
-              disabled outline color="#6DC570">
-              Create offer
-            </v-btn>
-            <p class="hint" style="margin-top: 10px;">* You need to fill out all the fields with a star</p>
-          </template>
-          <template v-else>
-            <v-btn class="base-button full-width" style="margin-top: 50px;"
-              outline color="#6DC570">
-              Create offer
-            </v-btn>
-          </template>
-        </div>
+          </v-container> -->
       </v-card>
     </v-dialog>
     <!-- New offer ends -->
@@ -1414,6 +1470,7 @@
           destinationURL: '',
         },
         isNewOfferFormValid: false,
+        currentStep: 0,
         offerTypes: [
           { label: 'Default offer'}
         ],

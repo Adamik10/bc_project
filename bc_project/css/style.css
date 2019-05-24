@@ -505,7 +505,7 @@
   position: relative;
   width: 718px;
   min-height: 100%;
-  padding: 30px 40px 30px 15px;
+  padding: 10px 40px 30px 15px;
 }
 .new-offer-dialog .rightSide .previewContainer {
   width: 100%;
@@ -554,7 +554,7 @@
   position: relative;
   width: 100%;
   height: 50px;
-  margin-top: 40px;
+  margin-top: 25px;
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
@@ -573,6 +573,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+}
+.view-actions .icon-container:hover {
+  background-color: lighter(silver, 10%);
+}
+.view-actions .icon-container.active {
+  width: 47px;
+  height: 47px;
+  background-color: silver;
 }
 .view-actions .icon-container .icon {
   line-height: 40px;
@@ -582,6 +591,18 @@
 .view-actions .icon-container .icon.rotateIcon {
   display: inline-block;
   transform: rotate(90deg);
+}
+.view-actions .icon-container .icon.active {
+  line-height: 47px;
+  font-size: 30px;
+}
+
+.v-stepper__content {
+  padding: 0;
+}
+
+.v-stepper__header {
+  box-shadow: none;
 }
 
 /*# sourceMappingURL=style.css.map */
