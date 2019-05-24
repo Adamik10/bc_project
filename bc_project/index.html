@@ -988,7 +988,7 @@
                               label="Recipient email"
                               class="basicInput">
                   <template slot="append">
-                    <v-icon v-if="sendingProof" @click="sendingProof = false">clear</v-icon>
+                    <v-icon v-if="sendingProof" @click="sendingProof = false; proofEmailAddress = ''">clear</v-icon>
                   </template>
                 </v-text-field>
               </div>
@@ -1003,6 +1003,11 @@
               </v-btn>
             </div>
             <div class="spacer-big"></div>
+            <template v-if="detailOfferData.categoryInternalName">
+              <v-subheader class="no-padding">Offer Category</v-subheader>
+              <p class="minus-margin" style="font-weight: 700;">{{ detailOfferData.categoryInternalName | makeIntoCategory }}</p>
+              <div class="spacer-big"></div>
+            </template>
             <v-subheader class="no-padding">Subject Line 1</v-subheader>
             <p v-if="detailOfferData.subject1 && detailOfferData.subject1 != '' && detailOfferData.subject1 != undefined" 
               class="minus-margin">{{ detailOfferData.subject1 }}</p>
@@ -1017,7 +1022,7 @@
             <p v-else><i>Undefined</i></p>
             <div class="spacer-big"></div>
             <div class="spacer-big"></div>
-            <template v-if="detailOfferData.categoryInternalName">
+            <template v-if="detailOfferData.categoryInternalName && detailOfferData.eligibility.length">
               <template v-if="!doesStringContain(detailOfferData.categoryInternalName, eligibleSubstrings)">
                 <v-subheader class="no-padding">Eligibility</v-subheader>
                 <template v-if="detailOfferData.eligibility">
@@ -1336,6 +1341,29 @@
         formatDate: function(value, desiredFormat) {
           console.log('we are trying to change: '+value+' into: '+desiredFormat);
           return moment(value).format(desiredFormat);
+        },
+        
+        makeIntoCategory: function(value) {
+          let mainCtegory = '';
+          let subCategory = '';
+
+          for(var j = 0; j < vm.staticFilters.categories.length; j++) {
+            let substring = vm.staticFilters.categories[j].categoryRef;
+            //console.log('substring: '+ vm.staticFilters.categories[j].categoryRef +' full thing: ' + value+ ' iterations: '+vm.staticFilters.categories.length)
+            if(value.includes(substring)) {
+              //console.log(value + ' contains '+ substring);
+              if(mainCtegory == '') {
+                mainCtegory = vm.staticFilters.categories[j].categoryLabel;
+              }else{
+                subCategory = vm.staticFilters.categories[j].categoryLabel;
+              }
+            }
+          }
+          if(subCategory == ''){
+            return mainCtegory;
+          }else{
+            return mainCtegory+' - '+subCategory;
+          }
         }
       },
 
@@ -1674,6 +1702,8 @@
         sendTheOfferProof() {
           if(this.sendingProof == true) {
             console.log('we here sending shit to:' + this.proofEmailAddress);
+            this.sendingProof = false;
+            this.proofEmailAddress = '';
           }
         },
 
