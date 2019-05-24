@@ -110,6 +110,21 @@ $lightGrey: #e2e2e2;
   margin-top: 70px;
 }
 
+.offer-category {
+  position: absolute;
+  top: -9px;
+  left: 0px;
+  width: 100%;
+  font-style: italic;
+  font-weight: 300;
+  color: $grey;
+
+  &.detail {
+    position: relative;
+    top: 0px;
+  }
+}
+
 .baseCard {
   position: relative;
   display: inline-block;
@@ -490,10 +505,6 @@ $lightGrey: #e2e2e2;
     0% {width: 70%}
     99% {width: 0%; display: inline-block}
     100% {display: none}
-  }
-
-  & .v-text-field__details {
-    display: none;
   }
 
   .basicInput {

@@ -128,6 +128,20 @@
   margin-top: 70px;
 }
 
+.offer-category {
+  position: absolute;
+  top: -9px;
+  left: 0px;
+  width: 100%;
+  font-style: italic;
+  font-weight: 300;
+  color: silver;
+}
+.offer-category.detail {
+  position: relative;
+  top: 0px;
+}
+
 .baseCard {
   position: relative;
   display: inline-block;
@@ -466,9 +480,6 @@
     display: none;
   }
 }
-.basicInputContainer .v-text-field__details {
-  display: none;
-}
 .basicInputContainer .basicInput {
   width: 100%;
   margin-right: 5px;
@@ -724,6 +735,7 @@
                 <div class="status-container" :class="{greenBackground: offer.statusLive == 6, redBackground: offer.statusLive != 6}"></div>
                 <h3 class="headline" :title="offer.offerLabel">{{ offer.offerLabel | maxLength(30) }} </h3>
                 <v-card-text>
+                  <p class="offer-category">{{ offer.categoryInternalName | makeIntoCategory }}</p>
                   <div><b>SL 1:</b>
                     {{offer.subject1}}</div>
                 <div><b>SL 2:</b>
@@ -734,11 +746,6 @@
               
               </v-card-title>
               <div v-if="offer.imageDesktopURL" style="position: relative; width: 100%;">
-                <!-- <div v-if="!offer.loaded" class="load-overlay">
-                  <div class="text-xs-center" style="margin-top: 20px;">
-                    <v-progress-circular indeterminate :size="50" color="#3A6A3D"></v-progress-circular>
-                  </div>
-                </div> -->
                 <v-img :src="'http://'+offer.imageDesktopURL" 
                       aspect-ratio="2">
                   <template v-slot:placeholder>
@@ -1004,22 +1011,21 @@
             </div>
             <div class="spacer-big"></div>
             <template v-if="detailOfferData.categoryInternalName">
-              <v-subheader class="no-padding">Offer Category</v-subheader>
-              <p class="minus-margin" style="font-weight: 700;">{{ detailOfferData.categoryInternalName | makeIntoCategory }}</p>
-              <div class="spacer-big"></div>
+              <p class="offer-category detail">Category: {{ detailOfferData.categoryInternalName | makeIntoCategory }}</p>
+              <div class="spacer"></div>
             </template>
             <v-subheader class="no-padding">Subject Line 1</v-subheader>
             <p v-if="detailOfferData.subject1 && detailOfferData.subject1 != '' && detailOfferData.subject1 != undefined" 
               class="minus-margin">{{ detailOfferData.subject1 }}</p>
-            <p v-else><i>Undefined</i></p>
+            <p v-else class="minus-margin"><i>Undefined</i></p>
             <v-subheader class="no-padding">Subject Line 2</v-subheader>
             <p v-if="detailOfferData.subject2 && detailOfferData.subject2 != '' && detailOfferData.subject2 != undefined"
               class="minus-margin">{{ detailOfferData.subject2 }}</p>
-            <p v-else><i>Undefined</i></p>
+            <p v-else class="minus-margin"><i>Undefined</i></p>
             <v-subheader class="no-padding">Preheader</v-subheader>
             <p v-if="detailOfferData.preheader && detailOfferData.preheader != '' && detailOfferData.preheader != undefined"
               class="minus-margin">{{ detailOfferData.preheader }}</p>
-            <p v-else><i>Undefined</i></p>
+            <p v-else class="minus-margin"><i>Undefined</i></p>
             <div class="spacer-big"></div>
             <div class="spacer-big"></div>
             <template v-if="detailOfferData.categoryInternalName && detailOfferData.eligibility.length">
