@@ -44,6 +44,16 @@
 }
 
 /* INDEX ------------------------------------------------------------------------- INDEX */
+.bottom-actions {
+  position: absolute;
+  bottom: 100px;
+  left: 30px;
+  right: 30px;
+}
+.bottom-actions .base-button {
+  float: right;
+}
+
 .v-toolbar__title {
   overflow: visible !important;
 }
@@ -631,10 +641,70 @@
 
 .v-stepper__content {
   padding: 0;
+  height: 100%;
+}
+
+.v-stepper__wrapper {
+  height: 100%;
+}
+
+.v-stepper {
+  box-shadow: none;
+  background-color: #FAFAFA !important;
+  width: 100%;
+  height: 100%;
 }
 
 .v-stepper__header {
   box-shadow: none;
+  width: 300px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: -25px;
+}
+
+.v-stepper__items {
+  width: 100%;
+  height: 100%;
+}
+
+.divide-half {
+  display: inline-block;
+  width: 49%;
+}
+
+.radio-group .v-input__control {
+  width: 100%;
+}
+.radio-group .v-input__control .v-input__slot {
+  width: 100%;
+}
+.radio-group .v-input__control .v-input__slot .v-input--radio-group__input {
+  width: 100%;
+}
+.radio-group .v-input__control .v-input__slot .v-input--radio-group__input .v-radio {
+  cursor: pointer;
+  width: 70%;
+  height: 100px;
+  background-color: whitesmoke;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  justify-content: center;
+  border-radius: 5px;
+  align-items: center;
+}
+.radio-group .v-input__control .v-input__slot .v-input--radio-group__input .v-radio:hover {
+  background-color: #e2e2e2;
+}
+.radio-group .v-input__control .v-input__slot .v-input--radio-group__input .v-radio.active {
+  border: 1px silver solid;
+}
+.radio-group .v-radio--is-disabled {
+  background-color: #fcfcfc !important;
+}
+.radio-group .v-radio--is-disabled:hover {
+  background-color: #fcfcfc !important;
 }
 
 /*# sourceMappingURL=style.css.map */
@@ -1126,216 +1196,268 @@
             <v-divider></v-divider>
             <v-stepper-step :complete="currentStep > 2" step="2"></v-stepper-step>
             <v-divider></v-divider>
-            <v-stepper-step step="3"></v-stepper-step>
+            <v-stepper-step :complete="currentStep > 3" step="3"></v-stepper-step>
+            <v-divider></v-divider>
+            <v-stepper-step step="4"></v-stepper-step>
           </v-stepper-header>
           <v-stepper-items>
             <v-stepper-content step="1">
-              <div class="leftSide align-top">
-                <div class="spacer"></div>
-                <div class="basicInputContainer special full-width">
-                  <v-text-field v-model="newOffer.offerLabel"
-                                label="Offer Label *"
-                                class="basicInput">
-                  </v-text-field>
-                </div>
-                <div class="spacer-big"></div>
-                <div class="basicInputContainer special full-width">
-                  <v-text-field v-model="newOffer.preHeader"
-                                label="Pre Header"
-                                class="basicInput">
-                  </v-text-field>
-                </div>
-                <div class="basicInputContainer special full-width">
-                  <v-text-field v-model="newOffer.subjectOne"
-                                label="Subject line 1 *"
-                                class="basicInput">
-                  </v-text-field>
-                </div>
-                <div class="basicInputContainer special full-width">
-                  <v-text-field v-model="newOffer.subjectTwo"
-                                label="Subject line 2"
-                                class="basicInput">
-                  </v-text-field>
-                </div>
-                <div class="spacer-big"></div>
-                <div class="basicInputContainer special full-width">
-                  <v-text-field v-model="newOffer.headline"
-                                label="Headline *"
-                                class="basicInput">
-                  </v-text-field>
-                </div>
-                <div class="basicInputContainer special full-width">
-                  <v-text-field v-model="newOffer.subheadline"
-                                label="Subheadline"
-                                class="basicInput">
-                  </v-text-field>
-                </div>
-                <div class="spacer-big"></div>
-                <div class="basicInputContainer special full-width">
-                  <v-text-field v-model="newOffer.imageURL"
-                                label="Image URL *"
-                                class="basicInput">
-                  </v-text-field>
-                </div>
-                <div class="basicInputContainer special full-width">
-                  <v-text-field v-model="newOffer.mobileImageURL"
-                                label="Mobile Image URL"
-                                class="basicInput">
-                  </v-text-field>
-                </div>
-                <div class="basicInputContainer special full-width">
-                  <v-text-field v-model="newOffer.imageAltText"
-                                label="Image Alt Text"
-                                class="basicInput">
-                  </v-text-field>
-                </div>
-                <div class="spacer-big"></div>
-                <div class="basicInputContainer special full-width">
-                  <v-text-field v-model="newOffer.copyText"
-                                label="Copy Text"
-                                class="basicInput">
-                  </v-text-field>
-                </div>
-                <div class="basicInputContainer special full-width">
-                  <v-text-field v-model="newOffer.CTAText"
-                                label="CTA Text"
-                                class="basicInput">
-                  </v-text-field>
-                </div>
-                <div class="basicInputContainer special full-width">
-                  <v-text-field v-model="newOffer.destinationURL"
-                                label="Destination URL"
-                                class="basicInput">
-                  </v-text-field>
-                </div>
+              <div class="container">
+                <p class="dialog-title" style="display: block">Create offer</p>
+                <v-radio-group v-model="newOffer.offerType" class="radio-group">
+                  <v-radio v-for="(offerType, i) in offerTypes" 
+                            :key="i"
+                            color="#3A9EF0"
+                            class="default-radio big-radio" :class="{ active: newOffer.offerType == offerType.label }"
+                            :label="offerType.label"
+                            :value="offerType.label"
+                            :disabled="!offerType.available"
+                            @click.native="newOffer.offerType = offerType.label"/>
+                </v-radio-group>
               </div>
-              <div class="rightSide align-top">
-                <p class="dialog-title full-width center-text">Offer preveiw</p>
-                <div class="previewContainer">
-                  <div class="previewContainer-content">
-      
-                  </div>
-                </div>
-                <v-flex>
-                  <div class="view-actions">
-                    <v-tooltip top open-delay="300">
-                      <template v-slot:activator="{ on }">
-                        <div class="icon-container" :class="{ active: currentView == 'mainOneColumn' }" @click="currentView = 'mainOneColumn'" v-on="on">
-                          <v-icon color="white" 
-                                  class="icon" 
-                                  :class="{ active: currentView == 'mainOneColumn' }">
-                                  filter_1
-                          </v-icon> 
-                        </div>
-                      </template>
-                      <span>Main column 1</span>
-                    </v-tooltip>
-                    <div class="icon-divider"></div>
-                    <v-tooltip top open-delay="300">
-                      <template v-slot:activator="{ on }">
-                        <div class="icon-container" :class="{ active: currentView == 'mainTwoColumn' }" @click="currentView = 'mainTwoColumn'" v-on="on">
-                          <v-icon color="white" 
-                                  class="icon" 
-                                  :class="{ active: currentView == 'mainTwoColumn' }">
-                                  filter_2
-                          </v-icon> 
-                        </div>
-                      </template>
-                      <span>Main column 2</span>
-                    </v-tooltip>
-                    <div class="icon-divider"></div>
-                    <v-tooltip top open-delay="300">
-                      <template v-slot:activator="{ on }">
-                        <div class="icon-container" :class="{ active: currentView == 'ecommerce' }" @click="currentView = 'ecommerce'" v-on="on">
-                          <v-icon color="white" 
-                                  class="icon" 
-                                  :class="{ active: currentView == 'ecommerce' }">
-                                  view_week
-                          </v-icon> 
-                        </div>
-                      </template>
-                      <span>Ecommerce block</span>
-                    </v-tooltip>
-                    <div class="icon-divider"></div>
-                    <v-tooltip top open-delay="300">
-                      <template v-slot:activator="{ on }">
-                        <div class="icon-container" :class="{ active: currentView == 'split' }" @click="currentView = 'split'" v-on="on">
-                          <v-icon color="white" 
-                                  class="icon rotateIcon" 
-                                  :class="{ active: currentView == 'split' }">
-                                  view_agenda
-                          </v-icon> 
-                        </div>
-                      </template>
-                      <span>Split 50/50</span>
-                    </v-tooltip>
-                  </div>
-                </v-flex>
-                <template v-if="!isNewOfferFormValid">
-                  <v-btn class="base-button full-width" style="margin-top: 20px;"
-                    disabled outline color="#6DC570">
-                    Create offer
-                  </v-btn>
-                  <p class="hint" style="margin-top: 10px;">* You need to fill out all the fields with a star</p>
-                </template>
-                <template v-else>
-                  <v-btn class="base-button full-width" style="margin-top: 20px;"
-                    outline color="#6DC570">
-                    Create offer
-                  </v-btn>
-                </template>
+              <div class="bottom-actions">
+                <v-btn class="base-button" 
+                      color="#6DC570"
+                      @click="currentStep = 2"
+                      :disabled="newOffer.offerType == '' || newOffer.offerType == undefined || newOffer.offerType == null"
+                      flat outline style="width: 200px;">
+                  Select
+                </v-btn>
               </div>
             </v-stepper-content>
             <v-stepper-content step="2">
-              No, you hewwo
+              <div class="container">
+                <p class="dialog-title" style="display: block">Select country and category</p>
+                <div class="display-flex divide-half" style="height: 400px; align-content: center; padding-top: 240px;">
+                  <v-container class="dropdownContainerForm" style="margin-right: auto; margin-left: auto; display: block; width: 350px">
+                    <v-select :items="filters.countries"
+                              v-model="newOffer.country"
+                              label="Country *"
+                              item-text="marketLabel"
+                              item-value="marketId"
+                              dense single-line solo flat 
+                              class="basicDropdownForm"
+                              :menu-props="{contentClass:'basicDropdownContent'}">
+                      <template slot="selection" slot-scope="data">
+                        {{ data.item.marketLabel | maxLength(30) }}
+                      </template>
+                    </v-select>
+                  </v-container>
+                </div>
+                <div class="display-flex divide-half" style="height: 400px; align-content: center; padding-top: 240px;">
+                  <v-container class="dropdownContainerForm" style="margin-right: auto; margin-left: auto; display: block; width: 350px">
+                    <v-select :items="staticFilters.categories"
+                              v-model="newOffer.category"
+                              label="Category *"
+                              item-text="categoryLabel"
+                              item-value="categoryId"
+                              title="categoryLabel"
+                              dense single-line solo flat
+                              class="basicDropdownForm"
+                              :menu-props="{contentClass:'basicDropdownContent'}">
+                      <template slot="selection" slot-scope="data">
+                        {{ data.item.categoryLabel | maxLength(30) }}
+                      </template>
+                    </v-select>
+                  </v-container>
+                </div>
+              </div>
+              <div class="bottom-actions">
+                <v-btn class="base-button" 
+                      color="#6DC570"
+                      @click="getCurrentActiveOffers()"
+                      :disabled="newOffer.country == '' || newOffer.country == undefined || newOffer.country == null || 
+                      newOffer.category == '' || newOffer.category == undefined || newOffer.category == null" 
+                      flat outline style="width: 200px;">
+                  Select
+                </v-btn>
+                <v-btn class="base-button" 
+                        color="rgb(192, 192, 192)"
+                        @click="currentStep = 1"
+                        flat outline width="20px">
+                  <v-icon>arrow_back_ios</v-icon>
+                </v-btn>
+              </div>
             </v-stepper-content>
             <v-stepper-content step="3">
-              Boii hewwo
+              <div class="container">
+                <p class="dialog-title" style="display: block">Choose an offer to be disabled</p>
+                <p>In order to be able to create a new Default fallback offer, you first have to disable one of the currrently live ones.</p>
+              </div>
+              <div class="bottom-actions">
+                <v-btn class="base-button" 
+                      color="#6DC570"
+                      @click="disableSelectedFallbackOffer()"
+                      :disabled="newOffer.toDisable == '' || newOffer.toDisable == undefined || newOffer.toDisable == null" 
+                      flat outline style="width: 200px;">
+                  Disable selected offer
+                </v-btn>
+                <v-btn class="base-button" 
+                        color="rgb(192, 192, 192)"
+                        @click="currentStep = 2"
+                        flat outline width="20px">
+                  <v-icon>arrow_back_ios</v-icon>
+                </v-btn>
+              </div>
+            </v-stepper-content>
+            <v-stepper-content step="4">
+              <div class="leftSide align-top">
+                  <div class="spacer"></div>
+                  <div class="basicInputContainer special full-width">
+                    <v-text-field v-model="newOffer.offerLabel"
+                                  label="Offer Label *"
+                                  class="basicInput">
+                    </v-text-field>
+                  </div>
+                  <div class="spacer-big"></div>
+                  <div class="basicInputContainer special full-width">
+                    <v-text-field v-model="newOffer.preHeader"
+                                  label="Pre Header"
+                                  class="basicInput">
+                    </v-text-field>
+                  </div>
+                  <div class="basicInputContainer special full-width">
+                    <v-text-field v-model="newOffer.subjectOne"
+                                  label="Subject line 1 *"
+                                  class="basicInput">
+                    </v-text-field>
+                  </div>
+                  <div class="basicInputContainer special full-width">
+                    <v-text-field v-model="newOffer.subjectTwo"
+                                  label="Subject line 2"
+                                  class="basicInput">
+                    </v-text-field>
+                  </div>
+                  <div class="spacer-big"></div>
+                  <div class="basicInputContainer special full-width">
+                    <v-text-field v-model="newOffer.headline"
+                                  label="Headline *"
+                                  class="basicInput">
+                    </v-text-field>
+                  </div>
+                  <div class="basicInputContainer special full-width">
+                    <v-text-field v-model="newOffer.subheadline"
+                                  label="Subheadline"
+                                  class="basicInput">
+                    </v-text-field>
+                  </div>
+                  <div class="spacer-big"></div>
+                  <div class="basicInputContainer special full-width">
+                    <v-text-field v-model="newOffer.imageURL"
+                                  label="Image URL *"
+                                  class="basicInput">
+                    </v-text-field>
+                  </div>
+                  <div class="basicInputContainer special full-width">
+                    <v-text-field v-model="newOffer.mobileImageURL"
+                                  label="Mobile Image URL"
+                                  class="basicInput">
+                    </v-text-field>
+                  </div>
+                  <div class="basicInputContainer special full-width">
+                    <v-text-field v-model="newOffer.imageAltText"
+                                  label="Image Alt Text"
+                                  class="basicInput">
+                    </v-text-field>
+                  </div>
+                  <div class="spacer-big"></div>
+                  <div class="basicInputContainer special full-width">
+                    <v-text-field v-model="newOffer.copyText"
+                                  label="Copy Text"
+                                  class="basicInput">
+                    </v-text-field>
+                  </div>
+                  <div class="basicInputContainer special full-width">
+                    <v-text-field v-model="newOffer.CTAText"
+                                  label="CTA Text"
+                                  class="basicInput">
+                    </v-text-field>
+                  </div>
+                  <div class="basicInputContainer special full-width">
+                    <v-text-field v-model="newOffer.destinationURL"
+                                  label="Destination URL"
+                                  class="basicInput">
+                    </v-text-field>
+                  </div>
+                </div>
+                <div class="rightSide align-top">
+                  <p class="dialog-title full-width center-text">Offer preveiw</p>
+                  <div class="previewContainer">
+                    <div class="previewContainer-content">
+        
+                    </div>
+                  </div>
+                  <v-flex>
+                    <div class="view-actions">
+                      <v-tooltip top open-delay="300">
+                        <template v-slot:activator="{ on }">
+                          <div class="icon-container" :class="{ active: newOffer.currentView == 'mainOneColumn' }" @click="newOffer.currentView = 'mainOneColumn'" v-on="on">
+                            <v-icon color="white" 
+                                    class="icon" 
+                                    :class="{ active: newOffer.currentView == 'mainOneColumn' }">
+                                    filter_1
+                            </v-icon> 
+                          </div>
+                        </template>
+                        <span>Main column 1</span>
+                      </v-tooltip>
+                      <div class="icon-divider"></div>
+                      <v-tooltip top open-delay="300">
+                        <template v-slot:activator="{ on }">
+                          <div class="icon-container" :class="{ active: newOffer.currentView == 'mainTwoColumn' }" @click="newOffer.currentView = 'mainTwoColumn'" v-on="on">
+                            <v-icon color="white" 
+                                    class="icon" 
+                                    :class="{ active: newOffer.currentView == 'mainTwoColumn' }">
+                                    filter_2
+                            </v-icon> 
+                          </div>
+                        </template>
+                        <span>Main column 2</span>
+                      </v-tooltip>
+                      <div class="icon-divider"></div>
+                      <v-tooltip top open-delay="300">
+                        <template v-slot:activator="{ on }">
+                          <div class="icon-container" :class="{ active: newOffer.currentView == 'ecommerce' }" @click="newOffer.currentView = 'ecommerce'" v-on="on">
+                            <v-icon color="white" 
+                                    class="icon" 
+                                    :class="{ active: newOffer.currentView == 'ecommerce' }">
+                                    view_week
+                            </v-icon> 
+                          </div>
+                        </template>
+                        <span>Ecommerce block</span>
+                      </v-tooltip>
+                      <div class="icon-divider"></div>
+                      <v-tooltip top open-delay="300">
+                        <template v-slot:activator="{ on }">
+                          <div class="icon-container" :class="{ active: newOffer.currentView == 'split' }" @click="newOffer.currentView = 'split'" v-on="on">
+                            <v-icon color="white" 
+                                    class="icon rotateIcon" 
+                                    :class="{ active: newOffer.currentView == 'split' }">
+                                    view_agenda
+                            </v-icon> 
+                          </div>
+                        </template>
+                        <span>Split 50/50</span>
+                      </v-tooltip>
+                    </div>
+                  </v-flex>
+                  <template v-if="!isNewOfferFormValid">
+                    <v-btn class="base-button full-width" style="margin-top: 20px;"
+                      disabled outline color="#6DC570">
+                      Create offer
+                    </v-btn>
+                    <p class="hint" style="margin-top: 10px;">* You need to fill out all the fields with a star</p>
+                  </template>
+                  <template v-else>
+                    <v-btn class="base-button full-width" style="margin-top: 20px;"
+                      outline color="#6DC570">
+                      Create offer
+                    </v-btn>
+                  </template>
+                </div>
             </v-stepper-content>
           </v-stepper-items>
-        
-          <!-- <p class="dialog-title" style="width: 207px; display: inline-block">Create offer</p>
-          <v-container class="dropdownContainerForm">
-            <v-select :items="offerTypes"
-                      v-model="newOffer.offerType"
-                      label="Offer type *"
-                      item-text="label"
-                      item-value="label"
-                      dense single-line solo flat
-                      class="basicDropdownForm"
-                      :menu-props="{contentClass:'basicDropdownContent'}">
-            </v-select>
-          </v-container>
-          <div class="spacer"></div>
-          <v-container class="dropdownContainerForm">
-            <v-select :items="filters.countries"
-                      v-model="newOffer.country"
-                      label="Country *"
-                      item-text="marketLabel"
-                      item-value="marketId"
-                      dense single-line solo flat 
-                      class="basicDropdownForm"
-                      :menu-props="{contentClass:'basicDropdownContent'}">
-              <template slot="selection" slot-scope="data">
-                {{ data.item.marketLabel | maxLength(15) }}
-              </template>
-            </v-select>
-          </v-container>
-          <v-container class="dropdownContainerForm">
-            <v-select :items="staticFilters.categories"
-                      v-model="newOffer.category"
-                      label="Category *"
-                      item-text="categoryLabel"
-                      item-value="categoryId"
-                      title="categoryLabel"
-                      dense single-line solo flat
-                      class="basicDropdownForm"
-                      :menu-props="{contentClass:'basicDropdownContent'}">
-              <template slot="selection" slot-scope="data">
-                {{ data.item.categoryLabel | maxLength(15) }}
-              </template>
-            </v-select>
-          </v-container> -->
       </v-card>
     </v-dialog>
     <!-- New offer ends -->
@@ -1450,9 +1572,9 @@
           label: '',
           lineCount: 12
         },
-        currentView: 'mainOneColumn',
         eligibleSubstrings: ['_rcr', '_dps', '_ws', '_dpr', '_ret', '_arc', '_rcrv02', '_rcrv03', '_ups'],
         newOffer: {
+          currentView: 'mainOneColumn',
           offerType: '',
           country: '',
           category: '',
@@ -1468,12 +1590,18 @@
           copyText: '',
           CTAText: '',
           destinationURL: '',
+          offersToChosebetween: [],
+          toDisable: '',
+          //{offerId: offerId, offerLabel : offerLabel, categoryInternalName: categoryInternalName, action : action}
         },
+        offerTypes: [
+          { label: 'Default', available: false },
+          { label: 'Default fallback', available: true },
+          { label: 'Recommended', available: false },
+          { label: 'Segmented', available: false }
+        ],
         isNewOfferFormValid: false,
         currentStep: 0,
-        offerTypes: [
-          { label: 'Default offer'}
-        ],
         sidebar: false,
         subPages: [
           {
@@ -1623,6 +1751,7 @@
         },
         sendingProof: false,
         proofEmailAddress: '',
+        loadingActiveOffers: false,
       },
       
       watch: {
@@ -1662,10 +1791,26 @@
       },
 
       methods: {
+
+        getCurrentActiveOffers() {
+          let payload = {
+            mco: '',
+            umbrella: '',
+            country: this.newOffer.country,
+            category: this.newOffer.category,
+            status: 6,
+            lineCount: 6,
+            label: 'Default_Fallback'
+          };
+          this.loadOffers(payload, 'getting active')
+        },
+
         loadOffers(payload, caller) {
-          if(caller != 'loadingMoreOffers') {
+          if(caller == 'filtering') {
             this.isLoadingOffers = true;
-          }
+          }else if(caller == 'getting active'){
+            this.loadingActiveOffers = true;
+          }     
           
           let baseUrl = 'https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffers.jssp';
           let hasUrlBeenAddedTo = false;
@@ -1756,6 +1901,11 @@
             console.log(baseUrl)
             axios.get(baseUrl).then(function(offerData){
               vm.offers = offerData.data;
+              console.log(offerData.data);
+              vm.isLoadingOffers = false;
+            })
+          }else if(caller == 'getting active') {
+            axios.get(baseUrl).then(function(offerData){
               console.log(offerData.data);
               vm.isLoadingOffers = false;
             })
