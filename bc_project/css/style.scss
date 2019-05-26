@@ -158,7 +158,7 @@ $lightGrey: #e2e2e2;
   &.clickable {
     cursor: pointer;
 
-    &.align-top.v-card:nth-child(3n+2) { 
+    &.align-top.v-card:nth-child(3n+3) { 
       margin-right: 0px;
 
       &.special {
@@ -283,6 +283,16 @@ $lightGrey: #e2e2e2;
 
   .basicInput {
     width: 100%;
+  }
+}
+
+.checkbox {
+  .v-input__slot {
+    margin-bottom: -10px;
+  }
+
+  label {
+    margin-top: 5px;
   }
 }
 

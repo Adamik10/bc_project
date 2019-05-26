@@ -136,10 +136,10 @@
 .baseCard.clickable {
   cursor: pointer;
 }
-.baseCard.clickable.align-top.v-card:nth-child(3n+2) {
+.baseCard.clickable.align-top.v-card:nth-child(3n+3) {
   margin-right: 0px;
 }
-.baseCard.clickable.align-top.v-card:nth-child(3n+2).special {
+.baseCard.clickable.align-top.v-card:nth-child(3n+3).special {
   margin-right: 20px;
 }
 .baseCard.clickable.special {
@@ -234,6 +234,13 @@
 }
 .inputContainer .basicInput {
   width: 100%;
+}
+
+.checkbox .v-input__slot {
+  margin-bottom: -10px;
+}
+.checkbox label {
+  margin-top: 5px;
 }
 
 /* DETAIL OFFER --------------------------------------------------------------------- DETAIL OFFER */

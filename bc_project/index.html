@@ -168,10 +168,10 @@
 .baseCard.clickable {
   cursor: pointer;
 }
-.baseCard.clickable.align-top.v-card:nth-child(3n+2) {
+.baseCard.clickable.align-top.v-card:nth-child(3n+3) {
   margin-right: 0px;
 }
-.baseCard.clickable.align-top.v-card:nth-child(3n+2).special {
+.baseCard.clickable.align-top.v-card:nth-child(3n+3).special {
   margin-right: 20px;
 }
 .baseCard.clickable.special {
@@ -266,6 +266,13 @@
 }
 .inputContainer .basicInput {
   width: 100%;
+}
+
+.checkbox .v-input__slot {
+  margin-bottom: -10px;
+}
+.checkbox label {
+  margin-top: 5px;
 }
 
 /* DETAIL OFFER --------------------------------------------------------------------- DETAIL OFFER */
@@ -862,6 +869,11 @@
                         class="basicInput">
           </v-text-field>
         </v-container>
+        <div style="display: inline-block; width: 100px; padding-left: 20px">
+          <v-checkbox v-model="filtersSelected.default" class="checkbox"
+            label="Default" color="#3A9EF0" >
+          </v-checkbox>
+        </div>
       </template>
       <!-- Filters end -->
       <v-divider ></v-divider>
@@ -1846,6 +1858,7 @@
           country: '',
           category: '',
           status: '',
+          default: false,
           label: '',
           lineCount: 12
         },
@@ -2057,6 +2070,7 @@
           country: '',
           category: '',
           status: '',
+          default: false,
           lineCount: 12,
           label: ''
         };
