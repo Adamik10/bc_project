@@ -120,6 +120,10 @@
   top: 0px;
 }
 
+.content-wrapper:nth-child(3n+2) .baseCard.clickable.special {
+  margin-right: 0px;
+}
+
 .baseCard {
   position: relative;
   display: inline-block;
@@ -134,6 +138,12 @@
 }
 .baseCard.clickable.align-top.v-card:nth-child(3n+2) {
   margin-right: 0px;
+}
+.baseCard.clickable.align-top.v-card:nth-child(3n+2).special {
+  margin-right: 20px;
+}
+.baseCard.clickable.special {
+  margin-right: 20px;
 }
 .baseCard.clickable .load-overlay {
   position: absolute;
@@ -284,18 +294,16 @@
 }
 .display-flex .desktop-preview__container {
   width: 900px;
-  height: 500px;
   display: block;
   position: relative;
   margin-left: 0px;
   margin-right: auto;
 }
 .display-flex .desktop-preview__container-content {
-  position: absolute;
   top: 0px;
   left: 0px;
   width: 900px;
-  max-height: 700px;
+  max-height: 650px;
   border-radius: 3px;
   overflow-x: auto;
   overflow-y: auto;
@@ -398,6 +406,10 @@
   right: 20px;
   width: calc(100% - 40px);
 }
+.base-button .v-btn__content {
+  width: 100%;
+}
+
 .spacer {
   display: block;
   width: 100%;
@@ -539,6 +551,7 @@
   box-shadow: 0px 5px 15px #a8a8a8;
   padding-top: 20px;
   padding-bottom: 20px;
+  background-color: white;
 }
 
 .float-right {
@@ -675,6 +688,38 @@
 }
 .radio-group .v-radio--is-disabled:hover {
   background-color: #fcfcfc !important;
+}
+
+.disable-badge {
+  color: #ff4e4e !important;
+  position: absolute;
+  text-align: center;
+  right: 10px;
+  z-index: 100;
+  top: 40px;
+  font-size: 60px;
+  animation: appear 0.5s forwards;
+}
+
+@keyframes appear {
+  0% {
+    font-size: 0px;
+  }
+  50% {
+    font-size: 65px;
+  }
+  60% {
+    font-size: 55px;
+  }
+  75% {
+    font-size: 62px;
+  }
+  85% {
+    font-size: 58px;
+  }
+  100% {
+    font-size: 60px;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */

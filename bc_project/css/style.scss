@@ -136,6 +136,16 @@ $lightGrey: #e2e2e2;
   }
 }
 
+.content-wrapper:nth-child(3n+2) {
+  .baseCard { 
+    &.clickable {
+      &.special {
+        margin-right: 0px;
+      }
+    }
+  }
+}
+
 .baseCard {
   position: relative;
   display: inline-block;
@@ -150,6 +160,14 @@ $lightGrey: #e2e2e2;
 
     &.align-top.v-card:nth-child(3n+2) { 
       margin-right: 0px;
+
+      &.special {
+        margin-right: 20px;
+      }
+    }
+
+    &.special {
+      margin-right: 20px;
     }
 
     .load-overlay {
@@ -331,18 +349,16 @@ $lightGrey: #e2e2e2;
 
     &__container {
       width: 900px;
-      height: 500px;
       display: block;
       position: relative;
       margin-left: 0px;
       margin-right: auto;
 
       &-content {
-        position: absolute;
         top: 0px;
         left: 0px;
         width: 900px;
-        max-height: 700px;
+        max-height: 650px;
         border-radius: 3px;
         overflow-x: auto;
         overflow-y: auto;
@@ -461,6 +477,10 @@ $lightGrey: #e2e2e2;
 
   &.red {
 
+  }
+
+  .v-btn__content {
+    width: 100%;
   }
 }
 
@@ -613,6 +633,7 @@ $lightGrey: #e2e2e2;
         box-shadow: 0px 5px 15px rgb(168, 168, 168);
         padding-top: 20px;
         padding-bottom: 20px;
+        background-color: white;
       }
     }
   }
@@ -776,4 +797,24 @@ $lightGrey: #e2e2e2;
       background-color: #fcfcfc !important;
     }
   }
+}
+
+.disable-badge {
+  color: $red !important;
+  position: absolute;
+  text-align: center;
+  right: 10px;
+  z-index: 100;
+  top: 40px;
+  font-size: 60px;
+  animation: appear 0.5s forwards;
+}
+
+@keyframes appear {
+  0% {font-size: 0px;}
+  50% {font-size: 65px;}
+  60% {font-size: 55px;}
+  75% {font-size: 62px;}
+  85% {font-size: 58px;}
+  100% {font-size: 60px;}
 }

@@ -152,6 +152,10 @@
   top: 0px;
 }
 
+.content-wrapper:nth-child(3n+2) .baseCard.clickable.special {
+  margin-right: 0px;
+}
+
 .baseCard {
   position: relative;
   display: inline-block;
@@ -166,6 +170,12 @@
 }
 .baseCard.clickable.align-top.v-card:nth-child(3n+2) {
   margin-right: 0px;
+}
+.baseCard.clickable.align-top.v-card:nth-child(3n+2).special {
+  margin-right: 20px;
+}
+.baseCard.clickable.special {
+  margin-right: 20px;
 }
 .baseCard.clickable .load-overlay {
   position: absolute;
@@ -316,18 +326,16 @@
 }
 .display-flex .desktop-preview__container {
   width: 900px;
-  height: 500px;
   display: block;
   position: relative;
   margin-left: 0px;
   margin-right: auto;
 }
 .display-flex .desktop-preview__container-content {
-  position: absolute;
   top: 0px;
   left: 0px;
   width: 900px;
-  max-height: 700px;
+  max-height: 650px;
   border-radius: 3px;
   overflow-x: auto;
   overflow-y: auto;
@@ -430,6 +438,10 @@
   right: 20px;
   width: calc(100% - 40px);
 }
+.base-button .v-btn__content {
+  width: 100%;
+}
+
 .spacer {
   display: block;
   width: 100%;
@@ -571,6 +583,7 @@
   box-shadow: 0px 5px 15px #a8a8a8;
   padding-top: 20px;
   padding-bottom: 20px;
+  background-color: white;
 }
 
 .float-right {
@@ -693,6 +706,7 @@
   justify-content: center;
   border-radius: 5px;
   align-items: center;
+  border: 1px rgba(255, 255, 255, 0) solid;
 }
 .radio-group .v-input__control .v-input__slot .v-input--radio-group__input .v-radio:hover {
   background-color: #e2e2e2;
@@ -701,10 +715,43 @@
   border: 1px silver solid;
 }
 .radio-group .v-radio--is-disabled {
+  border: 1px rgba(255, 255, 255, 0) solid;
   background-color: #fcfcfc !important;
 }
 .radio-group .v-radio--is-disabled:hover {
   background-color: #fcfcfc !important;
+}
+
+.disable-badge {
+  color: #ff4e4e !important;
+  position: absolute;
+  text-align: center;
+  right: 10px;
+  z-index: 100;
+  top: 40px;
+  font-size: 60px;
+  animation: appear 0.5s forwards;
+}
+
+@keyframes appear {
+  0% {
+    font-size: 0px;
+  }
+  50% {
+    font-size: 65px;
+  }
+  60% {
+    font-size: 55px;
+  }
+  75% {
+    font-size: 62px;
+  }
+  85% {
+    font-size: 58px;
+  }
+  100% {
+    font-size: 60px;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */
@@ -916,7 +963,7 @@
         </v-toolbar>
         <div class="display-flex">
           <div class="mobile-preview">
-            <v-subheader class="center-text full-width"><p class="center-text full-width">Mobile preview</p></v-subheader>
+            <v-subheader class="center-text full-width"><p class="center-text full-width">Mobile preview - {{ detailOfferBlockName }}</p></v-subheader>
             <div class="mobile-preview__container">
               <img src="http://unilever-stage.neolane.net/res/unilever_stage/a48bed274267d6735f4a0dc9435c9dfc.png" alt="phone" class="phone">
               <div class="mobile-preview__container-content">
@@ -1005,7 +1052,7 @@
             </div>
           </div>
           <div class="desktop-preview">
-            <v-subheader class="center-text full-width" style="width: 900px"><p class="center-text full-width">Desktop preview</p></v-subheader>
+            <v-subheader class="center-text full-width" style="width: 900px"><p class="center-text full-width">Desktop preview - {{ detailOfferBlockName }}</p></v-subheader>
             <div class="desktop-preview__container">
               <div class="desktop-preview__container-content">
                 <!-- Desktop preview -->
@@ -1078,6 +1125,66 @@
                 <!-- Desktop preview ends -->
               </div>
             </div>
+            <div class="spacer"></div>
+            <v-flex>
+              <div class="view-actions" style="width: 900px;">
+                <v-tooltip top open-delay="300">
+                  <template v-slot:activator="{ on }">
+                    <div class="icon-container" :class="{ active: detailOfferBlock == 'mainOneColumn' }" 
+                      @click="detailOfferBlock = 'mainOneColumn', detailOfferBlockName = 'Main One Column'" v-on="on">
+                      <v-icon color="white" 
+                              class="icon" 
+                              :class="{ active: detailOfferBlock == 'mainOneColumn' }">
+                              filter_1
+                      </v-icon> 
+                    </div>
+                  </template>
+                  <span>Main column 1</span>
+                </v-tooltip>
+                <div class="icon-divider"></div>
+                <v-tooltip top open-delay="300">
+                  <template v-slot:activator="{ on }">
+                    <div class="icon-container" :class="{ active: detailOfferBlock == 'mainTwoColumn' }" 
+                      @click="detailOfferBlock = 'mainTwoColumn', detailOfferBlockName = 'Main Two Column'" v-on="on">
+                      <v-icon color="white" 
+                              class="icon" 
+                              :class="{ active: detailOfferBlock == 'mainTwoColumn' }">
+                              filter_2
+                      </v-icon> 
+                    </div>
+                  </template>
+                  <span>Main column 2</span>
+                </v-tooltip>
+                <div class="icon-divider"></div>
+                <v-tooltip top open-delay="300">
+                  <template v-slot:activator="{ on }">
+                    <div class="icon-container" :class="{ active: detailOfferBlock == 'ecommerce' }" 
+                      @click="detailOfferBlock = 'ecommerce', detailOfferBlockName = 'Ecommerce block'" v-on="on">
+                      <v-icon color="white" 
+                              class="icon" 
+                              :class="{ active: detailOfferBlock == 'ecommerce' }">
+                              view_week
+                      </v-icon> 
+                    </div>
+                  </template>
+                  <span>Ecommerce block</span>
+                </v-tooltip>
+                <div class="icon-divider"></div>
+                <v-tooltip top open-delay="300">
+                  <template v-slot:activator="{ on }">
+                    <div class="icon-container" :class="{ active: detailOfferBlock == 'split' }" 
+                      @click="detailOfferBlock = 'split', detailOfferBlockName = '50/50 Split'" v-on="on">
+                      <v-icon color="white" 
+                              class="icon rotateIcon" 
+                              :class="{ active: detailOfferBlock == 'split' }">
+                              view_agenda
+                      </v-icon> 
+                    </div>
+                  </template>
+                  <span>Split 50/50</span>
+                </v-tooltip>
+              </div>
+            </v-flex>
           </div>
           <div class="sidebar">
             <div class="full-width">
@@ -1165,14 +1272,14 @@
                 <template v-if="detailOfferData.statusLive != 6">
                   <v-btn class="base-button full-width bottom-actions" 
                     color="#6DC570" outline
-                    @click.native="dispatcher(detailOfferData.offerId, detailOfferData.offerLabel, detailOfferData.categoryInternalName, 'enable')">
+                    @click.native="dispatcher(detailOfferData.offerId, detailOfferData.offerLabel, detailOfferData.categoryInternalName, 'enable', 'normal')">
                     Enable offer
                   </v-btn>
                 </template>
                 <template v-else>
                   <v-btn class="base-button full-width bottom-actions" 
                     color="rgb(255, 78, 78)" outline
-                    @click.native="dispatcher(detailOfferData.offerId, detailOfferData.offerLabel, detailOfferData.categoryInternalName, 'disable')">
+                    @click.native="dispatcher(detailOfferData.offerId, detailOfferData.offerLabel, detailOfferData.categoryInternalName, 'disable', 'normal')">
                     Disable offer
                   </v-btn>
                 </template>
@@ -1187,7 +1294,7 @@
 
     <!-- New offer  -------------------------------------------------------------------------------------------------------->
     <v-dialog v-model="newOfferDialog" 
-              @keydown.esc="newOfferDialog = false"
+              persistent
               width="1200px" height="830px">
       <v-card width="1200px" height="830px" class="display-flex new-offer-dialog">
         <v-stepper v-model="currentStep">
@@ -1223,6 +1330,12 @@
                       flat outline style="width: 200px;">
                   Select
                 </v-btn>
+                <v-btn class="base-button" 
+                        color="rgb(192, 192, 192)"
+                        @click="closeNewOffer()"
+                        flat outline width="20px">
+                  <v-icon>arrow_back_ios</v-icon>
+                </v-btn>
               </div>
             </v-stepper-content>
             <v-stepper-content step="2">
@@ -1234,7 +1347,7 @@
                               v-model="newOffer.country"
                               label="Country *"
                               item-text="marketLabel"
-                              item-value="marketId"
+                              item-value="marketCountryCode"
                               dense single-line solo flat 
                               class="basicDropdownForm"
                               :menu-props="{contentClass:'basicDropdownContent'}">
@@ -1250,7 +1363,7 @@
                               v-model="newOffer.category"
                               label="Category *"
                               item-text="categoryLabel"
-                              item-value="categoryId"
+                              item-value="categoryRef"
                               title="categoryLabel"
                               dense single-line solo flat
                               class="basicDropdownForm"
@@ -1263,34 +1376,103 @@
                 </div>
               </div>
               <div class="bottom-actions">
-                <v-btn class="base-button" 
-                      color="#6DC570"
-                      @click="getCurrentActiveOffers()"
-                      :disabled="newOffer.country == '' || newOffer.country == undefined || newOffer.country == null || 
-                      newOffer.category == '' || newOffer.category == undefined || newOffer.category == null" 
-                      flat outline style="width: 200px;">
-                  Select
-                </v-btn>
-                <v-btn class="base-button" 
-                        color="rgb(192, 192, 192)"
-                        @click="currentStep = 1"
-                        flat outline width="20px">
-                  <v-icon>arrow_back_ios</v-icon>
-                </v-btn>
-              </div>
+                  <v-btn class="base-button" 
+                        color="#6DC570"
+                        @click="loadActiveOffers()"
+                        :disabled="newOffer.country == '' || newOffer.country == undefined || newOffer.country == null || loading == true || 
+                          newOffer.category == '' || newOffer.category == undefined || newOffer.category == null" 
+                        flat outline style="width: 200px;">
+                    <template v-if="!loading">
+                      Proceed
+                    </template>
+                    <template v-else>
+                      <div class="text-xs-center">
+                        <v-progress-circular
+                          :size="20" :width="3"
+                          color="rgb(192, 192, 192)"
+                          indeterminate></v-progress-circular>
+                      </div>
+                    </template>
+                  </v-btn>
+                  <v-btn class="base-button" 
+                          color="rgb(192, 192, 192)"
+                          @click="currentStep = 1"
+                          flat outline width="20px">
+                    <v-icon>arrow_back_ios</v-icon>
+                  </v-btn>
+                </div>
             </v-stepper-content>
             <v-stepper-content step="3">
               <div class="container">
                 <p class="dialog-title" style="display: block">Choose an offer to be disabled</p>
-                <p>In order to be able to create a new Default fallback offer, you first have to disable one of the currrently live ones.</p>
+                <p style="margin-bottom: 50px">In order to be able to create a new Default fallback offer, you first have to disable one of the currrently live ones.</p>
+                <div style="position: relative; display: inline-block" v-for="(offer,i) in newOffer.offersToChosebetween" :key="i" class="content-wrapper">
+                  <template v-if="newOffer.selectedOfferToDisable != '' && newOffer.selectedOfferToDisable != null && newOffer.selectedOfferToDisable != undefined">
+                    <v-icon v-if="newOffer.selectedOfferToDisable.offerId == offer.offerId" class="disable-badge">backspace</v-icon>
+                  </template>
+                  <v-hover>
+                    <v-card class="baseCard clickable align-top special" 
+                            align="top"
+                            slot-scope="{ hover }"
+                            :class="`elevation-${hover ? 12 : 2}`"
+                            @click="newOffer.selectedOfferToDisable = offer">
+                      <v-card-title primary-title class="card-title" >
+                        <div class="status-container" :class="{greenBackground: offer.statusLive == 6, redBackground: offer.statusLive != 6}"></div>
+                        <h3 class="headline" :title="offer.offerLabel">{{ offer.offerLabel | maxLength(30) }} </h3>
+                        <v-card-text>
+                          <p class="offer-category">{{ offer.categoryInternalName | makeIntoCategory }}</p>
+                          <div><b>SL 1:</b>
+                            {{offer.subject1}}</div>
+                        <div><b>SL 2:</b>
+                            {{offer.subject2}}</div>
+                        <div><b>Pre Header:</b>
+                          {{offer.preheader}}</div>
+                        </v-card-text>
+                      
+                      </v-card-title>
+                      <div v-if="offer.imageDesktopURL" style="position: relative; width: 100%;">
+                        <v-img :src="'http://'+offer.imageDesktopURL" 
+                              aspect-ratio="2">
+                          <template v-slot:placeholder>
+                              <v-layout fill-height
+                                align-center
+                                justify-center
+                                ma-0>
+                                <v-progress-circular indeterminate color="grey"></v-progress-circular>
+                            </v-layout>
+                          </template>
+                        </v-img>
+                      </div>
+                      <v-card-title class="text-center center">
+                        <div v-if="offer.headline" class="margin-auto offer-content" style="font-family:Verdana; font-weight:bold; mso-line-height-rule:exactly; line-height:22px !important; font-size:21px; color:#ff5a00; padding:0 0 8px 0;">{{offer.headline}}</div>
+                        <div v-if="offer.copyText" class="offer-content" style="padding: 0 0 16px 0">{{offer.copyText}}</div>
+                        <div v-if="offer.CTAtext" style="margin: auto; padding:6px 14px; -webkit-border-radius:4px; border-radius:4px; font-size:14px; font-family:Verdana; color:#ffffff; display:inline-block; border:1px solid #ff5a00; background-color: #ff5a00;">
+                          <span style="font-size:14px; font-family:Verdana; text-decoration:none; font-weight:bold; mso-line-height-rule:exactly; 
+                            line-height:14px !important; color:#ffffff;" target="_blank">{{offer.CTAtext}}</span>
+                        </div>
+                      </v-card-title>
+                    </v-card>
+                  </v-hover>
+                </div>
               </div>
               <div class="bottom-actions">
                 <v-btn class="base-button" 
                       color="#6DC570"
-                      @click="disableSelectedFallbackOffer()"
-                      :disabled="newOffer.toDisable == '' || newOffer.toDisable == undefined || newOffer.toDisable == null" 
+                      @click="disableSelectedFOffer()"
+                      :disabled="newOffer.selectedOfferToDisable == '' || newOffer.selectedOfferToDisable == undefined || 
+                        newOffer.selectedOfferToDisable == null || loading == true" 
                       flat outline style="width: 200px;">
-                  Disable selected offer
+                  <template v-if="!loading">
+                    Disable selected
+                  </template>
+                  <template v-else>
+                    <div class="text-xs-center">
+                      <v-progress-circular
+                        :size="20" :width="3"
+                        color="rgb(192, 192, 192)"
+                        indeterminate></v-progress-circular>
+                    </div>
+                  </template>
                 </v-btn>
                 <v-btn class="base-button" 
                         color="rgb(192, 192, 192)"
@@ -1302,160 +1484,247 @@
             </v-stepper-content>
             <v-stepper-content step="4">
               <div class="leftSide align-top">
-                  <div class="spacer"></div>
-                  <div class="basicInputContainer special full-width">
-                    <v-text-field v-model="newOffer.offerLabel"
-                                  label="Offer Label *"
-                                  class="basicInput">
-                    </v-text-field>
-                  </div>
-                  <div class="spacer-big"></div>
-                  <div class="basicInputContainer special full-width">
-                    <v-text-field v-model="newOffer.preHeader"
-                                  label="Pre Header"
-                                  class="basicInput">
-                    </v-text-field>
-                  </div>
-                  <div class="basicInputContainer special full-width">
-                    <v-text-field v-model="newOffer.subjectOne"
-                                  label="Subject line 1 *"
-                                  class="basicInput">
-                    </v-text-field>
-                  </div>
-                  <div class="basicInputContainer special full-width">
-                    <v-text-field v-model="newOffer.subjectTwo"
-                                  label="Subject line 2"
-                                  class="basicInput">
-                    </v-text-field>
-                  </div>
-                  <div class="spacer-big"></div>
-                  <div class="basicInputContainer special full-width">
-                    <v-text-field v-model="newOffer.headline"
-                                  label="Headline *"
-                                  class="basicInput">
-                    </v-text-field>
-                  </div>
-                  <div class="basicInputContainer special full-width">
-                    <v-text-field v-model="newOffer.subheadline"
-                                  label="Subheadline"
-                                  class="basicInput">
-                    </v-text-field>
-                  </div>
-                  <div class="spacer-big"></div>
-                  <div class="basicInputContainer special full-width">
-                    <v-text-field v-model="newOffer.imageURL"
-                                  label="Image URL *"
-                                  class="basicInput">
-                    </v-text-field>
-                  </div>
-                  <div class="basicInputContainer special full-width">
-                    <v-text-field v-model="newOffer.mobileImageURL"
-                                  label="Mobile Image URL"
-                                  class="basicInput">
-                    </v-text-field>
-                  </div>
-                  <div class="basicInputContainer special full-width">
-                    <v-text-field v-model="newOffer.imageAltText"
-                                  label="Image Alt Text"
-                                  class="basicInput">
-                    </v-text-field>
-                  </div>
-                  <div class="spacer-big"></div>
-                  <div class="basicInputContainer special full-width">
-                    <v-text-field v-model="newOffer.copyText"
-                                  label="Copy Text"
-                                  class="basicInput">
-                    </v-text-field>
-                  </div>
-                  <div class="basicInputContainer special full-width">
-                    <v-text-field v-model="newOffer.CTAText"
-                                  label="CTA Text"
-                                  class="basicInput">
-                    </v-text-field>
-                  </div>
-                  <div class="basicInputContainer special full-width">
-                    <v-text-field v-model="newOffer.destinationURL"
-                                  label="Destination URL"
-                                  class="basicInput">
-                    </v-text-field>
+                <div class="spacer"></div>
+                <div class="basicInputContainer special full-width">
+                  <v-text-field v-model="newOffer.offerLabel"
+                                label="New Offer Label *"
+                                class="basicInput">
+                  </v-text-field>
+                </div>
+                <div class="spacer-big"></div>
+                <div class="basicInputContainer special full-width">
+                  <v-text-field v-model="newOffer.preHeader"
+                                label="Pre Header"
+                                class="basicInput">
+                  </v-text-field>
+                </div>
+                <div class="basicInputContainer special full-width">
+                  <v-text-field v-model="newOffer.subjectOne"
+                                label="Subject line 1 *"
+                                class="basicInput">
+                  </v-text-field>
+                </div>
+                <div class="basicInputContainer special full-width">
+                  <v-text-field v-model="newOffer.subjectTwo"
+                                label="Subject line 2"
+                                class="basicInput">
+                  </v-text-field>
+                </div>
+                <div class="spacer-big"></div>
+                <div class="basicInputContainer special full-width">
+                  <v-text-field v-model="newOffer.headline"
+                                label="Headline *"
+                                class="basicInput">
+                  </v-text-field>
+                </div>
+                <div class="basicInputContainer special full-width">
+                  <v-text-field v-model="newOffer.subheadline"
+                                label="Subheadline"
+                                class="basicInput">
+                  </v-text-field>
+                </div>
+                <div class="spacer-big"></div>
+                <div class="basicInputContainer special full-width">
+                  <v-text-field v-model="newOffer.imageURL"
+                                label="Image URL beginning with 'https://' *"
+                                class="basicInput">
+                  </v-text-field>
+                </div>
+                <div class="basicInputContainer special full-width">
+                  <v-text-field v-model="newOffer.mobileImageURL"
+                                label="Mobile Image URL beginning with 'https://'"
+                                class="basicInput">
+                  </v-text-field>
+                </div>
+                <div class="basicInputContainer special full-width">
+                  <v-text-field v-model="newOffer.imageAltText"
+                                label="Image Alt Text"
+                                class="basicInput">
+                  </v-text-field>
+                </div>
+                <div class="spacer-big"></div>
+                <div class="basicInputContainer special full-width">
+                  <v-text-field v-model="newOffer.copyText"
+                                label="Copy Text"
+                                class="basicInput">
+                  </v-text-field>
+                </div>
+                <div class="basicInputContainer special full-width">
+                  <v-text-field v-model="newOffer.CTAText"
+                                label="CTA Text"
+                                class="basicInput">
+                  </v-text-field>
+                </div>
+                <div class="basicInputContainer special full-width">
+                  <v-text-field v-model="newOffer.destinationURL"
+                                label="Destination URL beginning with 'https://'"
+                                class="basicInput">
+                  </v-text-field>
+                </div>
+              </div>
+              <div class="rightSide align-top">
+                <div class="spacer"></div>
+                <p class="dialog-title full-width center-text">Offer preveiw - {{ newOffer.blockName }}</p>
+                <div class="previewContainer">
+                  <div class="previewContainer-content">
+                    <!-- Desktop preview - Main 1 column -->
+                    <table width="100%" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+                      <tbody style="display: table-row-group; vertical-align: middle; border-color: inherit; border-collapse: collapse">
+                        <tr style="display: table-row; vertical-align: inherit; border-color: inherit;">
+                          <td align="center" valign="top" style="border-collapse: collapse">
+                            <table cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="width:600px; border-collapse: collapse;">
+                              <tbody style="display: table-row-group; vertical-align: middle; ">
+                                <tr style="display: table-row; vertical-align: inherit;">
+                                  <td align="left" valign="top" style="border-collapse: collapse">
+                                    <table style="border:0; width:100%">
+                                      <tbody style="display: table-row-group">
+                                        <tr style="display: table-row;">
+                                          <td style="padding:0 10px 16px 10px">
+                                            <a :href="newOffer.destinationURL" target="_blank">
+                                              <template>
+                                              <img v-if="newOffer.imageURL && newOffer.imageURL != '' && newOffer.imageURL != undefined && newOffer.imageURL != null"
+                                                :src="newOffer.imageURL" :alt="newOffer.imageAltText" style="display:block; width: 580px;"/>
+                                              </template>
+                                            </a>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </td>
+                                </tr>
+                                <tr style="display: table-row;">
+                                  <td dir="ltr" valign="top" style="padding:0 20px 0 20px; border-collapse: collapse">
+                                    <table border="0" width="100%" cellpadding="0" cellspacing="0">
+                                      <tbody style="display: table-row-group; vertical-align: middle; border-color: inherit;">
+                                        <tr v-if="newOffer.headline && newOffer.headline != '' && newOffer.headline != undefined && newOffer.headline != null"
+                                          style="display: table-row; vertical-align: inherit; border-color: inherit;">
+                                          <td align="left" valign="top" style="font-family:Verdana; font-weight:bold; font-size:21px; color:#ff5a00; padding:0 0 8px 0;">
+                                            {{ newOffer.headline }}
+                                          </td>
+                                        </tr>
+                                        <tr v-if="newOffer.subheadline && newOffer.subheadline != '' && newOffer.subheadline != undefined && newOffer.subheadline != null"
+                                          style="display: table-row; vertical-align: inherit; border-color: inherit;">
+                                          <td align="left" valign="top" style="font-family:Verdana; font-weight:bold; font-size:16px; color:#b6b6b6; padding:0 0 8px 0;">
+                                            {{ newOffer.subheadline }}
+                                          </td>
+                                        </tr>
+                                        <tr v-if="newOffer.copyText && newOffer.copyText != '' && newOffer.copyText != undefined && newOffer.copyText != null"
+                                            style="display: table-row; vertical-align: inherit; border-color: inherit;">
+                                          <td align="left" valign="top" style="font-family:Verdana; line-height:17px; font-size:13px; color:#000000; padding:0 0 16px 0;">
+                                            {{ newOffer.copyText }}
+                                          </td>
+                                        </tr>
+                                        <tr v-if="newOffer.CTAText && newOffer.CTAText != '' && newOffer.CTAText != undefined && newOffer.CTAText != null"
+                                            style="display: table-row; vertical-align: inherit; border-color: inherit;">
+                                          <td align="center" style="padding:0 0 0 0; border-collapse: collapse">
+                                            <table style="border-collapse: collapse">
+                                              <tbody>
+                                                <tr>
+                                                  <th bgcolor="#ff5a00" style="padding:6px 14px; -webkit-border-radius:4px; border-radius:4px; font-size:14px; 
+                                                      font-family:Verdana; color:#ffffff; display:inline-block; border:1px solid #ff5a00;">
+                                                    <a :href="newOffer.destinationURL" style="font-size:14px; font-family:Verdana;line-height:14px; 
+                                                        text-decoration:none; font-weight:bold; mso-line-height-rule:exactly; color:#ffffff;" target="_blank"> 
+                                                      {{ newOffer.CTAText }}
+                                                    </a>  
+                                                  </th>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <!-- Desktop preview - Main 1 column ends -->
                   </div>
                 </div>
-                <div class="rightSide align-top">
-                  <p class="dialog-title full-width center-text">Offer preveiw</p>
-                  <div class="previewContainer">
-                    <div class="previewContainer-content">
-        
-                    </div>
+                <v-flex>
+                  <div class="view-actions">
+                    <v-tooltip top open-delay="300">
+                      <template v-slot:activator="{ on }">
+                        <div class="icon-container" :class="{ active: newOffer.block == 'mainOneColumn' }" 
+                          @click="newOffer.block = 'mainOneColumn', newOffer.blockName = 'Main One Column'" v-on="on">
+                          <v-icon color="white" 
+                                  class="icon" 
+                                  :class="{ active: newOffer.block == 'mainOneColumn' }">
+                                  filter_1
+                          </v-icon> 
+                        </div>
+                      </template>
+                      <span>Main column 1</span>
+                    </v-tooltip>
+                    <div class="icon-divider"></div>
+                    <v-tooltip top open-delay="300">
+                      <template v-slot:activator="{ on }">
+                        <div class="icon-container" :class="{ active: newOffer.block == 'mainTwoColumn' }" 
+                          @click="newOffer.block = 'mainTwoColumn', newOffer.blockName = 'Main Two Column'" v-on="on">
+                          <v-icon color="white" 
+                                  class="icon" 
+                                  :class="{ active: newOffer.block == 'mainTwoColumn' }">
+                                  filter_2
+                          </v-icon> 
+                        </div>
+                      </template>
+                      <span>Main column 2</span>
+                    </v-tooltip>
+                    <div class="icon-divider"></div>
+                    <v-tooltip top open-delay="300">
+                      <template v-slot:activator="{ on }">
+                        <div class="icon-container" :class="{ active: newOffer.block == 'ecommerce' }" 
+                          @click="newOffer.block = 'ecommerce', newOffer.blockName = 'Ecommerce block'" v-on="on">
+                          <v-icon color="white" 
+                                  class="icon" 
+                                  :class="{ active: newOffer.block == 'ecommerce' }">
+                                  view_week
+                          </v-icon> 
+                        </div>
+                      </template>
+                      <span>Ecommerce block</span>
+                    </v-tooltip>
+                    <div class="icon-divider"></div>
+                    <v-tooltip top open-delay="300">
+                      <template v-slot:activator="{ on }">
+                        <div class="icon-container" :class="{ active: newOffer.block == 'split' }" 
+                          @click="newOffer.block = 'split', newOffer.blockName = '50/50 Split'" v-on="on">
+                          <v-icon color="white" 
+                                  class="icon rotateIcon" 
+                                  :class="{ active: newOffer.block == 'split' }">
+                                  view_agenda
+                          </v-icon> 
+                        </div>
+                      </template>
+                      <span>Split 50/50</span>
+                    </v-tooltip>
                   </div>
-                  <v-flex>
-                    <div class="view-actions">
-                      <v-tooltip top open-delay="300">
-                        <template v-slot:activator="{ on }">
-                          <div class="icon-container" :class="{ active: newOffer.currentView == 'mainOneColumn' }" @click="newOffer.currentView = 'mainOneColumn'" v-on="on">
-                            <v-icon color="white" 
-                                    class="icon" 
-                                    :class="{ active: newOffer.currentView == 'mainOneColumn' }">
-                                    filter_1
-                            </v-icon> 
-                          </div>
-                        </template>
-                        <span>Main column 1</span>
-                      </v-tooltip>
-                      <div class="icon-divider"></div>
-                      <v-tooltip top open-delay="300">
-                        <template v-slot:activator="{ on }">
-                          <div class="icon-container" :class="{ active: newOffer.currentView == 'mainTwoColumn' }" @click="newOffer.currentView = 'mainTwoColumn'" v-on="on">
-                            <v-icon color="white" 
-                                    class="icon" 
-                                    :class="{ active: newOffer.currentView == 'mainTwoColumn' }">
-                                    filter_2
-                            </v-icon> 
-                          </div>
-                        </template>
-                        <span>Main column 2</span>
-                      </v-tooltip>
-                      <div class="icon-divider"></div>
-                      <v-tooltip top open-delay="300">
-                        <template v-slot:activator="{ on }">
-                          <div class="icon-container" :class="{ active: newOffer.currentView == 'ecommerce' }" @click="newOffer.currentView = 'ecommerce'" v-on="on">
-                            <v-icon color="white" 
-                                    class="icon" 
-                                    :class="{ active: newOffer.currentView == 'ecommerce' }">
-                                    view_week
-                            </v-icon> 
-                          </div>
-                        </template>
-                        <span>Ecommerce block</span>
-                      </v-tooltip>
-                      <div class="icon-divider"></div>
-                      <v-tooltip top open-delay="300">
-                        <template v-slot:activator="{ on }">
-                          <div class="icon-container" :class="{ active: newOffer.currentView == 'split' }" @click="newOffer.currentView = 'split'" v-on="on">
-                            <v-icon color="white" 
-                                    class="icon rotateIcon" 
-                                    :class="{ active: newOffer.currentView == 'split' }">
-                                    view_agenda
-                            </v-icon> 
-                          </div>
-                        </template>
-                        <span>Split 50/50</span>
-                      </v-tooltip>
-                    </div>
-                  </v-flex>
-                  <template v-if="!isNewOfferFormValid">
-                    <v-btn class="base-button full-width" style="margin-top: 20px;"
-                      disabled outline color="#6DC570">
-                      Create offer
-                    </v-btn>
-                    <p class="hint" style="margin-top: 10px;">* You need to fill out all the fields with a star</p>
-                  </template>
-                  <template v-else>
-                    <v-btn class="base-button full-width" style="margin-top: 20px;"
-                      outline color="#6DC570">
-                      Create offer
-                    </v-btn>
-                  </template>
-                </div>
+                </v-flex>
+                <v-btn class="base-button" 
+                        color="rgb(192, 192, 192)"
+                        @click="reEnableOffer()"
+                        flat outline width="20px" style="display: inline-block; margin-right: 10px; margin-top: 20px; margin-left: 0px;">
+                  <v-icon>arrow_back_ios</v-icon>
+                </v-btn>
+                <template v-if="!isNewOfferFormValid">
+                  <v-btn class="base-button" style="margin-top: 20px; margin-left: 0px; width: 653px; width: 540px; margin-right: 0px;"
+                    disabled outline color="#6DC570"
+                    @click="createNewOffer()">
+                    Create offer
+                  </v-btn>
+                  <p class="hint" style="margin-top: 10px;">* You need to fill out all the fields with a star</p>
+                </template>
+                <template v-else>
+                  <v-btn class="base-button" style="margin-top: 20px; margin-left: 0px; width: 653px; width: 540px; margin-right: 0px;"
+                    outline color="#6DC570">
+                    Create offer
+                  </v-btn>
+                </template>
+              </div>
             </v-stepper-content>
           </v-stepper-items>
       </v-card>
@@ -1560,8 +1829,11 @@
         newOfferDialog: false,
         isLoadingOffers: false,
         isLoadingMoreOffers: false,
+        loading: false,
         detailOfferView: false,
         detailOfferData: {},
+        detailOfferBlock: 'mainOneColumn',
+        detailOfferBlockName: 'Main One Column',
         queryStartLine: 0,
         filtersSelected: {
           mco: '',
@@ -1574,7 +1846,8 @@
         },
         eligibleSubstrings: ['_rcr', '_dps', '_ws', '_dpr', '_ret', '_arc', '_rcrv02', '_rcrv03', '_ups'],
         newOffer: {
-          currentView: 'mainOneColumn',
+          block: 'mainOneColumn',
+          blockName: 'Main One Column',
           offerType: '',
           country: '',
           category: '',
@@ -1591,8 +1864,7 @@
           CTAText: '',
           destinationURL: '',
           offersToChosebetween: [],
-          toDisable: '',
-          //{offerId: offerId, offerLabel : offerLabel, categoryInternalName: categoryInternalName, action : action}
+          selectedOfferToDisable: '',
         },
         offerTypes: [
           { label: 'Default', available: false },
@@ -1751,7 +2023,6 @@
         },
         sendingProof: false,
         proofEmailAddress: '',
-        loadingActiveOffers: false,
       },
       
       watch: {
@@ -1792,25 +2063,25 @@
 
       methods: {
 
-        getCurrentActiveOffers() {
+        loadActiveOffers() {
           let payload = {
             mco: '',
             umbrella: '',
             country: this.newOffer.country,
             category: this.newOffer.category,
             status: 6,
-            lineCount: 6,
+            lineCount: 3,
             label: 'Default_Fallback'
           };
           this.loadOffers(payload, 'getting active')
         },
 
         loadOffers(payload, caller) {
-          if(caller == 'filtering') {
+          if(caller == 'filtering' ) {
             this.isLoadingOffers = true;
-          }else if(caller == 'getting active'){
-            this.loadingActiveOffers = true;
-          }     
+          }else if(caller == 'getting active') {
+            this.loading = true;
+          }
           
           let baseUrl = 'https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffers.jssp';
           let hasUrlBeenAddedTo = false;
@@ -1905,9 +2176,12 @@
               vm.isLoadingOffers = false;
             })
           }else if(caller == 'getting active') {
+            console.log(baseUrl)
             axios.get(baseUrl).then(function(offerData){
               console.log(offerData.data);
-              vm.isLoadingOffers = false;
+              vm.newOffer.offersToChosebetween = offerData.data;
+              vm.loading = false;
+              vm.currentStep = 3;
             })
           }
         },
@@ -1992,18 +2266,76 @@
           return false;
         },
 
-        dispatcher(offerId, offerLabel, categoryInternalName, action) {
+        disableSelectedFOffer() {
+          this.loading = true;
+          let offerID = this.newOffer.selectedOfferToDisable.offerId;
+          let offerLabel = this.newOffer.selectedOfferToDisable.offerLabel;
+          let categoryInternalName = this.newOffer.selectedOfferToDisable.categoryInternalName;
+          let action = 'disable';
+          let situation = 'disabling to create';
+          this.currentStep = 4;
+          this.loading = false;
+          //this.dispatcher(offerID, offerLabel, categoryInternalName, action, situation)
+        },
+
+        reEnableOffer() {
+          this.loading = true;
+          let offerID = this.newOffer.selectedOfferToDisable.offerId;
+          let offerLabel = this.newOffer.selectedOfferToDisable.offerLabel;
+          let categoryInternalName = this.newOffer.selectedOfferToDisable.categoryInternalName;
+          let action = 'enable';
+          let situation = 're-enabling';
+          this.currentStep = 3;
+          this.loading = false;
+          //this.dispatcher(offerID, offerLabel, categoryInternalName, action, situation)
+        },
+
+        dispatcher(offerId, offerLabel, categoryInternalName, action, situation) {
           console.log("dispatcher called")
           axios.post('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardDispatcher.jssp', {offerId: offerId, offerLabel : offerLabel, categoryInternalName: categoryInternalName, action : action})
           .then(function(response) {
-            
             console.log(response)
+            if(situation == 'disabling to create'){
+              this.currentStep = 4;
+              this.loading = false;
+            }else if(situation == 're-enabling'){
+              this.currentStep = 3;
+              this.loading = false;
+            }
           })
           .catch(function (error) {
-            
             console.log("error")
             console.log(response)
           })
+        },
+
+        closeNewOffer() {
+          this.newOfferDialog = false;
+          this.newOffer = {
+            block: 'mainOneColumn',
+            blockName: 'Main One Column',
+            offerType: '',
+            country: '',
+            category: '',
+            offerLabel: '',
+            preHeader: '',
+            subjectOne: '',
+            subjectTwo: '',
+            headline: '',
+            subheadline: '',
+            imageURL: '',
+            mobileImageURL: '',
+            imageAltText: '',
+            copyText: '',
+            CTAText: '',
+            destinationURL: '',
+            offersToChosebetween: [],
+            selectedOfferToDisable: '',
+          }
+        },
+
+        createNewOffer() {
+
         },
 
       }
