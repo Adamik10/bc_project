@@ -241,6 +241,10 @@
   overflow: visible !important;
 }
 
+.detail-view-toolbar {
+  background-color: silver !important;
+}
+
 .greenBackground {
   background-color: #6DC570 !important;
 }
@@ -303,6 +307,7 @@
   top: 0px;
   left: 0px;
   width: 900px;
+  height: 650px;
   max-height: 650px;
   border-radius: 3px;
   overflow-x: auto;

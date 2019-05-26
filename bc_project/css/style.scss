@@ -292,6 +292,10 @@ $lightGrey: #e2e2e2;
   overflow: visible !important;
 }
 
+.detail-view-toolbar {
+  background-color: $grey !important;
+}
+
 .greenBackground{
   background-color: $green !important;
 }
@@ -358,6 +362,7 @@ $lightGrey: #e2e2e2;
         top: 0px;
         left: 0px;
         width: 900px;
+        height: 650px;
         max-height: 650px;
         border-radius: 3px;
         overflow-x: auto;

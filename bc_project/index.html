@@ -273,6 +273,10 @@
   overflow: visible !important;
 }
 
+.detail-view-toolbar {
+  background-color: silver !important;
+}
+
 .greenBackground {
   background-color: #6DC570 !important;
 }
@@ -335,6 +339,7 @@
   top: 0px;
   left: 0px;
   width: 900px;
+  height: 650px;
   max-height: 650px;
   border-radius: 3px;
   overflow-x: auto;
@@ -952,7 +957,7 @@
       transition="dialog-bottom-transition"
       content-class="detailViewContent">
       <v-card v-if="detailOfferData != {} && detailOfferData != undefined && detailOfferData != null">
-        <v-toolbar dark :class="{greenBackground: detailOfferData.statusLive == 6, redBackground: detailOfferData.statusLive != 6}">
+        <v-toolbar dark class="detail-view-toolbar" :class="{greenBackground: detailOfferData.statusLive == 6, redBackground: detailOfferData.statusLive != 6}">
           <v-toolbar-title class="long-title">{{ detailOfferData.offerLabel }}</v-toolbar-title>
           <v-spacer></v-spacer>
           <div v-if="detailOfferData.statusLive == 6" style="width: 210px; min-width: 210px; font-weight: 700;">Current status: LIVE</div>
@@ -1334,7 +1339,7 @@
                         color="rgb(192, 192, 192)"
                         @click="closeNewOffer()"
                         flat outline width="20px">
-                  <v-icon>arrow_back_ios</v-icon>
+                  CLOSE
                 </v-btn>
               </div>
             </v-stepper-content>
