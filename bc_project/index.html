@@ -2208,8 +2208,23 @@
         sendTheOfferProof() {
           if(this.sendingProof == true) {
             console.log('we here sending shit to:' + this.proofEmailAddress);
-            this.sendingProof = false;
-            this.proofEmailAddress = '';
+
+            axios.post('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardSendProof.jssp', 
+            { email: this.proofEmailAddress, 
+              offerId: vm.detailOfferData.offerId, 
+              categoryInternalName : vm.detailOfferData.categoryInternalName})
+            .then(function(response) {
+              console.log(response)
+              this.sendingProof = false;
+              this.proofEmailAddress = '';
+            })
+            .catch(function (error) {
+              console.log("error")
+              console.log(response)
+              this.sendingProof = false;
+              this.proofEmailAddress = '';
+            })
+
           }
         },
 
