@@ -1077,8 +1077,17 @@
                                                 width: auto !important; max-height: inherit !important; overflow: visible !important; float: none !important;">
                                                 <a :href="detailOfferData.destinationURL" target="_blank" style="text-decoration:none; color: -webkit-link; cursor: pointer;">
                                                   <template v-if="detailOfferData.imageMobileURL && detailOfferData.imageMobileURL != '' && detailOfferData.imageMobileURL != undefined && detailOfferData.imageMobileURL != null">
-                                                    <img :src="'http://'+detailOfferData.imageMobileURL" :alt="detailOfferData.imageAltText" border="0" 
-                                                    style="display: block; width: 265px"/>
+                                                    <v-img :src="'http://'+detailOfferData.imageMobileURL" :alt="detailOfferData.imageAltText" border="0" 
+                                                      style="display: block; width: 265px">
+                                                      <template v-slot:placeholder>
+                                                        <v-layout fill-height
+                                                            align-center
+                                                            justify-center
+                                                            ma-0>
+                                                            <v-progress-circular indeterminate color="grey"></v-progress-circular>
+                                                        </v-layout>
+                                                      </template>
+                                                    </v-img>
                                                   </template>
                                                   <template v-else>
                                                     <img v-if="detailOfferData.imageDesktopURL && detailOfferData.imageDesktopURL != '' && detailOfferData.imageDesktopURL != undefined && detailOfferData.imageDesktopURL != null"
@@ -1149,8 +1158,16 @@
                                     <tr style="display: table-row;">
                                       <td style="padding:0 10px 16px 10px">
                                         <a :href="detailOfferData.destinationURL" target="_blank">
-                                          <img v-if="detailOfferData.imageDesktopURL && detailOfferData.imageDesktopURL != '' && detailOfferData.imageDesktopURL != undefined && detailOfferData.imageDesktopURL != null"
+                                          <v-img v-if="detailOfferData.imageDesktopURL && detailOfferData.imageDesktopURL != '' && detailOfferData.imageDesktopURL != undefined && detailOfferData.imageDesktopURL != null"
                                             :src="'http://'+detailOfferData.imageDesktopURL" :alt="detailOfferData.imageAltText" style="display:block; width: 580px;">
+                                            <template v-slot:placeholder>
+                                              <v-layout fill-height
+                                                  align-center
+                                                  justify-center
+                                                  ma-0>
+                                                  <v-progress-circular indeterminate color="grey"></v-progress-circular>
+                                              </v-layout>
+                                            </template>
                                         </a>
                                       </td>
                                     </tr>
@@ -1351,16 +1368,38 @@
               <template v-if="doesStringContain(detailOfferData.categoryInternalName, eligibleSubstrings)">
                 <template v-if="detailOfferData.statusLive != 6">
                   <v-btn class="base-button full-width bottom-actions" 
+                    :disabled="loading"
                     color="#6DC570" outline
                     @click.native="dispatcher(detailOfferData.offerId, detailOfferData.offerLabel, detailOfferData.categoryInternalName, 'enable', 'normal')">
-                    Enable offer
+                    <template v-if="!loading">
+                      Enable offer
+                    </template>
+                    <template v-else>
+                      <div class="text-xs-center">
+                        <v-progress-circular
+                          :size="20" :width="3"
+                          color="rgb(192, 192, 192)"
+                          indeterminate></v-progress-circular>
+                      </div>
+                    </template>
                   </v-btn>
                 </template>
                 <template v-else>
                   <v-btn class="base-button full-width bottom-actions" 
                     color="rgb(255, 78, 78)" outline
+                    :disabled="loading"
                     @click.native="dispatcher(detailOfferData.offerId, detailOfferData.offerLabel, detailOfferData.categoryInternalName, 'disable', 'normal')">
-                    Disable offer
+                    <template v-if="!loading">
+                      Disable offer
+                    </template>
+                    <template v-else>
+                      <div class="text-xs-center">
+                        <v-progress-circular
+                          :size="20" :width="3"
+                          color="rgb(192, 192, 192)"
+                          indeterminate></v-progress-circular>
+                      </div>
+                    </template>
                   </v-btn>
                 </template>
               </template>
@@ -2347,17 +2386,17 @@
 
         sendTheOfferProof() {
           if(this.sendingProof == true) {
-            console.log('we here sending shit to:' + this.proofEmailAddress);
+            console.log('we here sending shit to:' + vm.proofEmailAddress);
 
             axios.post('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardSendProof.jssp', 
-            { email: this.proofEmailAddress, 
+            { email: vm.proofEmailAddress, 
               offerId: vm.detailOfferData.offerId, 
               categoryInternalName : vm.detailOfferData.categoryInternalName})
             .then(function(response) {
               console.log(response)
-              this.sendingProof = false;
-              this.proofEmailAddress = '';
-              this.alerts.push({
+              vm.sendingProof = false;
+              vm.proofEmailAddress = '';
+              vm.alerts.push({
                 type: 'success',
                 message: "Bullseye! Your proof was sent.",
                 show: true,
@@ -2366,9 +2405,9 @@
             .catch(function (error) {
               console.log("error")
               console.log(response)
-              this.sendingProof = false;
-              this.proofEmailAddress = '';
-              this.alerts.push({
+              vm.sendingProof = false;
+              vm.proofEmailAddress = '';
+              vm.alerts.push({
                 type: 'error',
                 message: "Oopsie. Unfortunately, we couldn't send your proof. Please, reload the page and try again.",
                 show: true,
@@ -2425,19 +2464,19 @@
 
         createNewOffer() {
           this.loading = true;
-          let payload = this.newOffer;
+          let payload = vm.newOffer;
           console.log("creating a new offer");
           axios.post('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardCreateOffer.jssp', payload)
           .then(function(response) {
             console.log(response)
-            this.alerts.push({
+            vm.alerts.push({
               type: 'success',
               message: "Bullseye! New offer created.",
               show: true,
             });
-            this.newOfferDialog = false;
-            this.loading = false; 
-            this.filtersSelected.label = {
+            vm.newOfferDialog = false;
+            vm.loading = false; 
+            vm.filtersSelected.label = {
               mco: '',
               umbrella: '',
               country: '',
@@ -2447,7 +2486,7 @@
               label: this.newOffer.offerLabel,
               lineCount: 12,
             };
-            this.newOffer = {
+            vm.newOffer = {
               block: 'mainOneColumn',
               blockName: 'Main One Column',
               offerType: '',
@@ -2472,12 +2511,12 @@
           .catch(function (error) {
             console.log("error:");
             console.log(response);
-            this.alerts.push({
+            vm.alerts.push({
               type: 'error',
               message: "Oopsie! We disabled the selected offer, but we coudln't create your new offer. Please, reload the page and try again.",
               show: true,
             });
-            this.loading = false;
+            vm.loading = false;
           })
         },
 
@@ -2494,36 +2533,56 @@
         },
 
         disableSelectedFOffer() {
-          this.loading = true;
+          vm.loading = true;
           let offerID = this.newOffer.selectedOfferToDisable.offerId;
           let offerLabel = this.newOffer.selectedOfferToDisable.offerLabel;
           let categoryInternalName = this.newOffer.selectedOfferToDisable.categoryInternalName;
           let action = 'disable';
           let situation = 'disabling to create';
-          this.dispatcher(offerID, offerLabel, categoryInternalName, action, situation);
+          vm.dispatcher(offerID, offerLabel, categoryInternalName, action, situation);
         },
 
         dispatcher(offerId, offerLabel, categoryInternalName, action, situation) {
-          console.log("dispatcher called")
+          vm.loading = true;
+          console.log("dispatcher called. offerID:"+offerId+' offerLabel: '+offerLabel+' catInternalName: '+ categoryInternalName+' action: '+action+' situation: '+situation);
           axios.post('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardDispatcher.jssp', {offerId: offerId, offerLabel : offerLabel, categoryInternalName: categoryInternalName, action : action})
           .then(function(response) {
             console.log('This is the response: '+response)
-            if(situation == 'disabling to create'){
-              this.alerts.push({
-                type: 'success',
-                message: 'Selected offer disdabled successfully!',
-                show: true,
-              });
-              this.createNewOffer();
-            }else {
-              this.loading = false;
-            }
+            setTimeout(function(){
+              if(situation == 'disabling to create'){
+                vm.alerts.push({
+                  type: 'success',
+                  message: 'Selected offer disdabled successfully!',
+                  show: true,
+                });
+                vm.createNewOffer();
+              }else {
+                vm.loading = false;
+                vm.alerts.push({
+                  type: 'success',
+                  message: 'Done and done!',
+                  show: true,
+                });
+                vm.filtersSelected = {
+                  mco: '',
+                  umbrella: '',
+                  country: '',
+                  category: '',
+                  status: '',
+                  default: false,
+                  label: response.data,
+                  lineCount: 12
+                };
+                vm.detailOfferView = false;
+                vm.detailOfferData = {};
+              }
+            }, 5000)
           })
           .catch(function (error) {
             console.log("error: ")
-            console.log(response)
-            this.loading = false;
-            this.alerts.push({
+            console.log(JSON.stringify(response))
+            vm.loading = false;
+            vm.alerts.push({
               type: 'error',
               message: "Oopsie. Unfortunately, we couldn't disable the selected offer. Please, reload the page and try again.",
               show: true,
