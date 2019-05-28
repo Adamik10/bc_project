@@ -76,7 +76,7 @@
 }
 
 .nav-spacer {
-  height: 70px;
+  height: 65px !important;
   width: 100%;
   display: block;
 }
@@ -102,6 +102,17 @@
 }
 
 /* OFFERS OVERVIEW ----------------------------------------------------------- OFFERS OVERVIEW */
+.sub-filter-row {
+  width: 100%;
+  display: block;
+  height: 35px;
+  padding-bottom: 5px;
+  text-align: right;
+}
+.sub-filter-row .display-as-link {
+  cursor: pointer;
+}
+
 .addNewButton {
   margin-top: 70px;
 }
@@ -139,10 +150,10 @@
 .baseCard.clickable {
   cursor: pointer;
 }
-.baseCard.clickable.align-top.v-card:nth-child(3n+3) {
+.baseCard.clickable.align-top.v-card:nth-child(3n+1) {
   margin-right: 0px;
 }
-.baseCard.clickable.align-top.v-card:nth-child(3n+3).special {
+.baseCard.clickable.align-top.v-card:nth-child(3n+1).special {
   margin-right: 20px;
 }
 .baseCard.clickable.special {
