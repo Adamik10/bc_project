@@ -13,6 +13,7 @@
     var chosenStartLine = request.getParameter("startLine");
     var chosenStatus = request.getParameter("status");
     var chosenLabel = request.getParameter("label");
+    var chosenDefault = request.getParameter("default");
     var chosenLineCount = request.getParameter("lineCount");
 
     var condition = "";
@@ -50,7 +51,13 @@
     
     //LABEL
     if(chosenLabel !== "" || chosenLabel !== null || chosenLabel !== undefined){
-    condition += "AND [@label] LIKE '%'+'"+chosenLabel+"'+'%'";
+      condition += "AND [@label] LIKE '%'+'"+chosenLabel+"'+'%'";
+    }
+
+    var sDefaultOffers = "Default";
+    //DEFAULT
+    if(chosenDefault == "true"){
+      condition += "AND [@name] LIKE '%'+'"+sDefaultOffers+"'+'%'";
     }
 
     var results = [];
@@ -113,6 +120,7 @@ for each (var offer in selectedOffers){
     var offerBlock = {
       "offerLabel" :offer.@label.toString(),
       "offerId" :offer.@id.toString(),
+      "offerName" :offer.@name.toString(),
       "statusDesign" :offer.@statusDesign.toString(),
       "statusLive" :offer.@statusLive.toString(),
       "created" :offer.@created.toString(),
@@ -169,7 +177,7 @@ for each (var offer in selectedOffers){
             "endDate" : eligibility.@endDate.toString(),
             "weight" : eligibility.@weightExpr.toString()
           }
-          
+
           offerBlock.eligibility.push(eligibilityBlock);
         }
 

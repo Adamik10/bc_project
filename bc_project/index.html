@@ -2336,6 +2336,14 @@
               baseUrl = baseUrl+'&label='+payload.label;
             }
           }
+          if(payload.default != '' && payload.default != undefined && payload.default != null){
+            if(hasUrlBeenAddedTo == false){
+              baseUrl = baseUrl+'?default='+payload.default;
+              hasUrlBeenAddedTo = true;
+            }else{
+              baseUrl = baseUrl+'&default='+payload.default;
+            }
+          }
           
           if(caller == "loadingMoreOffers"){
             console.log('we loading more offers')
