@@ -136,13 +136,16 @@ $lightGrey: #e2e2e2;
   }
 }
 
-.content-wrapper:nth-child(3n+2) {
+.content-wrapper:nth-child(3n+3) {
   .baseCard { 
     &.clickable {
       &.special {
         margin-right: 0px;
       }
     }
+  }
+  i {
+    right: -10px !important;
   }
 }
 
@@ -832,4 +835,26 @@ $lightGrey: #e2e2e2;
   75% {font-size: 62px;}
   85% {font-size: 58px;}
   100% {font-size: 60px;}
+}
+
+
+.base-alert-container {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  z-index: 1000;
+  flex-direction: column;
+}
+
+.base-alert {
+  animation: float-in 0.5s ease-in-out;
+}
+
+@keyframes float-in {
+  from {opacity: 0; top: -20px;}
+  to {opacity: 1; top: 0px;}
 }

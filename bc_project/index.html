@@ -152,8 +152,11 @@
   top: 0px;
 }
 
-.content-wrapper:nth-child(3n+2) .baseCard.clickable.special {
+.content-wrapper:nth-child(3n+3) .baseCard.clickable.special {
   margin-right: 0px;
+}
+.content-wrapper:nth-child(3n+3) i {
+  right: -10px !important;
 }
 
 .baseCard {
@@ -765,6 +768,32 @@
     font-size: 60px;
   }
 }
+.base-alert-container {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  z-index: 1000;
+  flex-direction: column;
+}
+
+.base-alert {
+  animation: float-in 0.5s ease-in-out;
+}
+
+@keyframes float-in {
+  from {
+    opacity: 0;
+    top: -20px;
+  }
+  to {
+    opacity: 1;
+    top: 0px;
+  }
+}
 
 /*# sourceMappingURL=style.css.map */
 
@@ -923,25 +952,24 @@
               </v-card-title>
             </v-card>
           </v-hover>
-          <v-btn v-on:click="loadMoreOffers()" 
-                  class="full-width"
-                  color="rgb(192, 192, 192)"
-                  outline flat center>
-            <template v-if="!isLoadingMoreOffers">
-              Load more
-            </template>
-            <template v-else>
-              <div class="text-xs-center">
-                <v-progress-circular
-                  :size="20" :width="3"
-                  color="rgb(192, 192, 192)"
-                  indeterminate></v-progress-circular>
-              </div>
-            </template>
-          </v-btn>
-          <div>
-            <v-btn v-on:click="createNewOffer()" depressed large center>Create offer test</v-btn>
-          </div>
+          <template v-if="!noMoreOffersToLoad">
+            <v-btn v-on:click="loadMoreOffers()" 
+                    class="full-width"
+                    color="rgb(192, 192, 192)"
+                    outline flat center>
+              <template v-if="!isLoadingMoreOffers">
+                Load more
+              </template>
+              <template v-else>
+                <div class="text-xs-center">
+                  <v-progress-circular
+                    :size="20" :width="3"
+                    color="rgb(192, 192, 192)"
+                    indeterminate></v-progress-circular>
+                </div>
+              </template>
+            </v-btn>
+          </template>
         </template>
         
         <template v-else>
@@ -1400,7 +1428,7 @@
                           newOffer.category == '' || newOffer.category == undefined || newOffer.category == null" 
                         flat outline style="width: 200px;">
                     <template v-if="!loading">
-                      Proceed
+                      Select
                     </template>
                     <template v-else>
                       <div class="text-xs-center">
@@ -1420,84 +1448,123 @@
                 </div>
             </v-stepper-content>
             <v-stepper-content step="3">
-              <div class="container">
-                <p class="dialog-title" style="display: block">Choose an offer to be disabled</p>
-                <p style="margin-bottom: 50px">In order to be able to create a new Default fallback offer, you first have to disable one of the currrently live ones.</p>
-                <div style="position: relative; display: inline-block" v-for="(offer,i) in newOffer.offersToChosebetween" :key="i" class="content-wrapper">
-                  <template v-if="newOffer.selectedOfferToDisable != '' && newOffer.selectedOfferToDisable != null && newOffer.selectedOfferToDisable != undefined">
-                    <v-icon v-if="newOffer.selectedOfferToDisable.offerId == offer.offerId" class="disable-badge">backspace</v-icon>
-                  </template>
-                  <v-hover>
-                    <v-card class="baseCard clickable align-top special" 
-                            align="top"
-                            slot-scope="{ hover }"
-                            :class="`elevation-${hover ? 12 : 2}`"
-                            @click="newOffer.selectedOfferToDisable = offer">
-                      <v-card-title primary-title class="card-title" >
-                        <div class="status-container" :class="{greenBackground: offer.statusLive == 6, redBackground: offer.statusLive != 6}"></div>
-                        <h3 class="headline" :title="offer.offerLabel">{{ offer.offerLabel | maxLength(30) }} </h3>
-                        <v-card-text>
-                          <p class="offer-category">{{ offer.categoryInternalName | makeIntoCategory }}</p>
-                          <div><b>SL 1:</b>
-                            {{offer.subject1}}</div>
-                        <div><b>SL 2:</b>
-                            {{offer.subject2}}</div>
-                        <div><b>Pre Header:</b>
-                          {{offer.preheader}}</div>
-                        </v-card-text>
-                      
-                      </v-card-title>
-                      <div v-if="offer.imageDesktopURL" style="position: relative; width: 100%;">
-                        <v-img :src="'http://'+offer.imageDesktopURL" 
-                              aspect-ratio="2">
-                          <template v-slot:placeholder>
-                              <v-layout fill-height
-                                align-center
-                                justify-center
-                                ma-0>
-                                <v-progress-circular indeterminate color="grey"></v-progress-circular>
-                            </v-layout>
-                          </template>
-                        </v-img>
-                      </div>
-                      <v-card-title class="text-center center">
-                        <div v-if="offer.headline" class="margin-auto offer-content" style="font-family:Verdana; font-weight:bold; mso-line-height-rule:exactly; line-height:22px !important; font-size:21px; color:#ff5a00; padding:0 0 8px 0;">{{offer.headline}}</div>
-                        <div v-if="offer.copyText" class="offer-content" style="padding: 0 0 16px 0">{{offer.copyText}}</div>
-                        <div v-if="offer.CTAtext" style="margin: auto; padding:6px 14px; -webkit-border-radius:4px; border-radius:4px; font-size:14px; font-family:Verdana; color:#ffffff; display:inline-block; border:1px solid #ff5a00; background-color: #ff5a00;">
-                          <span style="font-size:14px; font-family:Verdana; text-decoration:none; font-weight:bold; mso-line-height-rule:exactly; 
-                            line-height:14px !important; color:#ffffff;" target="_blank">{{offer.CTAtext}}</span>
-                        </div>
-                      </v-card-title>
-                    </v-card>
-                  </v-hover>
+              <template v-if='!newOffer.offersToChosebetween.length || newOffer.offersToChosebetween.length &lt; 2'>
+                <div class="container">
+                  <p class="dialog-title" style="display: block">Choose an offer to be disabled</p>
+                  <p>You can proceed! Your market doesn't have 3 default fallback offers yet, so you can create a new one without disabling any of the existing ones.</p>
+                  <v-icon style="display: inline-block; margin-right: auto; margin-left: auto; margin-top: 154px;
+                    font-size: 140px; width: 100%; color: rgb(109, 197, 112); text-align: center;">
+                    check_circle_outline
+                  </v-icon>
                 </div>
-              </div>
-              <div class="bottom-actions">
-                <v-btn class="base-button" 
-                      color="#6DC570"
-                      @click="disableSelectedFOffer()"
-                      :disabled="newOffer.selectedOfferToDisable == '' || newOffer.selectedOfferToDisable == undefined || 
-                        newOffer.selectedOfferToDisable == null || loading == true" 
-                      flat outline style="width: 200px;">
-                  <template v-if="!loading">
-                    Disable selected
-                  </template>
-                  <template v-else>
-                    <div class="text-xs-center">
-                      <v-progress-circular
-                        :size="20" :width="3"
-                        color="rgb(192, 192, 192)"
-                        indeterminate></v-progress-circular>
-                    </div>
-                  </template>
-                </v-btn>
-                <v-btn class="base-button" 
-                        color="rgb(192, 192, 192)"
-                        @click="currentStep = 2"
-                        flat outline width="20px">
-                  <v-icon>arrow_back_ios</v-icon>
-                </v-btn>
-              </div>
+                <div class="bottom-actions">
+                  <v-btn class="base-button" 
+                        color="#6DC570"
+                        @click="currentStep = 4"
+                        :disabled="loading == true" 
+                        flat outline style="width: 200px;">
+                    <template v-if="!loading">
+                      Proceed
+                    </template>
+                    <template v-else>
+                      <div class="text-xs-center">
+                        <v-progress-circular
+                          :size="20" :width="3"
+                          color="rgb(192, 192, 192)"
+                          indeterminate></v-progress-circular>
+                      </div>
+                    </template>
+                  </v-btn>
+                  <v-btn class="base-button" 
+                          color="rgb(192, 192, 192)"
+                          @click="currentStep = 2"
+                          flat outline width="20px">
+                    <v-icon>arrow_back_ios</v-icon>
+                  </v-btn>
+                </div>
+              </template>
+              <template v-else>
+                <div class="container">
+                  <p class="dialog-title" style="display: block">Choose an offer to be disabled</p>
+                  <p>In order to be able to create a new Default fallback offer, you first have to disable one of the currrently live ones.</p>
+                  <p style="margin-bottom: 50px">Note that the selected offer will only be disabled after you have created a new offer by completing the step 4.</p>
+                  <div style="position: relative; display: inline-block" v-for="(offer,i) in newOffer.offersToChosebetween" :key="i" class="content-wrapper">
+                    <template v-if="newOffer.selectedOfferToDisable != '' && newOffer.selectedOfferToDisable != null && newOffer.selectedOfferToDisable != undefined">
+                      <v-icon v-if="newOffer.selectedOfferToDisable.offerId == offer.offerId" class="disable-badge">backspace</v-icon>
+                    </template>
+                    <v-hover>
+                      <v-card class="baseCard clickable align-top special" 
+                              align="top"
+                              slot-scope="{ hover }"
+                              :class="`elevation-${hover ? 12 : 2}`"
+                              @click="newOffer.selectedOfferToDisable = offer">
+                        <v-card-title primary-title class="card-title" >
+                          <div class="status-container" :class="{greenBackground: offer.statusLive == 6, redBackground: offer.statusLive != 6}"></div>
+                          <h3 class="headline" :title="offer.offerLabel">{{ offer.offerLabel | maxLength(30) }} </h3>
+                          <v-card-text>
+                            <p class="offer-category">{{ offer.categoryInternalName | makeIntoCategory }}</p>
+                            <div><b>SL 1:</b>
+                              {{offer.subject1}}</div>
+                          <div><b>SL 2:</b>
+                              {{offer.subject2}}</div>
+                          <div><b>Pre Header:</b>
+                            {{offer.preheader}}</div>
+                          </v-card-text>
+                        
+                        </v-card-title>
+                        <div v-if="offer.imageDesktopURL" style="position: relative; width: 100%;">
+                          <v-img :src="'http://'+offer.imageDesktopURL" 
+                                aspect-ratio="2">
+                            <template v-slot:placeholder>
+                                <v-layout fill-height
+                                  align-center
+                                  justify-center
+                                  ma-0>
+                                  <v-progress-circular indeterminate color="grey"></v-progress-circular>
+                              </v-layout>
+                            </template>
+                          </v-img>
+                        </div>
+                        <v-card-title class="text-center center">
+                          <div v-if="offer.headline" class="margin-auto offer-content" style="font-family:Verdana; font-weight:bold; mso-line-height-rule:exactly; line-height:22px !important; font-size:21px; color:#ff5a00; padding:0 0 8px 0;">{{offer.headline}}</div>
+                          <div v-if="offer.copyText" class="offer-content" style="padding: 0 0 16px 0">{{offer.copyText}}</div>
+                          <div v-if="offer.CTAtext" style="margin: auto; padding:6px 14px; -webkit-border-radius:4px; border-radius:4px; font-size:14px; font-family:Verdana; color:#ffffff; display:inline-block; border:1px solid #ff5a00; background-color: #ff5a00;">
+                            <span style="font-size:14px; font-family:Verdana; text-decoration:none; font-weight:bold; mso-line-height-rule:exactly; 
+                              line-height:14px !important; color:#ffffff;" target="_blank">{{offer.CTAtext}}</span>
+                          </div>
+                        </v-card-title>
+                      </v-card>
+                    </v-hover>
+                  </div>
+                </div>
+                <div class="bottom-actions">
+                  <v-btn class="base-button" 
+                        color="#6DC570"
+                        @click="currentStep = 4"
+                        :disabled="newOffer.selectedOfferToDisable == '' || newOffer.selectedOfferToDisable == undefined || 
+                          newOffer.selectedOfferToDisable == null || loading == true" 
+                        flat outline style="width: 200px;">
+                    <template v-if="!loading">
+                      Select
+                    </template>
+                    <template v-else>
+                      <div class="text-xs-center">
+                        <v-progress-circular
+                          :size="20" :width="3"
+                          color="rgb(192, 192, 192)"
+                          indeterminate></v-progress-circular>
+                      </div>
+                    </template>
+                  </v-btn>
+                  <v-btn class="base-button" 
+                          color="rgb(192, 192, 192)"
+                          @click="currentStep = 2"
+                          flat outline width="20px">
+                    <v-icon>arrow_back_ios</v-icon>
+                  </v-btn>
+                </div>
+              </template>
+              
             </v-stepper-content>
             <v-stepper-content step="4">
               <div class="leftSide align-top">
@@ -1723,22 +1790,31 @@
                 </v-flex>
                 <v-btn class="base-button" 
                         color="rgb(192, 192, 192)"
-                        @click="reEnableOffer()"
+                        @click="currentStep = 3"
                         flat outline width="20px" style="display: inline-block; margin-right: 10px; margin-top: 20px; margin-left: 0px;">
                   <v-icon>arrow_back_ios</v-icon>
                 </v-btn>
                 <template v-if="!isNewOfferFormValid">
                   <v-btn class="base-button" style="margin-top: 20px; margin-left: 0px; width: 653px; width: 540px; margin-right: 0px;"
-                    disabled outline color="#6DC570"
-                    @click="createNewOffer()">
+                    disabled outline color="#6DC570">
                     Create offer
                   </v-btn>
                   <p class="hint" style="margin-top: 10px;">* You need to fill out all the fields with a star</p>
                 </template>
                 <template v-else>
                   <v-btn class="base-button" style="margin-top: 20px; margin-left: 0px; width: 653px; width: 540px; margin-right: 0px;"
-                    outline color="#6DC570">
-                    Create offer
+                    outline color="#6DC570" @click="disableSelectedFOffer()">
+                    <template v-if="!loading">
+                      Select
+                    </template>
+                    <template v-else>
+                      <div class="text-xs-center">
+                        <v-progress-circular
+                          :size="20" :width="3"
+                          color="rgb(192, 192, 192)"
+                          indeterminate></v-progress-circular>
+                      </div>
+                    </template>
                   </v-btn>
                 </template>
               </div>
@@ -1747,6 +1823,25 @@
       </v-card>
     </v-dialog>
     <!-- New offer ends -->
+
+    <div class="base-alert-container">
+      <template v-for="(alert, i) in alerts">
+        <template v-if="alert.type == 'error'">
+          <v-alert class="base-alert" :value="alert.show" :key="i"
+                    type="error" dismissible
+                    transition="slide-y-transition">
+            {{ alert.message }}
+          </v-alert>
+        </template>
+        <template v-if="alert.type == 'success'">
+          <v-alert class="base-alert" :value="alert.show" :key="i"
+                    type="success" dismissible
+                    transition="slide-y-transition">
+            {{ alert.message }}
+          </v-alert>
+        </template>
+      </template>
+    </div>
 
     <!-- Content ends -->
 
@@ -1843,6 +1938,7 @@
       },
 
       data: {
+        alerts: [],
         newOfferDialog: false,
         isLoadingOffers: false,
         isLoadingMoreOffers: false,
@@ -2041,13 +2137,15 @@
         },
         sendingProof: false,
         proofEmailAddress: '',
+        noMoreOffersToLoad: false,
       },
       
       watch: {
         'filtersSelected': {
           handler(val) {
             let caller = "filtering";
-            this.loadOffers(val, caller);      
+            this.loadOffers(val, caller);
+            this.noMoreOffersToLoad = false;
           },
           deep: true
         },
@@ -2056,7 +2154,8 @@
             this.validateForm();
           },
           deep: true
-        }
+        },
+
       },
 
       created() {
@@ -2102,7 +2201,7 @@
             this.loading = true;
           }
           
-          let baseUrl = 'https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffers.jssp';
+          let baseUrl = 'https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffersADAM.jssp';
           let hasUrlBeenAddedTo = false;
           
           console.log(payload)
@@ -2172,6 +2271,9 @@
 
               console.log(baseUrl)
               axios.get(baseUrl).then(function(offerData){
+                if(!offerData.data.length) {
+                  vm.noMoreOffersToLoad = true;
+                }
                 vm.offers = vm.offers.concat(offerData.data)
                 vm.isLoadingMoreOffers = false;
               })
@@ -2180,6 +2282,9 @@
 
               console.log(baseUrl)
               axios.get(baseUrl).then(function(offerData){
+                if(!offerData.data.length) {
+                  vm.noMoreOffersToLoad = true;
+                }
                 vm.offers = vm.offers.concat(offerData.data)
                 vm.isLoadingMoreOffers = false;
               })
@@ -2217,12 +2322,22 @@
               console.log(response)
               this.sendingProof = false;
               this.proofEmailAddress = '';
+              this.alerts.push({
+                type: 'success',
+                message: "Bullseye! Your proof was sent.",
+                show: true,
+              });
             })
             .catch(function (error) {
               console.log("error")
               console.log(response)
               this.sendingProof = false;
               this.proofEmailAddress = '';
+              this.alerts.push({
+                type: 'error',
+                message: "Oopsie. Unfortunately, we couldn't send your proof. Please, reload the page and try again.",
+                show: true,
+              });
             })
 
           }
@@ -2273,18 +2388,61 @@
           vm.isNewOfferFormValid = true;
         },
 
-        createNewOffer(e) {
-          let formData = {name: 'Alex', surname: 'pls'}
-          console.log("clicked")
-          axios.post('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardCreateOffer.jssp', {name: 'Alex', surname: 'pls'})
+        createNewOffer() {
+          this.loading = true;
+          let payload = this.newOffer;
+          console.log("creating a new offer");
+          axios.post('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardCreateOffer.jssp', payload)
           .then(function(response) {
-            
             console.log(response)
+            this.alerts.push({
+              type: 'success',
+              message: "Bullseye! New offer created.",
+              show: true,
+            });
+            this.newOfferDialog = false;
+            this.loading = false; 
+            this.filtersSelected.label = {
+              mco: '',
+              umbrella: '',
+              country: '',
+              category: '',
+              status: '',
+              default: false,
+              label: this.newOffer.offerLabel,
+              lineCount: 12,
+            };
+            this.newOffer = {
+              block: 'mainOneColumn',
+              blockName: 'Main One Column',
+              offerType: '',
+              country: '',
+              category: '',
+              offerLabel: '',
+              preHeader: '',
+              subjectOne: '',
+              subjectTwo: '',
+              headline: '',
+              subheadline: '',
+              imageURL: '',
+              mobileImageURL: '',
+              imageAltText: '',
+              copyText: '',
+              CTAText: '',
+              destinationURL: '',
+              offersToChosebetween: [],
+              selectedOfferToDisable: '',
+            };
           })
           .catch(function (error) {
-            
-            console.log("error")
-            console.log(response)
+            console.log("error:");
+            console.log(response);
+            this.alerts.push({
+              type: 'error',
+              message: "Oopsie! We disabled the selected offer, but we coudln't create your new offer. Please, reload the page and try again.",
+              show: true,
+            });
+            this.loading = false;
           })
         },
 
@@ -2307,39 +2465,34 @@
           let categoryInternalName = this.newOffer.selectedOfferToDisable.categoryInternalName;
           let action = 'disable';
           let situation = 'disabling to create';
-          this.currentStep = 4;
-          this.loading = false;
-          //this.dispatcher(offerID, offerLabel, categoryInternalName, action, situation)
-        },
-
-        reEnableOffer() {
-          this.loading = true;
-          let offerID = this.newOffer.selectedOfferToDisable.offerId;
-          let offerLabel = this.newOffer.selectedOfferToDisable.offerLabel;
-          let categoryInternalName = this.newOffer.selectedOfferToDisable.categoryInternalName;
-          let action = 'enable';
-          let situation = 're-enabling';
-          this.currentStep = 3;
-          this.loading = false;
-          //this.dispatcher(offerID, offerLabel, categoryInternalName, action, situation)
+          this.dispatcher(offerID, offerLabel, categoryInternalName, action, situation);
         },
 
         dispatcher(offerId, offerLabel, categoryInternalName, action, situation) {
           console.log("dispatcher called")
           axios.post('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardDispatcher.jssp', {offerId: offerId, offerLabel : offerLabel, categoryInternalName: categoryInternalName, action : action})
           .then(function(response) {
-            console.log(response)
+            console.log('This is the response: '+response)
             if(situation == 'disabling to create'){
-              this.currentStep = 4;
-              this.loading = false;
-            }else if(situation == 're-enabling'){
-              this.currentStep = 3;
+              this.alerts.push({
+                type: 'success',
+                message: 'Selected offer disdabled successfully!',
+                show: true,
+              });
+              this.createNewOffer();
+            }else {
               this.loading = false;
             }
           })
           .catch(function (error) {
-            console.log("error")
+            console.log("error: ")
             console.log(response)
+            this.loading = false;
+            this.alerts.push({
+              type: 'error',
+              message: "Oopsie. Unfortunately, we couldn't disable the selected offer. Please, reload the page and try again.",
+              show: true,
+            });
           })
         },
 
@@ -2368,9 +2521,6 @@
           }
         },
 
-        createNewOffer() {
-
-        },
 
       }
     })
