@@ -2163,6 +2163,14 @@
               baseUrl = baseUrl+'&label='+payload.label;
             }
           }
+          if(payload.default != '' && payload.default != undefined && payload.default != null){
+            if(hasUrlBeenAddedTo == false){
+              baseUrl = baseUrl+'?default='+payload.default;
+              hasUrlBeenAddedTo = true;
+            }else{
+              baseUrl = baseUrl+'&default='+payload.default;
+            }
+          }
           
           if(caller == "loadingMoreOffers"){
             console.log('we loading more offers')
@@ -2309,11 +2317,12 @@
           let situation = 'disabling to create';
           this.currentStep = 4;
           this.loading = false;
-          //this.dispatcher(offerID, offerLabel, categoryInternalName, action, situation)
+          this.dispatcher(offerID, offerLabel, categoryInternalName, action, situation)
         },
 
         reEnableOffer() {
           this.loading = true;
+          //ADAM - shouldnt be passing this data but data from adobe because cat internal name changes when you disable offer
           let offerID = this.newOffer.selectedOfferToDisable.offerId;
           let offerLabel = this.newOffer.selectedOfferToDisable.offerLabel;
           let categoryInternalName = this.newOffer.selectedOfferToDisable.categoryInternalName;
@@ -2321,7 +2330,10 @@
           let situation = 're-enabling';
           this.currentStep = 3;
           this.loading = false;
-          //this.dispatcher(offerID, offerLabel, categoryInternalName, action, situation)
+          console.log(offerID)
+          console.log(offerLabel)
+          console.log(categoryInternalName)
+          this.dispatcher(offerID, offerLabel, categoryInternalName, action, situation)
         },
 
         dispatcher(offerId, offerLabel, categoryInternalName, action, situation) {
