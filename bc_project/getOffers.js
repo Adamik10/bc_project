@@ -117,13 +117,17 @@ for each (var offer in selectedOffers){
     correctURLMobile = correctURLMobile.replace("https://","");
     correctURLMobile = correctURLMobile.replace("http://","");
 
+    //TO DO: this needs to be smarter - check if this is actually language code on the this position - this wont work for segmented offers
+    var splitInternalName = offer.@internalName.toString().split("_");
+
     var offerBlock = {
       "offerLabel" :offer.@label.toString(),
       "offerId" :offer.@id.toString(),
-      "offerName" :offer.@name.toString(),
+      "offerName" :offer.@internalName.toString(),
       "statusDesign" :offer.@statusDesign.toString(),
       "statusLive" :offer.@statusLive.toString(),
       "created" :offer.@created.toString(),
+      "offerLanguage" : getLanguage[2],
       //offer content fields below
       "subject1" :offer.@subject1.toString(),
       "subject2" :offer.@subject2.toString(),

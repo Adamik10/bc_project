@@ -2219,7 +2219,7 @@
 
             axios.post('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardSendProof.jssp', 
             { email: this.proofEmailAddress, 
-              offerId: vm.detailOfferData.offerId, 
+              offerLabel: vm.detailOfferData.offerLabel,
               categoryInternalName : vm.detailOfferData.categoryInternalName})
             .then(function(response) {
               console.log(response)
