@@ -90,7 +90,7 @@ $lightGrey: #e2e2e2;
 }
 
 .nav-spacer {
-  height: 70px;
+  height: 65px !important;
   width: 100%;
   display: block;
 }
@@ -117,6 +117,18 @@ $lightGrey: #e2e2e2;
 
 /* OFFERS OVERVIEW ----------------------------------------------------------- OFFERS OVERVIEW */
 
+.sub-filter-row {
+  width: 100%;
+  display: block;
+  height: 35px;
+  padding-bottom: 5px;
+  text-align: right;
+
+  .display-as-link {
+    cursor: pointer;
+  }
+}
+
 .addNewButton {
   margin-top: 70px;
 }
@@ -136,13 +148,16 @@ $lightGrey: #e2e2e2;
   }
 }
 
-.content-wrapper:nth-child(3n+2) {
+.content-wrapper:nth-child(3n+3) {
   .baseCard { 
     &.clickable {
       &.special {
         margin-right: 0px;
       }
     }
+  }
+  i {
+    right: -10px !important;
   }
 }
 
@@ -158,7 +173,7 @@ $lightGrey: #e2e2e2;
   &.clickable {
     cursor: pointer;
 
-    &.align-top.v-card:nth-child(3n+3) { 
+    &.align-top.v-card:nth-child(3n+1) { 
       margin-right: 0px;
 
       &.special {
@@ -832,4 +847,26 @@ $lightGrey: #e2e2e2;
   75% {font-size: 62px;}
   85% {font-size: 58px;}
   100% {font-size: 60px;}
+}
+
+
+.base-alert-container {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  z-index: 1000;
+  flex-direction: column;
+}
+
+.base-alert {
+  animation: float-in 0.5s ease-in-out;
+}
+
+@keyframes float-in {
+  from {opacity: 0; top: -20px;}
+  to {opacity: 1; top: 0px;}
 }
