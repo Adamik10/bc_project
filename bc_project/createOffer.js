@@ -4,11 +4,40 @@
 <%@ page import="xtk:shared/xtk.js" %>
 <%
   var context = logonEscalation("admin");
-  var label = "label";
+
+  var data = JSON.parse(request.getBodyAsString());
+  var country = data.country.toString();
+  var categoryRef = data.category.toString();
+  var categoryInternalName = 'categoryRootRcp'+country+categoryRef;
+  var offerCategoryId = "";
+  var response = "";
 
   //query to get category id - each folder for each market has different id
+  function getCategoryId(){
+    var query2 = xtk.queryDef.create(
+      <queryDef schema="nms:offerCategory" operation="select">
+        <select>
+          <node expr="[@id]" alias="@id" />
+        </select>
+          <groupBy/>
+          <having/>
+        <where>
+        <condition expr={"[@name]= '"+categoryInternalName+"'"}/>
+        </where>
+      </queryDef>
+    )
+    var categories = query2.ExecuteQuery();
+
+    for each(category in categories){
+      offerCategoryId = category.@id;
+    }
+
+    if(offerCategoryId != ""){
+      createNewDefaultOffer();
+    }
+  } 
   
-  function createNewDefaultOffer(offerCategoryId){
+  function createNewDefaultOffer(){
     var newOffer = nms.offer.create(
       <offer
         category-id          = {offerCategoryId}
@@ -53,8 +82,10 @@
 
 newOffer.contentStatus       = "0";                                                                                         
 newOffer.eligibilityStatus   = "0";                                                                           
-newOffer.save();                                 
+//newOffer.save();                                 
   }
+
+  getCategoryId();
   
-  document.write(JSON.stringify(results));
+  document.write(offerCategoryId);
 %><% logonWithContext(context);%>

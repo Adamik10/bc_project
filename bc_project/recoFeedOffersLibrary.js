@@ -15,9 +15,6 @@
 
 */
 
-
-
-
 loadLibrary("wun:offerLayouts.js");
 
 //Function to move Default Offers to bin subfolder for disabled offers
