@@ -490,7 +490,7 @@ function apiRequest(url, apiKey){
      
      var sifuAPIKey = reversibleDecrypt(apiKey).toString();
   
-     logInfo("sifuAPIKey: "+sifuAPIKey);
+//logInfo("sifuAPIKey: "+sifuAPIKey);
      
      var endPointUrl = url.toString();
      
@@ -568,7 +568,8 @@ logInfo("-------------------------------Start to process recommendation with cod
       else if (extractRecoType(reco.@code.toString()) == 'products') 
           image = "packshotUrl";
       
-      if(typeof responseBody.name === "undefined" && typeof responseBody[image] === "undefined"  && typeof responseBody.url === "undefined")
+//      if(typeof responseBody.name === "undefined" && typeof responseBody[image] === "undefined"  && typeof responseBody.url === "undefined")
+        if(responseBody.name == null || responseBody[image] == null || responseBody.url == null)
          logInfo("----------------------------- No data available for recommendation with code "+reco.@code+"--------------------------------");
       
       else {
@@ -608,8 +609,6 @@ logInfo("-------------------------------Start to process recommendation with cod
 //Function to create all the needed recommendations (products and recipes) based on the result of a workflow calculation, in a temporary table. So far used by the workflow "2 - Create or Update Recommended Offers" (ufsDataCreatUpdateRecommendedOffers)
 //INPUT: the name of the temporary table before the activity calling this script. 
 //OUTPUT: "OK" as a string, an error is raised otherwise
-
-//LOOK HERE
 function processTempRecommendations(eventActivity){
   
   var tempTable = "temp:"+eventActivity;
@@ -637,51 +636,55 @@ function processTempRecommendations(eventActivity){
   
   //Loop all recommendations
   for each (recommendation in csvData[element]){
+    
+    var recoCode = recommendation.@code.toString(); 
+    
+    if (recommendationObject.hasOwnProperty(recoCode)) {  
    
-     var recoCode = recommendation.@code.toString();
-     var recoCategory = recommendation.@category.toString();
-     var offerId;
-     var mco = extractRecoMcoCode(recoCode);
-     var country = extractRecoCountryCode(recoCode);
-     var language = extractRecoLanguageCode(recoCode);
-     var recoCategoryName = "categoryRootRcp"+mco+"_"+country+"_"+categoryDefObject[recoCategory].toString();
-     var louId = getLouId(country);
+         var recoCategory = recommendation.@category.toString();
+         var offerId;
+         var mco = extractRecoMcoCode(recoCode);
+         var country = extractRecoCountryCode(recoCode);
+         var language = extractRecoLanguageCode(recoCode);
+         var recoCategoryName = "categoryRootRcp"+mco+"_"+country+"_"+categoryDefObject[recoCategory].toString();
+         var louId = getLouId(country);
      
-  //Collect all required content data from the previously created data recommendation JSON object, based on the recommendation code currently processed   
-     var destinationUrl = recommendationObject[recoCode]["destinationUrl"];
-     var imageUrl = recommendationObject[recoCode]["imageUrl"];
-     var name = recommendationObject[recoCode]["name"];
+      //Collect all required content data from the previously created data recommendation JSON object, based on the recommendation code currently processed   
+         var destinationUrl = recommendationObject[recoCode]["destinationUrl"];
+         var imageUrl = recommendationObject[recoCode]["imageUrl"];
+         var name = recommendationObject[recoCode]["name"];
   
-  //Generate offer content JSON  object   
-     var offerContent = {"title":name, "imageUrl":imageUrl, "destinationUrl":destinationUrl};
+      //Generate offer content JSON  object   
+         var offerContent = {"title":name, "imageUrl":imageUrl, "destinationUrl":destinationUrl};
   
-  //Check whether an offer with specific recommendation code exists either in a category or in its bin folder      
-     if (getOfferId(recoCode, recoCategoryName) != 0 || getOfferId(recoCode, recoCategoryName+"_bin") != 0 ) {
+      //Check whether an offer with specific recommendation code exists either in a category or in its bin folder      
+         if (getOfferId(recoCode, recoCategoryName) != 0 || getOfferId(recoCode, recoCategoryName+"_bin") != 0 ) {
   
-  //If offer exists in the bin folder, move it to it parent category folder       
-         if (getOfferId(recoCode, recoCategoryName+"_bin") != 0) {
+      //If offer exists in the bin folder, move it to it parent category folder       
+             if (getOfferId(recoCode, recoCategoryName+"_bin") != 0) {
              
-             offerId = getOfferId(recoCode, recoCategoryName+"_bin");
-             moveOffer(offerId, recoCategoryName);
+                 offerId = getOfferId(recoCode, recoCategoryName+"_bin");
+                 moveOffer(offerId, recoCategoryName);
              
-         } else if (getOfferId(recoCode, recoCategoryName) != 0) offerId = getOfferId(recoCode, recoCategoryName);
+             } else if (getOfferId(recoCode, recoCategoryName) != 0) offerId = getOfferId(recoCode, recoCategoryName);
          
-  //Update content
-         updateOffer(offerId, ctxSpace[0], offerContent);
+      //Update content
+             updateOffer(offerId, ctxSpace[0], offerContent);
   
-  //If recommendation code to process doesn't exist then create new offer content        
-     } else if (getOfferId(recoCode, recoCategoryName) == 0 && getOfferId(recoCode, recoCategoryName+"_bin") == 0 ) {
+      //If recommendation code to process doesn't exist then create new offer content        
+         } else if (getOfferId(recoCode, recoCategoryName) == 0 && getOfferId(recoCode, recoCategoryName+"_bin") == 0 ) {
          
-       var recoCategoryId = getCategoryId(recoCategoryName);
+           var recoCategoryId = getCategoryId(recoCategoryName);
             
-       if (countLanguage(country) > 1) {
+           if (countLanguage(country) > 1) {
             
-        var language = language+"-"+country;      
-        createRecommendedOffer(recoCategoryId, categoryDefObject[recoCategory], recoCategory, recoCode, ctxSpace[0], louId, language.toLowerCase(), "recommended", offerWeightsObject, offerContent);
+           var language = language+"-"+country;      
+           createRecommendedOffer(recoCategoryId, categoryDefObject[recoCategory], recoCategory, recoCode, ctxSpace[0], louId, language.toLowerCase(), "recommended", offerWeightsObject, offerContent);
        
-       } else createRecommendedOffer(recoCategoryId, categoryDefObject[recoCategory], recoCategory, recoCode, ctxSpace[0], louId, "not_apply", "recommended", offerWeightsObject, offerContent);
+         } else createRecommendedOffer(recoCategoryId, categoryDefObject[recoCategory], recoCategory, recoCode, ctxSpace[0], louId, "not_apply", "recommended", offerWeightsObject, offerContent);
        
-     } else logError("-------------An offer with label "+recoCode+" exists both in the "+recoCategory+" category and its bin folder---------------");
+       } else logError("-------------An offer with label "+recoCode+" exists both in the "+recoCategory+" category and its bin folder---------------");
+    }
   }
   
   var distinctCategories = getDistinctCategories(tempTable);

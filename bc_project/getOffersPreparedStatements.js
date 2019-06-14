@@ -62,7 +62,11 @@
 
     var results = [];
 
-    var query = xtk.queryDef.create(
+    String myquery = "SELECT   O0.sLabel, O0.sName, X1.sName FROM NmsOffer O0 JOIN XtkFolder X1 ON (X1.iFolderId = O0.iCategoryId) WHERE (X1.sName LIKE E'%' || E'ES_ES' || E'%' ESCAPE E'\\') AND (((O0.iOfferId > 0 OR O0.iOfferId < 0))) LIMIT 2";
+    PreparedStatement mystatement = connection.prepareStatement(myquery);
+
+
+    /*var query = xtk.queryDef.create(
         <queryDef schema="nms:offer" operation="select" lineCount={+chosenLineCount} startLine={+chosenStartLine}>
           <select>
             <node expr="[@label]" alias="@label" />
@@ -103,7 +107,9 @@
          </queryDef>
        )
 
-var  selectedOffers = query.ExecuteQuery();
+var  selectedOffers = query.ExecuteQuery();*/
+
+
 
 
 
@@ -154,40 +160,8 @@ for each (var offer in selectedOffers){
           
       var offerId = offer.@id;
       var offerLabel = offer.@label;
-
-      var query2 = xtk.queryDef.create(
-        <queryDef schema="nms:offerContext" operation="select">
-          <select>
-            <node expr="[@label]" alias="@label" />
-            <node expr="[@startDate]" alias="@startDate" />
-            <node expr="[@endDate]" alias="@endDate"/>
-            <node expr="[@weightExpr]" alias="@weightExpr"/>
-          </select>
-            <groupBy/>
-            <having/>
-          <where>
-          <condition expr={"[@offer-id]= '"+offerId+"'"}/>
-          </where>
-        </queryDef>
-      )
       
-      var eligibilities = query2.ExecuteQuery();
-      for each (var eligibility in eligibilities){
-        if(eligibility.@label.toString().toLowerCase().indexOf("longproof") === -1){
-
-          var eligibilityBlock = {
-            "label" : eligibility.@label.toString(),
-            "startDate" : eligibility.@startDate.toString(),
-            "endDate" : eligibility.@endDate.toString(),
-            "weight" : eligibility.@weightExpr.toString()
-          }
-
-          offerBlock.eligibility.push(eligibilityBlock);
-
-        }
-
-        
-      }
+     
 
 }
 
