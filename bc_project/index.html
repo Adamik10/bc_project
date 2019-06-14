@@ -19,6 +19,8 @@
   <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
   <!-- AXIOS -->
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <!-- below is lodash -->
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/0.10.0/lodash.min.js"></script>
   <!-- below is moment -->
   <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
   <!-- below is material icons -->
@@ -1092,7 +1094,7 @@
                   <v-btn class="base-button" style="margin-top: 20px; margin-left: 0px; width: 653px; width: 540px; margin-right: 0px;"
                     outline color="#6DC570" @click="createNewOffer()">
                     <template v-if="!loading">
-                      Select
+                      Create offer
                     </template>
                     <template v-else>
                       <div class="text-xs-center">
@@ -1427,14 +1429,15 @@
       },
       
       watch: {
-        'filtersSelected': {
-          handler(val) {
-            let caller = "filtering";
-            this.loadOffers(val, caller);
-            this.noMoreOffersToLoad = false;
-          },
-          deep: true
-        },
+        // 'filtersSelected': {
+        //   handler(val, previous) {
+        //     console.log(JSON.stringify(val)+' ... '+JSON.stringify(previous))
+        //     let caller = "filtering";
+        //     //console.log('we are trying to debounce');
+        //     this.filtersUpdated;
+        //   },
+        //   deep: true
+        // },
         'newOffer': {
           handler(val) {
             this.validateForm();
@@ -1449,6 +1452,11 @@
       },
 
       mounted() {
+        this.$watch('filtersSelected.country', this.filtersUpdated);
+        this.$watch('filtersSelected.category', this.filtersUpdated);
+        this.$watch('filtersSelected.status', this.filtersUpdated);
+        this.$watch('filtersSelected.label', this.filtersUpdated);
+        this.$watch('filtersSelected.default', this.filtersUpdated);
         let startPayload = {
           mco: '',
           umbrella: '',
@@ -1466,6 +1474,9 @@
       },
 
       methods: {
+        filtersUpdated: _.debounce(function (e) {
+          this.loadOffers(vm.filtersSelected, 'filtering');
+        }, 500),
 
         loadActiveOffers() {
           let payload = {
@@ -1490,8 +1501,8 @@
           let baseUrl = 'https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardGetOffers.jssp';
           let hasUrlBeenAddedTo = false;
           
-          console.log(payload)
-          console.log(caller)
+          //console.log(payload)
+          //console.log(caller)
           if(payload.mco != '' && payload.mco != undefined && payload.mco != null){
             if(hasUrlBeenAddedTo == false){
               baseUrl = baseUrl+'?MCO='+payload.mco;
