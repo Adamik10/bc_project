@@ -1748,6 +1748,8 @@
               show: true,
             });
             vm.loading = false;
+          }).finally(function() {
+            this.currentStep = 1;
           })
         },
 
