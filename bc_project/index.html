@@ -1783,7 +1783,8 @@
           axios.post('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardCreateOffer.jssp', payload)
           .then(function(response) {
             console.log(response)
-            if(response.data="error"){
+            if(response.data=="error"){
+              console.log('1: '+response.data);
               vm.alerts.push({
                 type: 'error',
                 message: "Oopsie! We disabled the selected offer, but we coudln't create your new offer. Please, reload the page and try again.",
@@ -1791,25 +1792,29 @@
               });
               vm.loading = false;
             } else {
+              console.log('2: '+response.data);
               vm.alerts.push({
                 type: 'success',
                 message: "Bullseye! New offer created.",
                 show: true,
               });
             }
-            vm.newOfferDialog = false;
-            vm.loading = false; 
-            vm.filtersSelected.label = {
-              mco: '',
-              umbrella: '',
-              country: '',
-              category: '',
-              status: '',
-              default: false,
-              label: vm.newOffer.offerLabel,
-              lineCount: 12,
-            };
-            vm.newOffer = {
+            console.log('we got this far');
+            setTimeout(function() {
+              console.log('we waited');
+              vm.newOfferDialog = false;
+              vm.loading = false; 
+              vm.filtersSelected = {
+                mco: '',
+                umbrella: '',
+                country: '',
+                category: '',
+                status: '',
+                default: false,
+                label: response.data,
+                lineCount: 12,
+              };
+              vm.newOffer = {
               block: 'mainOneColumn',
               blockName: 'Main One Column',
               offerType: '',
@@ -1830,19 +1835,21 @@
               offersToChosebetween: [],
               selectedOfferToDisable: '',
             };
-          })
-          .catch(function (error) {
+            },5000)
+          }).catch(function (error) {
             console.log("error:");
             console.log(response);
             vm.alerts.push({
               type: 'error',
-              message: "Oopsie! We disabled the selected offer, but we coudln't create your new offer. Please, reload the page and try again.",
+              message: "Oopsie! We disabled the selected offer, but we coudln't create your new offer. Please, reload the page & try again.",
               show: true,
             });
             vm.loading = false;
           }).finally(function() {
-            vm.newOfferDialog = false;
-            vm.currentStep = 1;
+            setTimeout(function() {
+              vm.newOfferDialog = false;
+              vm.currentStep = 1;
+            },4500);
           })
         },
 
@@ -1881,7 +1888,9 @@
                   message: 'Selected offer disdabled successfully!',
                   show: true,
                 });
-                vm.createNewOffer();
+                setTimeout( function() {
+                  vm.createNewOffer();
+                }, 5000)
               }else {
                 vm.loading = false;
                 vm.alerts.push({

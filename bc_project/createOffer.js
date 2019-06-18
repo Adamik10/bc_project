@@ -135,7 +135,7 @@
       
     }
     catch( err ){                                                                                                                          
-        response = "error: creating offer weight " + weight + " for " + contextLabel + ": " + err.message;
+        response = "error";
     }
   } 
   
@@ -215,7 +215,7 @@
       response = newOfferLabel;
 
     }catch(err){
-      response = "error: creating offer " + newOfferLabel + "message: " + err.message;
+      response = "error";
     }
                               
   }
@@ -263,7 +263,7 @@ if(offerType == "defaultf"){
   createNewOffer(newOfferName, newOfferLabel, data, categoryId, adobeLanguage, newOfferOrgId, filterLabel, contextLabel, weight, filterLabelContext);
 
 }else{
-  response = "error: this type of offer can´t be created";
+  response = "error";
 }
 
 /*
