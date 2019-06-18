@@ -744,7 +744,7 @@
                 </div>
             </v-stepper-content>
             <v-stepper-content step="3">
-              <template v-if='!newOffer.offersToChosebetween.length || newOffer.offersToChosebetween.length &lt; 2'>
+              <template v-if='!newOffer.offersToChosebetween.length || newOffer.offersToChosebetween.length &lt; 3'>
                 <div class="container">
                   <p class="dialog-title" style="display: block">Choose an offer to be disabled</p>
                   <p>You can proceed! Your market doesn't have 3 default fallback offers yet, so you can create a new one without disabling any of the existing ones.</p>
@@ -1092,7 +1092,7 @@
                 </template>
                 <template v-else>
                   <v-btn class="base-button" style="margin-top: 20px; margin-left: 0px; width: 653px; width: 540px; margin-right: 0px;"
-                    outline color="#6DC570" @click="createNewOffer()">
+                    outline color="#6DC570" @click="disableSelectedFOffer()">
                     <template v-if="!loading">
                       Create offer
                     </template>
@@ -1486,7 +1486,7 @@
             umbrella: '',
             country: this.newOffer.country,
             category: this.newOffer.category,
-            status: 6,
+            status: 'Live',
             lineCount: 3,
             label: 'Default_Fallback'
           };

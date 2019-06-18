@@ -18,7 +18,7 @@
   var maxIndex = "";
   var iMaxIndex = "";
   var newOfferIndex = "";
-  var language = "EN"; //e.g. EN
+  var language = data.language.toString().toUpperCase(); //e.g. EN
   var adobeLanguage = ""; //e.g. en-ao
   var contextLabel = "";//e.g. Default
   var weight = ""; //e.g. 0 for fallback, 1 for default

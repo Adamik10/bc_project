@@ -14,6 +14,7 @@
     var chosenStatus = request.getParameter("status");
     var chosenLabel = request.getParameter("label");
     var chosenDefault = request.getParameter("default");
+    var chosenDefaultFallback = request.getParameter("defaultF");
     var chosenLineCount = request.getParameter("lineCount");
 
     var condition = "";
@@ -58,6 +59,12 @@
     //DEFAULT
     if(chosenDefault == "true"){
       condition += "AND [@name] LIKE '%'+'"+sDefaultOffers+"'+'%'";
+    }
+
+    var sDefaultFallbackOffers = "DefaultFallbackOffer";
+    //DEFAULT FALLBACK
+    if(chosenDefaultFallback == "true"){
+      condition += "AND [@name] LIKE '%'+'"+sDefaultFallbackOffers+"'+'%'";
     }
 
     var results = [];
@@ -127,7 +134,7 @@ for each (var offer in selectedOffers){
       "statusDesign" :offer.@statusDesign.toString(),
       "statusLive" :offer.@statusLive.toString(),
       "created" :offer.@created.toString(),
-      "offerLanguage" : getLanguage[2],
+
       //offer content fields below
       "subject1" :offer.@subject1.toString(),
       "subject2" :offer.@subject2.toString(),
