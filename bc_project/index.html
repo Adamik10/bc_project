@@ -658,9 +658,9 @@
                             color="#3A9EF0"
                             class="default-radio big-radio" :class="{ active: newOffer.offerType == offerType.label }"
                             :label="offerType.label"
-                            :value="offerType.label"
+                            :value="offerType.value"
                             :disabled="!offerType.available"
-                            @click.native="newOffer.offerType = offerType.label"/>
+                            @click.native="newOffer.offerType = offerType.value"/>
                 </v-radio-group>
               </div>
               <div class="bottom-actions">
@@ -682,7 +682,7 @@
             <v-stepper-content step="2">
               <div class="container">
                 <p class="dialog-title" style="display: block">Select country and category</p>
-                <div class="display-flex divide-half" style="height: 400px; align-content: center; padding-top: 240px;">
+                <div class="display-flex divide-third" style="height: 400px; align-content: center; padding-top: 240px;">
                   <v-container class="dropdownContainerForm" style="margin-right: auto; margin-left: auto; display: block; width: 350px">
                     <v-select :items="filters.countries"
                               v-model="newOffer.country"
@@ -693,12 +693,30 @@
                               class="basicDropdownForm"
                               :menu-props="{contentClass:'basicDropdownContent'}">
                       <template slot="selection" slot-scope="data">
-                        {{ data.item.marketLabel | maxLength(30) }}
+                        {{ data.item.marketLabel | maxLength(20) }}
                       </template>
                     </v-select>
                   </v-container>
                 </div>
-                <div class="display-flex divide-half" style="height: 400px; align-content: center; padding-top: 240px;">
+                <div class="display-flex divide-third" style="height: 400px; align-content: center; padding-top: 240px;">
+                  <v-container class="dropdownContainerForm" style="margin-right: auto; margin-left: auto; display: block; width: 350px">
+                    <v-select 
+                              :items="languageForNewOffer"
+                              v-model="newOffer.language"
+                              label="Language *"
+                              item-text="languageLabel"
+                              item-value="languageLabel"
+                              dense single-line solo flat 
+                              class="basicDropdownForm"
+                              :menu-props="{contentClass:'basicDropdownContent'}">
+                      <template slot="selection" slot-scope="data">
+                        {{ data.item.languageLabel | maxLength(20) }}
+                      </template>
+                    </v-select>
+                    
+                  </v-container>
+                </div>
+                <div class="display-flex divide-third" style="height: 400px; align-content: center; padding-top: 240px;">
                   <v-container class="dropdownContainerForm" style="margin-right: auto; margin-left: auto; display: block; width: 350px">
                     <v-select :items="staticFilters.categories"
                               v-model="newOffer.category"
@@ -710,7 +728,7 @@
                               class="basicDropdownForm"
                               :menu-props="{contentClass:'basicDropdownContent'}">
                       <template slot="selection" slot-scope="data">
-                        {{ data.item.categoryLabel | maxLength(30) }}
+                        {{ data.item.categoryLabel | maxLength(20) }}
                       </template>
                     </v-select>
                   </v-container>
@@ -721,7 +739,8 @@
                         color="#6DC570"
                         @click="loadActiveOffers()"
                         :disabled="newOffer.country == '' || newOffer.country == undefined || newOffer.country == null || loading == true || 
-                          newOffer.category == '' || newOffer.category == undefined || newOffer.category == null" 
+                          newOffer.category == '' || newOffer.category == undefined || newOffer.category == null ||
+                          newOffer.language == '' || newOffer.language == undefined || newOffer.language == null" 
                         flat outline style="width: 200px;">
                     <template v-if="!loading">
                       Select
@@ -873,7 +892,7 @@
                 </div>
                 <div class="basicInputContainer special full-width">
                   <v-text-field v-model="newOffer.subjectOne"
-                                label="Subject line 1 *"
+                                label="Subject line 1"
                                 class="basicInput">
                   </v-text-field>
                 </div>
@@ -899,13 +918,13 @@
                 <div class="spacer-big"></div>
                 <div class="basicInputContainer special full-width">
                   <v-text-field v-model="newOffer.imageURL"
-                                label="Image URL beginning with 'https://' *"
+                                label="Image URL *"
                                 class="basicInput">
                   </v-text-field>
                 </div>
                 <div class="basicInputContainer special full-width">
                   <v-text-field v-model="newOffer.mobileImageURL"
-                                label="Mobile Image URL beginning with 'https://'"
+                                label="Mobile Image URL"
                                 class="basicInput">
                   </v-text-field>
                 </div>
@@ -930,7 +949,7 @@
                 </div>
                 <div class="basicInputContainer special full-width">
                   <v-text-field v-model="newOffer.destinationURL"
-                                label="Destination URL beginning with 'https://'"
+                                label="Destination URL"
                                 class="basicInput">
                   </v-text-field>
                 </div>
@@ -1249,11 +1268,12 @@
         },
         eligibleSubstrings: ['_rcr', '_dps', '_ws', '_dpr', '_ret', '_arc', '_rcrv02', '_rcrv03', '_ups'],
         newOffer: {
-          typeToCreate: 'default_fallback',
+          typeToCreate: '',
           block: 'mainOneColumn',
           blockName: 'Main One Column',
           offerType: '',
           country: '',
+          language: '',
           category: '',
           language: '',
           preHeader: '',
@@ -1271,10 +1291,10 @@
           selectedOfferToDisable: '',
         },
         offerTypes: [
-          { label: 'Default', available: false },
-          { label: 'Default fallback', available: true },
-          { label: 'Recommended', available: false },
-          { label: 'Segmented', available: false }
+          { label: 'Default', available: true, value: 'default' },
+          { label: 'Default fallback', available: true, value: 'defaultf' },
+          { label: 'Recommended', available: false, value: 'recommended' },
+          { label: 'Segmented', available: false, value: 'segmented' }
         ],
         isNewOfferFormValid: false,
         currentStep: 0,
@@ -1428,6 +1448,7 @@
         sendingProof: false,
         proofEmailAddress: '',
         noMoreOffersToLoad: false,
+        languageForNewOffer: [],
       },
       
       watch: {
@@ -1446,6 +1467,31 @@
           },
           deep: true
         },
+
+        'newOffer.country': {
+          handler(val) {
+            vm.languageForNewOffer = [];
+            let countrySelectedArray = vm.newOffer.country.split('_');
+            let countrySelected = countrySelectedArray[1].toString().toLowerCase();
+            let arrayToReturn = [];
+            console.log('country: '+countrySelected);
+            console.log('amount: '+vm.filters.languages.length);
+            for(let k = 0; k<vm.filters.languages.length; k++) {
+              let languageSelectedArray = vm.filters.languages[k].languageName.split('-');
+              let languageSelected = languageSelectedArray[1].toString().toLowerCase();
+              console.log('country form lang: '+languageSelected);
+              if(countrySelected == languageSelected){
+                console.log('1: '+countrySelected + ' '+ languageSelected);
+                console.log('2: '+vm.filters.languages[k]);
+                arrayToReturn.push(vm.filters.languages[k]);
+                console.log('this is final: '+arrayToReturn)
+                vm.languageForNewOffer = arrayToReturn;
+              }
+              
+            }
+          },
+          deep: true
+        }
 
       },
 
@@ -1475,6 +1521,26 @@
         document.getElementById('mother-loader').style.visibility = "visible";
       },
 
+      computed: {
+        // languageForNewOffer(){
+        //   if(this.newOffer.country != '' && this.newOffer.country != null && this.newOffer.country != undefined){
+        //     let countrySelectedArray = this.newOffer.country.split('_').toString().toLowerCase();
+        //     let countrySelected = countrySelectedArray[1];
+        //     let arrayToReturn = [];
+        //     for(let k = 0; k<this.filters.languages; k++) {
+        //       let languageSelectedArray = this.filters.languages[k].split('-').toString().toLowerCase();
+        //       let languageSelected = languageSelectedArray[1];
+        //       if(countrySelected == languageSelected){
+        //         arrayToReturn.push(this.filters.languages[k])
+        //       }
+        //     }
+        //     return arrayToReturn;
+        //   } else {
+        //     return [];
+        //   }
+        // }
+      },
+
       methods: {
         filtersUpdated: _.debounce(function (e) {
           this.loadOffers(vm.filtersSelected, 'filtering');
@@ -1488,8 +1554,15 @@
             category: this.newOffer.category,
             status: 6,
             lineCount: 3,
-            label: 'Default_Fallback'
+            label: '',
+            default: false,
+            defaultf: false,
           };
+          if(this.newOffer.offerType == 'default'){
+            payload.default = true;
+          }else if(this.newOffer.offerType == 'defaultf'){
+            payload.defaultf = true;
+          }
           this.loadOffers(payload, 'getting active')
         },
 
@@ -1567,6 +1640,14 @@
               hasUrlBeenAddedTo = true;
             }else{
               baseUrl = baseUrl+'&default='+payload.default;
+            }
+          }
+          if(payload.defaultf != '' && payload.defaultf != undefined && payload.defaultf != null){
+            if(hasUrlBeenAddedTo == false){
+              baseUrl = baseUrl+'?defaultf='+payload.defaultf;
+              hasUrlBeenAddedTo = true;
+            }else{
+              baseUrl = baseUrl+'&defaultf='+payload.defaultf;
             }
           }
           
