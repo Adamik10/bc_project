@@ -1783,11 +1783,20 @@
           axios.post('https://unilever-stage.neolane.net/ufs/TEST_OfferDashboardCreateOffer.jssp', payload)
           .then(function(response) {
             console.log(response)
-            vm.alerts.push({
-              type: 'success',
-              message: "Bullseye! New offer created.",
-              show: true,
-            });
+            if(response.data="error"){
+              vm.alerts.push({
+                type: 'error',
+                message: "Oopsie! We disabled the selected offer, but we coudln't create your new offer. Please, reload the page and try again.",
+                show: true,
+              });
+              vm.loading = false;
+            } else {
+              vm.alerts.push({
+                type: 'success',
+                message: "Bullseye! New offer created.",
+                show: true,
+              });
+            }
             vm.newOfferDialog = false;
             vm.loading = false; 
             vm.filtersSelected.label = {
@@ -1797,7 +1806,7 @@
               category: '',
               status: '',
               default: false,
-              label: this.newOffer.offerLabel,
+              label: vm.newOffer.offerLabel,
               lineCount: 12,
             };
             vm.newOffer = {
@@ -1832,7 +1841,8 @@
             });
             vm.loading = false;
           }).finally(function() {
-            this.currentStep = 1;
+            vm.newOfferDialog = false;
+            vm.currentStep = 1;
           })
         },
 
