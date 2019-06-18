@@ -238,7 +238,7 @@ if(country != "CH" && country != "SA" && country != "CA" && country != "BE" && c
 }
 
 //CALL CREATEOFFER FUNCTION BASED ON THE TYPE OF THE OFFER
-if(offerType == "Default fallback"){
+if(offerType == "defaultf"){
   labelContains = '%_Default_Fallback_Offer_%';
   maxIndex = getMaxOfferIndex(categoryInternalName, labelContains);
   newOfferIndex = maxIndex +1;
@@ -250,7 +250,7 @@ if(offerType == "Default fallback"){
 
   createNewOffer(newOfferName, newOfferLabel, data, categoryId, adobeLanguage, newOfferOrgId, filterLabel, contextLabel, weight, filterLabelContext);
 
-}else if(offerType == "Default"){
+}else if(offerType == "default"){
   labelContains = "%_Default_Offer_%";
   maxIndex = getMaxOfferIndex(categoryInternalName);
   newOfferIndex = maxIndex +1;
