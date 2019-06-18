@@ -679,6 +679,10 @@
   display: inline-block;
   width: 49%;
 }
+.divide-third {
+  display: inline-block;
+  width: 33%;
+}
 
 .radio-group .v-input__control {
   width: 100%;
