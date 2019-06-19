@@ -8,24 +8,37 @@ logInfo("CategoryInternalName: "+vars.categoryInternalName);
 // 3 - displayed in main 1 col block (hero articles, secondary articles, competition, chef rewards)
 // 4 - displayed in event locator block (events)
 
-var sCatIntName = vars.categoryInternalName.toString().toLowerCase();
+var sCatIntName = vars.categoryInternalName.toString();
+var sCleanCatIntName = sCatIntName.replace("categoryRootRcp",'');
+var aCatIntName = sCleanCatIntName.split("_");
+var sMCO = aCatIntName[0];
+var sCountry = aCatIntName[1];
+var sCategory = aCatIntName[2];
+var sSubCategory = aCatIntName[3];
+if(sSubCategory == "proAct" || sSubCategory == "inspr" || sSubCategory == "com" || sSubCategory == "event" || sSubCategory == "crM" || sSubCategory == "crNonM"){
+vars.SubCategory = sSubCategory;
+}
+vars.aCatIntName = aCatIntName;
+vars.MCO = sMCO;
+vars.Country = sCountry;
+vars.Category = sCategory;
 
 vars.category = 0;
 
 //get the category
-if(sCatIntName.indexOf("_rcr") != -1 || sCatIntName.indexOf("_rcrv02") != -1 || sCatIntName.indexOf("_rcrv03") != -1){
+if(sCategory == "rcr" || sCategory == "rcrv02" || sCategory == "rcrv03"){
 //recipe
   vars.category = 1;
-}else if(sCatIntName.indexOf("_ws") != -1 || sCatIntName.indexOf("_dps") != -1 || sCatIntName.indexOf("_dpr") != -1 || sCatIntName.indexOf("_ret") != -1 || sCatIntName.indexOf("_arc") != -1 || sCatIntName.indexOf("_ups") != -1){
+}else if(sCategory == "ws" || sCategory == "dps" || sCategory == "dpr" || sCategory == "ret" || sCategory == "arc" || sCategory == "ups"){
 //product
   vars.category = 2;
-}else if(sCatIntName.indexOf("_ha") != -1){
+}else if(sCategory == "ha"){
 // ha
   vars.category = 3;
-}else if(sCatIntName.indexOf("_sa") != -1){
+}else if(sCategory == "sa"){
 // sa
   vars.category = 4;
-}else if(sCatIntName.indexOf("_ce_com") != -1){
+}else if(sCategory == "ce"){
 //comp
   vars.category = 5;
 }
@@ -46,6 +59,12 @@ logInfo("THE OFFER NEEDS TO BE GERMAN OR SPANISH TO BE ABLE TO SEND A PROOF")
 }
 
 logInfo("category: "+vars.category);
+logInfo("clean category: "+vars.aCatIntName);
+logInfo("MCO: "+vars.MCO);
+logInfo("country: "+vars.Country);
+logInfo("Category: "+vars.Category);
+logInfo("category: "+vars.category);
+logInfo("sub category: "+vars.SubCategory);
 
 vars.languageCode = 'FR';
 logInfo( vars.languageCode );
